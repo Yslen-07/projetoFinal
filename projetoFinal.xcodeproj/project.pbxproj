@@ -6,8 +6,21 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		22F899CD2E21724B00DFFA95 /* peca.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F899CC2E21724B00DFFA95 /* peca.swift */; };
+		22F899D12E21738100DFFA95 /* MeuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F899D02E21737500DFFA95 /* MeuApp.swift */; };
+		22F899D32E2173CC00DFFA95 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F899D22E2173AE00DFFA95 /* ContentView.swift */; };
+		22F899D92E21772500DFFA95 /* ListaPecasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F899D82E21772500DFFA95 /* ListaPecasView.swift */; };
+		22F899DB2E21779600DFFA95 /* PecaFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F899DA2E21779600DFFA95 /* PecaFormView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		22735D1B2E1867380015D430 /* projetoFinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = projetoFinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		22F899CC2E21724B00DFFA95 /* peca.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = peca.swift; sourceTree = "<group>"; };
+		22F899D02E21737500DFFA95 /* MeuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeuApp.swift; sourceTree = "<group>"; };
+		22F899D22E2173AE00DFFA95 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		22F899D82E21772500DFFA95 /* ListaPecasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListaPecasView.swift; sourceTree = "<group>"; };
+		22F899DA2E21779600DFFA95 /* PecaFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PecaFormView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +45,11 @@
 		22735D122E1867380015D430 = {
 			isa = PBXGroup;
 			children = (
+				22F899D82E21772500DFFA95 /* ListaPecasView.swift */,
+				22F899D22E2173AE00DFFA95 /* ContentView.swift */,
+				22F899D02E21737500DFFA95 /* MeuApp.swift */,
+				22F899DA2E21779600DFFA95 /* PecaFormView.swift */,
+				22F899CC2E21724B00DFFA95 /* peca.swift */,
 				22735D1D2E1867380015D430 /* projetoFinal */,
 				22735D1C2E1867380015D430 /* Products */,
 			);
@@ -119,6 +137,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				22F899D92E21772500DFFA95 /* ListaPecasView.swift in Sources */,
+				22F899CD2E21724B00DFFA95 /* peca.swift in Sources */,
+				22F899D32E2173CC00DFFA95 /* ContentView.swift in Sources */,
+				22F899DB2E21779600DFFA95 /* PecaFormView.swift in Sources */,
+				22F899D12E21738100DFFA95 /* MeuApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

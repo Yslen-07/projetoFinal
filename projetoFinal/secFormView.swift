@@ -1,62 +1,49 @@
-//
-//  firstView.swift
-//  projetoFinal
-//
-//  Created by Found on 04/07/25.
-//
-import Foundation
 import SwiftUI
+import SwiftData
 
-struct secFormView: View {
-    @State var secTitle: String = ""
-    @State var categoriaSelected: Caategory = .natacao
+struct SecFormView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+
+    //@State private var titulo = ""
+    @State private var curso1 = ""
+    @State private var curso2 = ""
+    @State private var local = ""
+    @State private var data = Date()
+    @State private var categoriaSelecionada: Categoria = .natacao
+
     var body: some View {
-        NavigationStack{
-            Form{
-                Section(header: Text("Selecione modalidade")){
-                                 Picker("Modalidade: ", selection: $categoriaSelected) {
-                                   Text("\(Caategory.basquete.rawValue)").tag(Caategory.basquete)
-                                    Text("\(Caategory.carimba.rawValue)").tag(Caategory.carimba)
-                                  Text("\(Caategory.futsal.rawValue)").tag(Caategory.futsal)
-                                   Text("\(Caategory.handbol.rawValue)").tag(Caategory.handbol)
-                                      Text("\(Caategory.natacao.rawValue)").tag(Caategory.natacao)
-                                     Text("\(Caategory.volei.rawValue)").tag(Caategory.volei)
-                                      Text("\(Caategory.xadrez.rawValue)").tag(Caategory.xadrez)
-               
-               
-                                   }
-                              }
-                Section(header: Text("Modalidade selecionada: \(Caategory.natacao.rawValue)")){
-                    switch categoriaSelected {
-                    case .natacao:
-                        TextField("Tudo sobre a natação...", text: $secTitle)
-                    case .carimba:
-                        TextField("Tudo sobre a carimba...", text: $secTitle)
-                    case .handbol:
-                        TextField("Tudo sobre o handbol...", text: $secTitle)
-                    case .volei:
-                        TextField("Tudo sobre o vôlei...", text: $secTitle)
-                    case .basquete:
-                        TextField("Tudo sobre o basquete...", text: $secTitle)
-                    case .futsal:
-                        TextField("Tudo sobre o futsal...", text: $secTitle)
-                    case .xadrez:
-                        TextField("Tudo sobre o xadrez...", text: $secTitle)
-                        
-                        
-                    }
-                    
-                    
+        NavigationStack {
+            Form {
+//                Section("Nome do jogo") {
+//                    TextField("Título", text: $titulo)
+//                }
+
+                Section("Cursos") {
+                    TextField("Curso 1", text: $curso1)
+                    TextField("Curso 2", text: $curso2)
                 }
-                
+
+                Section("Local e Data") {
+                    TextField("Local", text: $local)
+                    DatePicker("Data", selection: $data)
+                }
+
+                Section("Categoria") {
+                    Picker("Modalidade", selection: $categoriaSelecionada) {
+                        ForEach(Categoria.allCases) { cat in
+                            Text(cat.rawValue).tag(cat)
+                        }
+                    }
+                }
+
+                Button("Salvar") {
+                    let novo = Jogo(curso1: curso1, curso2: curso2, categoria: categoriaSelecionada, local: local, data: data)
+                    modelContext.insert(novo)
+                    dismiss()
+                }
             }
+            .navigationTitle("Novo Jogo")
         }
     }
-}
-
-
-
-
-#Preview {
-    secFormView()
 }

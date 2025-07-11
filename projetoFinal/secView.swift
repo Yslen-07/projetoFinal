@@ -1,21 +1,23 @@
-//
-//  secForm.swift
-//  projetoFinal
-//
-//  Created by Found on 08/07/25
+import SwiftUI
+import SwiftData
 
-enum Caategory: String, Codable{
-    case handbol = "Handbol"
-    case volei = "Voleibol"
-    case natacao = "Natação"
-    case futsal = "Futsal"
-    case basquete = "Basquete"
-    case carimba = "Carimba"
-    case xadrez = "Xadrez"
+struct SecView: View {
+    @State private var mostrandoForm = false
+
+    var body: some View {
+        NavigationStack {
+            VStack {
+                SecAlunoView()
+                Spacer()
+                Button("Adicionar Jogo") {
+                    mostrandoForm = true
+                }
+                .buttonStyle(.borderedProminent)
+                .sheet(isPresented: $mostrandoForm) {
+                    SecFormView()
+                }
+            }
+            .navigationTitle("Jogos")
+        }
+    }
 }
-
-
-
-
-
-
