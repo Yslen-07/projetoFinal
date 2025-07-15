@@ -1,11 +1,3 @@
-//
-//  ListaPecasView 2.swift
-//  projetoFinal
-//
-//  Created by Found on 11/07/25.
-//
-
-
 import SwiftUI
 import SwiftData
 
@@ -43,7 +35,7 @@ struct ListaPecasView: View {
                 }
                 .padding(.vertical, 8)
             }
-            .navigationTitle("Peças Teatrais")
+            .navigationTitle("Peças da JAC")
         }
     }
 }

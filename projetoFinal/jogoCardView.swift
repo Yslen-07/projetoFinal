@@ -12,7 +12,7 @@ struct JogoCardView: View {
         VStack {
             ZStack {
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.blue.opacity(0.1))
+                    .fill(Color.gray.opacity(0.1))
                     .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 4)
                     .frame(width: 320, height: 180)
 
@@ -36,12 +36,6 @@ struct JogoCardView: View {
             }
 
            HStack {
-//                Button("Editar") {
-//                    mostrandoEditor = true
-//                }
-//                .buttonStyle(.bordered)
-//                .tint(.blue)
-//
                Button("Deletar") {
                    mostrarConfirmacao = true
                }
