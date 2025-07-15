@@ -1,24 +1,60 @@
-//
-//  ContentView.swift
-//  projetoFinal
-//
-//  Created by Found on 04/07/25.
-//
-
 import SwiftUI
+import SwiftData
 
-struct FirstContentView: View {
+struct JogoCardView: View {
+    @Environment(\.modelContext) private var modelContext
+    @State private var mostrandoEditor = false
+    @State private var mostrarConfirmacao = false
+    
+    var jogo: Jogo
+
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, AAA!")
-        }
-        .padding()
-    }
-}
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.blue.opacity(0.1))
+                    .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 4)
+                    .frame(width: 320, height: 180)
 
-#Preview {
-    ContentView()
+                VStack(spacing: 10) {
+                    Text("\(jogo.curso1) VS \(jogo.curso2)")
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+
+                    Text(jogo.local)
+                        .font(.subheadline)
+
+                    Text(jogo.data.formatted(date: .abbreviated, time: .shortened))
+                        .font(.footnote)
+                        .foregroundColor(.gray)
+
+                    Label(jogo.categoria.rawValue, systemImage: "sportscourt")
+                        .font(.footnote)
+                        .padding(.top, 4)
+                }
+                .padding()
+            }
+
+           HStack {
+//                Button("Editar") {
+//                    mostrandoEditor = true
+//                }
+//                .buttonStyle(.bordered)
+//                .tint(.blue)
+//
+               Button("Deletar") {
+                   mostrarConfirmacao = true
+               }
+               .tint(.red)        }
+        }
+        .sheet(isPresented: $mostrandoEditor) {
+            JogoEditingView(jogo: jogo)
+        }
+        .confirmationDialog("Deseja realmente deletar este jogo?", isPresented: $mostrarConfirmacao, titleVisibility: .visible) {
+            Button("Deletar", role: .destructive) {
+                modelContext.delete(jogo)
+            }
+            Button("Cancelar", role: .cancel) { }
+        }
+    }
 }
