@@ -8,29 +8,29 @@
 import SwiftUI
 
 enum OnboardingPage: Int, CaseIterable {
-  case SECapp
+  case APEC
   case Esportes
   case Teatro
   var title: String{
     switch self{
-    case .SECapp:
-       return "Este é o SECapp"
+    case .APEC:
+       return "Bem vindo ao APEC"
     case .Esportes:
-        return "Saiba mais "
+        return "Fique por dentro da SEC"
     case .Teatro:
-        return "eventos culturais"
+        return "Eventos culturais"
        
     }
   }
 
   var description: String{
     switch self{
-    case .SECapp:
-       return "Fique por dentro da semana esportiva e cultural do IFCE campus Fortaleza"
+    case .APEC:
+       return "Fique por dentro da semana esportiva  e cultural do IFCE campus Fortaleza"
     case .Esportes:
-        return "Saiba como seu curso está indo nos esportes. Pontuação, locais, horários e muito mais!"
+        return "Descubra como seu curso está indo nos esportes. Pontuação, locais e horários."
     case .Teatro:
-        return "Descubra os eventos que ocorrem durante essa semana incrivel!"
+        return "Descubra os eventos que ocorrem durante essa semana incrível e muito mais!"
 
     }
   }
@@ -155,7 +155,7 @@ private var SecImageGroup: some View{
       //Image content
       ZStack{
         switch page {
-        case .SECapp:
+        case .APEC:
             SecImageGroup
         case .Esportes:
             SportAnimation
