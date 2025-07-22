@@ -115,7 +115,7 @@ struct PecaEditingView: View {
 }
 
 #Preview {
-    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1)
+    let pecaExemplo = Peca(titulo: "", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1)
     PecaEditingView(peca: pecaExemplo)
 }
 

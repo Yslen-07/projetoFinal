@@ -1,106 +1,44 @@
+
 import SwiftUI
 
+
 struct PecaCardView: View {
-    let peca: Peca
-    @State private var isFlipped = false
-    @State private var mostrarEdicao = false
+    var peca: Peca
 
     var body: some View {
-        ZStack {
-            if isFlipped {
-                
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(.systemGray6))
-                    .shadow(radius: 5)
-
-               VStack(alignment: .leading, spacing: 6) {
-                   
-                   NavigationLink(destination: PecaDetailView(peca: peca)) {
-                              Text("Saiba mais")
-                                  .frame(maxWidth: .infinity)
-                                  .padding(8)
-                                  .background(Color.blue)
-                                  .foregroundColor(.white)
-                                  .cornerRadius(8)
-                          }
-                   
-//                    Text("Direção: \(peca.direcao)")
-//                    Text("Local: \(peca.local)")
-//                    Text("Curso: \(peca.curso.rawValue)")
-//                    Text("Período: \(peca.periodo.rawValue)")
-//
-//                    Divider()
-//
-//                    Text("Sinopse")
-//                        .font(.headline)
-//                    Text(peca.sinopse)
-//                        .font(.footnote)
-//                        .lineLimit(5)
-//
-//                    Spacer()
-//
-////                    Button("Editar") {
-////                        mostrarEdicao = true
-////                    }
-////                    .frame(maxWidth: .infinity)
-////                    .padding(8)
-////                    .background(Color.blue)
-////                    .foregroundColor(.white)
-//                    .cornerRadius(8)
-               }
-                .padding()
-                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+        ZStack(alignment: .bottomLeading) {
+            if let imagemData = peca.imagem,
+               let uiImage = UIImage(data: imagemData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .clipped()
             } else {
-             
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color(.systemBackground))
-                    .shadow(radius: 5)
-
-                VStack {
-                    if let data = peca.imagem, let uiImage = UIImage(data: data) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: 180)
-                            .clipped()
-                            .cornerRadius(12)
-                    } else {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 180)
-                            .foregroundColor(.gray)
-                            .opacity(0.4)
-                    }
-
-                    Text(peca.titulo)
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal)
-
-                    Text(peca.data.formatted(date: .abbreviated, time: .omitted))
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-
-                    Text(peca.hora.formatted(date: .omitted, time: .shortened))
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                .padding()
+                Color.gray.opacity(0.3)
             }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(peca.titulo)
+                    .font(.headline)
+                    .bold()
+                    .foregroundColor(.white)
+                Text(peca.data.formatted(date: .abbreviated, time: .shortened))
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+            }
+            .padding(8)
+            .background(
+                LinearGradient(gradient: Gradient(colors: [Color.black.opacity(0.7), Color.clear]),
+                               startPoint: .bottom,
+                               endPoint: .top)
+            )
         }
-        .frame(width: 220, height: 320)
-        .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
-        .animation(.easeInOut(duration: 0.6), value: isFlipped)
-        .onTapGesture {
-            isFlipped.toggle()
-        }
-        .sheet(isPresented: $mostrarEdicao) {
-            PecaEditingView(peca: peca)
-        }
+        .clipShape(RoundedRectangle(cornerRadius: 16))
     }
 }
+
+
 #Preview {
     let exemplo = Peca(
         titulo: "Alguma",

@@ -6,53 +6,44 @@
 //
 
 
+
 import SwiftUI
 import SwiftData
 
 struct PecaView: View {
     @Query var pecas: [Peca]
     @State private var mostrandoForm = false
-
+    
     var body: some View {
         NavigationStack {
-            VStack {
-                ForEach(pecas) { peca in
-                    PecaCardView(peca: Peca(
-                        titulo: peca.titulo,
-                        sinopse: peca.sinopse,
-                        direcao: peca.direcao,
-                        data: Date(),
-                        hora: Date(),
-                        local: peca.local,
-                        curso: peca.curso,
-                        periodo: peca.periodo,
-                        imagem: nil
-                    ))
-                }
-                
-            }
-            
-
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            mostrandoForm = true
-                        } label: {
-                            Image(systemName: "plus")
-                        }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(pecas) { peca in
+                        PecaCardView(peca: peca)
+                            .frame(width: 240, height: 340)
                     }
                 }
-                .sheet(isPresented: $mostrandoForm) {
-                    PecaFormView()
+                .padding()
+            }
+            .navigationTitle("Peças")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        mostrandoForm = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
-                
-        }
-        .onAppear {
-            print(pecas.count)
+            }
+            .sheet(isPresented: $mostrandoForm) {
+                PecaFormView()
+            }
         }
     }
 }
 
 #Preview {
     PecaView()
+        .modelContainer(for: Peca.self, inMemory: true)
 }
+
