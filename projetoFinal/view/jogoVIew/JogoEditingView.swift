@@ -20,8 +20,6 @@ struct JogoEditingView: View {
     var body: some View {
         Form {
             Section(header: Text("Editar o jogo:")) {
-                //                TextField("Curso 1", text: $curso1)
-                //                TextField("Curso 2", text: $curso2)
                 Picker ("Curso 1", selection: $curso1){
                     ForEach(Curso.allCases){ curso in
                         Text(curso.rawValue).tag(curso)

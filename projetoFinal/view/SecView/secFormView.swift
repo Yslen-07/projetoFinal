@@ -64,3 +64,6 @@ struct SecFormView: View {
         }
     }
 }
+#Preview{
+    SecFormView()
+}
