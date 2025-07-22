@@ -18,6 +18,17 @@ import PhotosUI
 struct PecaEditingView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+
+    @State var titulo_peca: String = ""
+    @State var sinopse: String = ""
+    @State var direcao: String = ""
+    @State var data: Date = Date()
+    @State var hora: Date = Date()
+    @State var local: String = ""
+    @State private var curso: Curso = .informatica
+    @State private var periodo: Periodo = .p1
+    @State private var imagem: Data?
+    
     @Bindable var peca: Peca
     @State private var photoItem: PhotosPickerItem?
     
@@ -74,12 +85,35 @@ struct PecaEditingView: View {
                            , role: .cancel) {
                         dismiss()
                     }
+                    
+                    Button("Deletar peça" ,
+                           role: .destructive) {
+                        dismiss()
+                    }
+                    
+                    
+                    Button("Salvar Peça") {
+                        let nova = Peca(
+                            titulo: titulo_peca,
+                            sinopse: sinopse,
+                            direcao: direcao,
+                            data: data,
+                            hora: hora,
+                            local: local,
+                            curso: curso,
+                            periodo: periodo,
+                            imagem: imagem
+                        )
+                        context.insert(nova)
+                        dismiss()
+                    }
                 }
-            }
+                }
+        }
             .navigationTitle("Editar Peça")
         }
-    }
 }
+
 #Preview {
     let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1)
     PecaEditingView(peca: pecaExemplo)

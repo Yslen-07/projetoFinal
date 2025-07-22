@@ -21,7 +21,7 @@ struct PecaFormView: View {
     @State var hora: Date = Date()
     @State var local: String = ""
     @State private var curso: Curso = .informatica
-    @State private var periodo: Periodo = .p1
+    @State private var periodo: Periodo = .p4
     @State private var imagem: Data?
     
     @State private var photoItem: PhotosPickerItem?
@@ -48,7 +48,7 @@ struct PecaFormView: View {
                             .scaledToFit()
                             .frame(height: 200)
                     }
-                    // Use the optional photoItem
+                
                     PhotosPicker(selection: $photoItem, matching: .images) {
                         Label("Selecionar pôster", systemImage: "photo")
                     }
@@ -76,8 +76,13 @@ struct PecaFormView: View {
                         }
                     }
                 }
-
                 Section {
+                    Button("Cancelar"
+                           , role: .cancel) {
+                        dismiss()
+                    }
+                    
+                    
                     Button("Salvar Peça") {
                         let nova = Peca(
                             titulo: titulo_peca,
@@ -93,17 +98,18 @@ struct PecaFormView: View {
                         context.insert(nova)
                         dismiss()
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                }
+                    //.frame(maxWidth: .infinity)
+                    //.padding()
+                    //.background(Color.blue)
+                    .foregroundColor(.blue)
+                    //.cornerRadius(50)
                 }
             }
             .navigationTitle("Cadastrar Peça")
         }
     }
-}
+
 
 #Preview {
     PecaFormView()
