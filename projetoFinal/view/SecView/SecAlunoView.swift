@@ -30,3 +30,7 @@ struct SecAlunoView: View {
         }
     }
 }
+#Preview {
+    SecAlunoView()
+        .modelContainer(for: Jogo.self, inMemory: true)
+}

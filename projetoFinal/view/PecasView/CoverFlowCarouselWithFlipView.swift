@@ -5,26 +5,28 @@ struct CoverFlowCarouselWithFlipView: View {
     @Query(sort: \Peca.data) var pecas: [Peca]
 
     var body: some View {
-        NavigationStack {
-            if pecas.isEmpty {
-                Text("Nenhuma peça encontrada.")
-                    .padding()
-            } else {
-                GeometryReader { geo in
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 0) {
-                            ForEach(pecas) { peca in
-                                carouselCard(for: peca, in: geo.size)
-                            }
+        if pecas.isEmpty {
+            Text("Nenhuma peça encontrada.")
+                .padding()
+        } else {
+            GeometryReader { geo in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 0) {
+                        ForEach(pecas) { peca in
+                            carouselCard(for: peca, in: geo.size)
                         }
-                        .padding(.horizontal, 24)
-                        .padding(.vertical)
                     }
+                    .padding(.horizontal, 24)
+                    .padding(.vertical)
                 }
-                .navigationTitle("Cartaz")
             }
+            .navigationTitle("Cartaz") 
         }
     }
+    
+    
+
+
 
     @ViewBuilder
     func carouselCard(for peca: Peca, in containerSize: CGSize) -> some View {

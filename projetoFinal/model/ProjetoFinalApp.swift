@@ -5,7 +5,7 @@ import SwiftData
 struct ProjetoFinalApp: App {
     var body: some Scene {
         WindowGroup {
-            CoverFlowCarouselWithFlipView()
+            PecaView()
         }
         .modelContainer(for: [Jogo.self, Peca.self])
     }

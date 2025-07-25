@@ -11,19 +11,15 @@ import SwiftUI
 import SwiftData
 
 struct PecaView: View {
-    @Query var pecas: [Peca]
     @State private var mostrandoForm = false
-    
+
     var body: some View {
         NavigationStack {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 16) {
-                    ForEach(pecas) { peca in
-                        PecaCardView(peca: peca)
-                            .frame(width: 240, height: 340)
-                    }
-                }
-                .padding()
+            VStack {
+                CoverFlowCarouselWithFlipView()
+                    .frame(height: 400)
+
+                Spacer()
             }
             .navigationTitle("Peças")
             .toolbar {
@@ -42,8 +38,8 @@ struct PecaView: View {
     }
 }
 
+
 #Preview {
     PecaView()
         .modelContainer(for: Peca.self, inMemory: true)
 }
-

@@ -81,16 +81,16 @@ struct PecaEditingView: View {
                     }
                 }
                 Section {
+                    Button("Deletar peça" ,
+                           role: .destructive) {
+                        context.delete(peca)
+                            try? context.save()
+                            dismiss()
+                    }
                     Button("Cancelar"
                            , role: .cancel) {
                         dismiss()
                     }
-                    
-                    Button("Deletar peça" ,
-                           role: .destructive) {
-                        dismiss()
-                    }
-                    
                     
                     Button("Salvar Peça") {
                         let nova = Peca(

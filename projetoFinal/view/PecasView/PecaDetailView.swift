@@ -7,8 +7,11 @@
 
 import SwiftUI
 import PhotosUI
+
 struct PecaDetailView: View {
     let peca: Peca
+    @State private var mostrareditar = false
+
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
@@ -27,10 +30,20 @@ struct PecaDetailView: View {
             }
             .padding()
         }
-        .presentationDetents([.medium, .large])
         .navigationTitle("Detalhes da Peça")
+        .toolbar {
+            Button("Editar") {
+                mostrareditar = true
+            }
+        }
+        .sheet(isPresented: $mostrareditar) {
+            PecaEditingView(peca: peca)
+        }
+        .presentationDetents([.medium, .large])
     }
 }
+
+
 #Preview {
     let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1)
     PecaDetailView(peca: pecaExemplo)

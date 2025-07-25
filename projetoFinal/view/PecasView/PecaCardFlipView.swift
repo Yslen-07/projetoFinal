@@ -1,44 +1,56 @@
+
+
 import SwiftUI
 import SwiftData
 
 struct PecaCardFlipView: View {
     let peca: Peca
+    @State private var mostrarDetalhes = false
     @State private var flipped = false
-    @Namespace private var flipNamespace
 
     var body: some View {
-        ZStack {
-            if flipped {
-                back
-            } else {
-                front
+        NavigationStack {
+            ZStack {
+                if flipped {
+                    back
+                } else {
+                    front
+                }
             }
+            .frame(width: 190, height: 280)
+            .background(
+                Group {
+                    if let data = peca.imagem, let img = UIImage(data: data) {
+                        Image(uiImage: img)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 184, height: 379)
+                            .clipped()
+                    } else {
+                        Color.gray.opacity(0.2)
+                    }
+                }
+            )
+            .cornerRadius(16)
+            .rotation3DEffect(
+                .degrees(flipped ? 180 : 0),
+                axis: (x: 0, y: 1, z: 0)
+            )
+            .animation(.easeInOut, value: flipped)
+            .onTapGesture {
+                flipped.toggle()
+            }
+
+            NavigationLink("", isActive: $mostrarDetalhes) {
+                PecaDetailView(peca: peca)
+            }
+            .hidden()
         }
-        .rotation3DEffect(
-            .degrees(flipped ? 180 : 0),
-            axis: (x: 0, y: 1, z: 0)
-        )
-        .animation(.easeInOut, value: flipped)
-        .onTapGesture {
-            flipped.toggle()
-        }
-        .frame(width: 250, height: 360)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(radius: 6)
     }
 
     var front: some View {
-        ZStack(alignment: .bottomLeading) {
-            if let data = peca.imagem, let img = UIImage(data: data) {
-                Image(uiImage: img)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .clipped()
-            } else {
-                Color.gray.opacity(0.2)
-            }
-
+        VStack {
+            Spacer()
             VStack(alignment: .leading, spacing: 4) {
                 Text(peca.titulo)
                     .font(.headline)
@@ -49,27 +61,50 @@ struct PecaCardFlipView: View {
                     .foregroundColor(.white)
             }
             .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
             .background(
-                LinearGradient(colors: [.black.opacity(0.7), .clear], startPoint: .bottom, endPoint: .top)
+                LinearGradient(colors: [.gray.opacity(0.7), .clear], startPoint: .bottom, endPoint: .top)
             )
         }
     }
 
     var back: some View {
-        VStack {
+        VStack(spacing: 12) {
             Text("Direção: \(peca.direcao)")
             Text("Local: \(peca.local)")
-            Button("Detalhes") {
-                // Ação opcional para navegação
+
+            Button("Saiba mais") {
+                mostrarDetalhes = true
             }
-            .padding(.top, 8)
+            .padding(.vertical, 8)
+            .padding(.horizontal, 16)
+            .background(Color.white)
+            .foregroundColor(.black)
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.black, lineWidth: 2)
+            )
+            .cornerRadius(20)
+
+            Link("Fotos", destination: URL(string: "https://sec2025.blogspot.com/2025/02/21-de-fevereiro.html?m=1")!)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+                .background(Color.white)
+                .foregroundColor(.black)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.black, lineWidth: 2)
+                )
+                .cornerRadius(20)
         }
         .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(width: 184, height: 379)
         .background(Color.white)
-        .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0)) // Corrige o texto invertido
+        .cornerRadius(16)
+        .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
     }
 }
+
 #Preview {
     let exemplo = Peca(
         titulo: "Romeu e Julieta",
@@ -82,5 +117,5 @@ struct PecaCardFlipView: View {
         periodo: .p3,
         imagem: nil
     )
-     PecaCardFlipView(peca: exemplo)
+    PecaCardFlipView(peca: exemplo)
 }
