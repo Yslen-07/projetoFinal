@@ -30,7 +30,7 @@ enum OnboardingPage: Int, CaseIterable {
     case .Esportes:
         return "Descubra como seu curso está indo nos esportes. Pontuação, locais e horários."
     case .Teatro:
-        return "Descubra os eventos que ocorrem durante essa semana incrível e muito mais!"
+        return "Descubra tudo sobre a JAC amostra Interdisciplinar Juventude, Arte e Ciência (JAC) e muito mais!!"
 
     }
   }

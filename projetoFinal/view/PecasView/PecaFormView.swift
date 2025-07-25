@@ -23,6 +23,7 @@ struct PecaFormView: View {
     @State private var curso: Curso = .informatica
     @State private var periodo: Periodo = .p1
     @State private var imagem: Data?
+    @State private var imagemBack: Data?
     
     @State private var photoItem: PhotosPickerItem?
 
@@ -59,6 +60,24 @@ struct PecaFormView: View {
                             }
                         }
                     }
+                    
+                    if let imagemBack, let uiImage = UIImage(data: imagemBack) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200)
+                    }
+                    // Use the optional photoItem
+                    PhotosPicker(selection: $photoItem, matching: .images) {
+                        Label("Selecionar o Plano de fundo", systemImage: "photo")
+                    }
+                    .onChange(of: photoItem) { newItem in
+                        Task {
+                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                imagemBack = data
+                            }
+                        }
+                    }
                 }
 
                 Section("Data e Hora") {
@@ -88,7 +107,8 @@ struct PecaFormView: View {
                             local: local,
                             curso: curso,
                             periodo: periodo,
-                            imagem: imagem
+                            imagem: imagem,
+                            imagemBack : imagemBack
                         )
                         context.insert(nova)
                         dismiss()

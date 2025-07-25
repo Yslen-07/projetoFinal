@@ -68,6 +68,23 @@ struct PecaEditingView: View {
                             }
                         }
                     }
+                    
+                    if let data = peca.imagemBack, let uiImage = UIImage(data: data) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200)
+                    }
+                    PhotosPicker(selection: $photoItem, matching: .images) {
+                        Label("Selecionar novo plano de fundo", systemImage: "photo")
+                    }
+                    .onChange(of: photoItem) { newItem in
+                        Task {
+                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                peca.imagemBack = data
+                            }
+                        }
+                    }
                 }
                 Section {
                     Button("Cancelar"
