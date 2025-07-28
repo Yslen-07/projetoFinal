@@ -1,4 +1,3 @@
-
 import SwiftUI
 import SwiftData
 
@@ -17,7 +16,6 @@ struct PecaCardFlipView: View {
                 }
             }
             .frame(width: 184, height: 379)
-        
             .background(
                 Group {
                     if let data = peca.imagem, let img = UIImage(data: data) {
@@ -64,7 +62,6 @@ struct PecaCardFlipView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 LinearGradient(colors: [.black.opacity(0.7), .clear], startPoint: .bottom, endPoint: .top)
-
             )
         }
     }
@@ -105,4 +102,3 @@ struct PecaCardFlipView: View {
         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
     }
 }
-
