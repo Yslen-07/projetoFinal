@@ -62,14 +62,17 @@ class Peca: Identifiable {
     var titulo: String
     var sinopse: String
     var direcao: String
+    var linkYoutube: String
+    var linkPhotos: String
     var data: Date
     var hora: Date
     var local: String
     var curso: Curso
     var periodo: Periodo
     var imagem: Data?
+    var imagemBack: Data?
     
-    init(titulo: String, sinopse: String, direcao: String, data: Date, hora: Date, local: String, curso: Curso, periodo: Periodo, imagem: Data? = nil) {
+    init(titulo: String, sinopse: String, direcao: String, data: Date, hora: Date, local: String, curso: Curso, periodo: Periodo, imagem: Data? = nil, imagemBack: Data? = nil, linkYoutube: String, linkPhotos: String) {
         self.id = UUID()
         self.titulo = titulo
         self.sinopse = sinopse
@@ -80,6 +83,8 @@ class Peca: Identifiable {
         self.curso = curso
         self.periodo = periodo
         self.imagem = imagem
+        self.imagemBack = imagemBack
+        self.linkYoutube = linkYoutube
+        self.linkPhotos = linkPhotos
     }
 }
-    

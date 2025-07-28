@@ -15,14 +15,14 @@ struct PecaCardFlipView: View {
                     front
                 }
             }
-            .frame(width: 184, height: 379)
+            .frame(width: 190, height: 200)
             .background(
                 Group {
                     if let data = peca.imagem, let img = UIImage(data: data) {
                         Image(uiImage: img)
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: 184, height: 379)
+                            .frame(width: 190, height: 200)
                             .clipped()
                     } else {
                         Color.gray.opacity(0.2)
@@ -96,9 +96,24 @@ struct PecaCardFlipView: View {
                 .cornerRadius(20)
         }
         .padding()
-        .frame(width: 184, height: 379)
+        .frame(width: 190, height: 200)
         .background(Color.white)
         .cornerRadius(16)
         .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
     }
+}
+#Preview {
+    let exemplo = Peca(
+
+        titulo: "Alguma coisa",
+        sinopse: "Uma peça sobre algo muito interessante.",
+        direcao: "Eu",
+        data: Date(),
+        hora: Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: Date())!,
+        local: "Teatro Principal",
+        curso: .informatica,
+        periodo: .p1
+    )
+    
+    PecaCardFlipView(peca: exemplo)
 }
