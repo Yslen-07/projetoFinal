@@ -7,15 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22F33E2D2E300DD80076C56F /* JACVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F33E2C2E300DD80076C56F /* JACVIew.swift */; };
-		22F33E2F2E300DE90076C56F /* SECView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F33E2E2E300DE90076C56F /* SECView.swift */; };
 		22F33E312E300DF60076C56F /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F33E302E300DF60076C56F /* AdminView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		22735D1B2E1867380015D430 /* projetoFinal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = projetoFinal.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		22F33E2C2E300DD80076C56F /* JACVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JACVIew.swift; sourceTree = "<group>"; };
-		22F33E2E2E300DE90076C56F /* SECView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SECView.swift; sourceTree = "<group>"; };
 		22F33E302E300DF60076C56F /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -42,8 +38,6 @@
 			isa = PBXGroup;
 			children = (
 				22F33E302E300DF60076C56F /* AdminView.swift */,
-				22F33E2E2E300DE90076C56F /* SECView.swift */,
-				22F33E2C2E300DD80076C56F /* JACVIew.swift */,
 				22735D1D2E1867380015D430 /* projetoFinal */,
 				22735D1C2E1867380015D430 /* Products */,
 			);
@@ -132,8 +126,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				22F33E312E300DF60076C56F /* AdminView.swift in Sources */,
-				22F33E2D2E300DD80076C56F /* JACVIew.swift in Sources */,
-				22F33E2F2E300DE90076C56F /* SECView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

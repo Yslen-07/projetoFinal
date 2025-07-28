@@ -24,6 +24,8 @@ struct PecaFormView: View {
     @State private var periodo: Periodo = .p1
     @State private var imagem: Data?
     @State private var imagemBack: Data?
+    @State private var linkYoutube: String = ""
+    @State private var linkPhotos: String = ""
     
     @State private var photoItem: PhotosPickerItem?
 
@@ -40,6 +42,11 @@ struct PecaFormView: View {
                             Text(perio.rawValue).tag(perio)
                         }
                     }
+                }
+                
+                Section("Links externos"){
+                    TextField("Link da peça no youtube", text: $linkYoutube)
+                    TextField("Link para o Google Photos", text: $linkPhotos)
                 }
 
                 Section("Imagem") {
@@ -108,7 +115,10 @@ struct PecaFormView: View {
                             curso: curso,
                             periodo: periodo,
                             imagem: imagem,
-                            imagemBack : imagemBack
+                            imagemBack : imagemBack,
+                            linkYoutube: linkYoutube,
+                            linkPhotos: linkPhotos
+                            
                         )
                         context.insert(nova)
                         dismiss()

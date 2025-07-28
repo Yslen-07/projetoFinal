@@ -8,19 +8,19 @@ struct HomePageView: View {
         TabView(selection: $selectedTab) {
                         EventosHomeTab()
                             .tabItem {
-                                Image(systemName: selectedTab == 0 ? "house.fill" : "house")
+                                Image(systemName: "house")
                                 Text("Eventos")
                             }
                             .tag(0)
 
-                        SECView()
+            SecAlunoView()
                             .tabItem {
                                 Image(systemName: "volleyball")
                                 Text("SEC")
                             }
                             .tag(1)
 
-                        JACVIew()
+                        PecaView()
                             .tabItem {
                                 Image(systemName: "theatermasks")
                                 Text("JAC")

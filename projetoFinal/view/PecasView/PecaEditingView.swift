@@ -36,6 +36,11 @@ struct PecaEditingView: View {
                         ForEach(Periodo.allCases) { Text($0.rawValue).tag($0) }
                     }
                 }
+                
+                Section("Links externos"){
+                    TextField("Link da peça no youtube", text: $peca.linkYoutube)
+                    TextField("Link para o Google Photos", text: $peca.linkPhotos)
+            }
                 Section("Sinopse") {
                     TextField("Sinopse"
                               , text: $peca.sinopse, axis: .vertical)
@@ -98,7 +103,7 @@ struct PecaEditingView: View {
     }
 }
 #Preview {
-    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1)
+    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
     PecaEditingView(peca: pecaExemplo)
 }
 
