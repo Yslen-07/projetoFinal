@@ -1,5 +1,4 @@
 
-
 import SwiftUI
 import SwiftData
 
@@ -17,7 +16,8 @@ struct PecaCardFlipView: View {
                     front
                 }
             }
-            .frame(width: 190, height: 280)
+            .frame(width: 184, height: 379)
+        
             .background(
                 Group {
                     if let data = peca.imagem, let img = UIImage(data: data) {
@@ -63,7 +63,8 @@ struct PecaCardFlipView: View {
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
-                LinearGradient(colors: [.gray.opacity(0.7), .clear], startPoint: .bottom, endPoint: .top)
+                LinearGradient(colors: [.black.opacity(0.7), .clear], startPoint: .bottom, endPoint: .top)
+
             )
         }
     }
@@ -105,17 +106,3 @@ struct PecaCardFlipView: View {
     }
 }
 
-#Preview {
-    let exemplo = Peca(
-        titulo: "Romeu e Julieta",
-        sinopse: "Tragédia clássica de Shakespeare.",
-        direcao: "Ana Clara",
-        data: .now,
-        hora: .now,
-        local: "Teatro UFC",
-        curso: .informatica,
-        periodo: .p3,
-        imagem: nil
-    )
-    PecaCardFlipView(peca: exemplo)
-}
