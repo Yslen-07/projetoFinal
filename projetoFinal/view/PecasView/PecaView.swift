@@ -32,7 +32,7 @@ struct PecaView: View {
                 }
             }
             .sheet(isPresented: $mostrandoForm) {
-                SecFormView()
+                PecaFormView()
             }
         }
     }

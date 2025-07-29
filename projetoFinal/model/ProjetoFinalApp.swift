@@ -5,7 +5,7 @@ import SwiftData
 struct ProjetoFinalApp: App {
     var body: some Scene {
         WindowGroup {
-            PecaView()
+            HomePage()
         }
         .modelContainer(for: [Jogo.self, Peca.self])
     }

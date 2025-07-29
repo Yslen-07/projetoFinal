@@ -10,7 +10,7 @@ struct SecFormView: View {
     @State private var local: String = ""
     @State private var data: Date = Date()
     @State private var categoriaSelecionada: CategoriaEsportiva = .futebol
-
+    @State private var genero: Genero = .mulher
     var body: some View {
         NavigationStack {
             Form {
@@ -26,6 +26,8 @@ struct SecFormView: View {
                             Text(curso.rawValue).tag(curso)
                         }
                     }
+                  
+
                 }
             
                 Section("Local e Data") {
@@ -37,6 +39,11 @@ struct SecFormView: View {
                     Picker("Categoria", selection: $categoriaSelecionada) {
                         ForEach(CategoriaEsportiva.allCases) { cat in
                             Text(cat.rawValue).tag(cat)
+                        }
+                    }
+                    Picker("Gênero", selection: $genero) {
+                        ForEach(Genero.allCases) { genero in
+                            Text(genero.rawValue).tag(genero)
                         }
                     }
                 }

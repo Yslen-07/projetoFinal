@@ -9,18 +9,35 @@ struct SecView: View {
             VStack {
                 SecAlunoView()
                 Spacer()
-                Button("Adicionar Jogo") {
-                    mostrandoForm = true
-                }
-                .buttonStyle(.borderedProminent)
-                .sheet(isPresented: $mostrandoForm) {
-                    SecFormView()
+            }
+            .navigationTitle("Jogos SEC")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        mostrandoForm = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
-            .navigationTitle("Jogos")
+            .sheet(isPresented: $mostrandoForm) {
+                NavigationStack {
+                    SecFormView()
+                        .navigationTitle("Novo Jogo")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancelar") {
+                                    mostrandoForm = false
+                                }
+                            }
+                        }
+                }
+            }
         }
     }
 }
-#Preview{
+
+#Preview {
     SecView()
+        .modelContainer(for: Jogo.self, inMemory: true)
 }

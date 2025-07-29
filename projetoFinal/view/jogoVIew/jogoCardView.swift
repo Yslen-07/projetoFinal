@@ -3,53 +3,72 @@ import SwiftData
 
 struct JogoCardView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var mostrandoEditor = false
     @State private var mostrarConfirmacao = false
     
     var jogo: Jogo
+    let genero: Genero = .mulher // ou passe como parâmetro no futuro
 
     var body: some View {
-        VStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.gray.opacity(0.1))
-                    .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 4)
-                    .frame(width: 320, height: 180)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Image(jogo.curso1.rawValue.lowercased())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .padding(.leading, 8)
 
-                VStack(spacing: 10) {
-                    Text("\(jogo.curso1) VS \(jogo.curso2)")
-                        .font(.headline)
-                        .multilineTextAlignment(.center)
+                Spacer()
 
-                    Text(jogo.local)
-                        .font(.subheadline)
-
-                    Text(jogo.data.formatted(date: .abbreviated, time: .shortened))
-                        .font(.footnote)
-                        .foregroundColor(.gray)
-
-                    Label(jogo.categoria.rawValue, systemImage: "sportscourt")
-                        .font(.footnote)
-                        .padding(.top, 4)
-                }
-                .padding()
+                Image(jogo.curso2.rawValue.lowercased())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 60, height: 60)
+                    .padding(.trailing, 8)
             }
+            .frame(height: 80)
+            .background(
+                LinearGradient(colors: [.gray.opacity(0.1), .white], startPoint: .leading, endPoint: .trailing)
+            )
 
-           HStack {
-               Button("Deletar") {
-                   mostrarConfirmacao = true
-               }
-               .tint(.red)        }
+            Text("\(jogo.curso1.rawValue.uppercased()) x \(jogo.curso2.rawValue.uppercased())")
+                .font(.headline)
+                .foregroundStyle(.primary)
+                .padding(.horizontal)
+
+            Text("Gênero: \(genero.rawValue)")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal)
+
+            Text("Data: \(jogo.data.formatted(date: .abbreviated, time: .shortened))")
+                .font(.footnote)
+                .foregroundColor(.gray)
+                .padding(.horizontal)
         }
-        .sheet(isPresented: $mostrandoEditor) {
-            JogoEditingView(jogo: jogo)
-        }
-        .confirmationDialog("Deseja realmente deletar este jogo?", isPresented: $mostrarConfirmacao, titleVisibility: .visible) {
-            Button("Deletar", role: .destructive) {
-                modelContext.delete(jogo)
-            }
-            Button("Cancelar", role: .cancel) { }
-        }
+        .background(RoundedRectangle(cornerRadius: 20).fill(.ultraThinMaterial))
+        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.1)))
+        .shadow(radius: 4)
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity)
     }
 }
+#Preview {
+    let container = try! ModelContainer(
+        for: Jogo.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
 
+    let jogoE = Jogo(
+        curso1: .informatica,
+        curso2: .mecanica,
+        categoria: .natacao,
+        local: "Quadra 1",
+        data: Date()
+    )
+
+    container.mainContext.insert(jogoE)
+
+    return JogoCardView(jogo: jogoE)
+        .padding()
+        .modelContainer(container)
+}
