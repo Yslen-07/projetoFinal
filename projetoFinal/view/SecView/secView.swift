@@ -21,3 +21,6 @@ struct SecView: View {
         }
     }
 }
+#Preview{
+    SecView()
+}
