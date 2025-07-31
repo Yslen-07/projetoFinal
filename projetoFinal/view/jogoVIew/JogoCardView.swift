@@ -52,4 +52,16 @@ struct JogoCardView: View {
         }
     }
 }
+#Preview {
+    let jogoExemplo = Jogo(
+        curso1: .informatica,
+        curso2: .quimica,
+        categoria: .volei,
+        local: "Quadra Principal",
+        data: Date()
+    )
 
+    return JogoCardView(jogo: jogoExemplo)
+        .padding()
+        .modelContainer(for: Jogo.self)
+}
