@@ -65,10 +65,12 @@ struct PecaFormView: View {
                     DatePicker("Data", selection: $data, displayedComponents: .date)
                     DatePicker("Hora", selection: $hora, displayedComponents: .hourAndMinute)
                 }
+
                 Section("Sinopse") {
                     TextField("Sinopse da peça", text: $sinopse, axis: .vertical)
                         .lineLimit(4...8)
                 }
+
                 Section("Curso") {
                     Picker("Curso", selection: $curso) {
                         ForEach(Curso.allCases) { curso in
@@ -77,42 +79,45 @@ struct PecaFormView: View {
                     }
                 }
                 Section {
-                    Button("Cancelar"
-                           , role: .cancel) {
-                        dismiss()
+                    VStack(spacing: 10) {
+                        Button("Salvar Peça") {
+                            let nova = Peca(
+                                titulo: titulo_peca,
+                                sinopse: sinopse,
+                                direcao: direcao,
+                                data: data,
+                                hora: hora,
+                                local: local,
+                                curso: curso,
+                                periodo: periodo,
+                                imagem: imagem
+                            )
+                            context.insert(nova)
+                            dismiss()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+
+                        Button("Cancelar") {
+                            dismiss()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
                     }
-                    
-                    
-                    Button("Salvar Peça") {
-                        let nova = Peca(
-                            titulo: titulo_peca,
-                            sinopse: sinopse,
-                            direcao: direcao,
-                            data: data,
-                            hora: hora,
-                            local: local,
-                            curso: curso,
-                            periodo: periodo,
-                            imagem: imagem
-                        )
-                        context.insert(nova)
-                        dismiss()
-                    }
-                }
-                    //.frame(maxWidth: .infinity)
-                    //.padding()
-                    //.background(Color.blue)
-                    .foregroundColor(.blue)
-                    //.cornerRadius(50)
                 }
             }
             .navigationTitle("Cadastrar Peça")
         }
     }
-
+}
 
 #Preview {
     PecaFormView()
-
         .modelContainer(for: Peca.self, inMemory: true)
 }
