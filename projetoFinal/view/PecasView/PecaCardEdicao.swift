@@ -1,9 +1,17 @@
+//
+//  PecaCardEdicao.swift
+//  projetoFinal
+//
+//  Created by Found on 30/07/25.
+//
+
 import SwiftUI
 
-struct PecaCardFlipView: View {
+struct PecaCardEdicao: View {
     let peca: Peca
     @State private var flipped = false
-
+    @State private var mostrandoEdicao = false
+    
     var body: some View {
         ZStack {
             frontView
@@ -17,8 +25,11 @@ struct PecaCardFlipView: View {
         .onTapGesture {
             flipped.toggle()
         }
+        .sheet(isPresented: $mostrandoEdicao) {
+            PecaEditingView(peca: peca) // ← sua view de edição
+        }
     }
-
+    
     var frontView: some View {
         ZStack {
             if let data = peca.imagem,
@@ -33,7 +44,7 @@ struct PecaCardFlipView: View {
                     .fill(Color.white)
                     .frame(width: 250, height: 380)
             }
-
+            
             VStack {
                 Spacer()
                 Text(peca.titulo)
@@ -46,22 +57,21 @@ struct PecaCardFlipView: View {
         .cornerRadius(20)
         .shadow(radius: 8)
     }
-
+    
     var backView: some View {
         ZStack {
-
             VStack(spacing: 16) {
-//                Text("Direção: \(peca.direcao)")
-//                    .foregroundColor(.gray)
-//                Text("Data: \(peca.data.formatted(date: .abbreviated, time: .omitted))")
-//                    .foregroundColor(.gray)
-//                Text("Hora: \(peca.hora.formatted(date: .omitted, time: .shortened))")
-//                    .foregroundColor(.gray)
-//                Text("Local: \(peca.local)")
-//                    .foregroundColor(.gray)
-
+                Text("Direção: \(peca.direcao)")
+                    .foregroundColor(.gray)
+                Text("Data: \(peca.data.formatted(date: .abbreviated, time: .omitted))")
+                    .foregroundColor(.gray)
+                Text("Hora: \(peca.hora.formatted(date: .omitted, time: .shortened))")
+                    .foregroundColor(.gray)
+                Text("Local: \(peca.local)")
+                    .foregroundColor(.gray)
+                
                 Spacer()
-
+                
                 NavigationLink(destination: PecaDetailView(peca: peca)) {
                     Text("Saiba Mais")
                         .padding(.vertical, 8)
@@ -73,41 +83,25 @@ struct PecaCardFlipView: View {
                                 .stroke(Color.black, lineWidth: 2)
                         )
                         .cornerRadius(20)
+                    
+                    
+                    Button {
+                        mostrandoEdicao = true
+                    } label: {
+                        Label("Editar", systemImage: "pencil")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .cornerRadius(20)
+                    }
                 }
-
-                Link("Fotos", destination: URL(string: "https://sec2025.blogspot.com/2025/02/21-de-fevereiro.html?m=1")!)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 16)
-                    .background(Color.white)
-                    .foregroundColor(.black)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.black, lineWidth: 2)
-                    )
-                    .cornerRadius(20)
+                .padding()
+                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
             }
-            .rotation3DEffect(.degrees(flipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
-                }
+            .cornerRadius(20)
+            .shadow(radius: 8)
         }
-}
-               
-    
-
-
-#Preview {
-    let exemplo = Peca(
-
-        titulo: "Alguma coisa",
-        sinopse: "Uma peça sobre algo muito interessante.",
-        direcao: "Eu",
-        data: Date(),
-        hora: Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: Date())!,
-        local: "Teatro Principal",
-        curso: .informatica,
-        periodo: .p1,
-        linkYoutube: "",
-        linkPhotos: "https://pt.pngtree.com/free-backgrounds-photos/imagens-bonitas-para-fundos-pictures"
-    )
-    
-    PecaCardFlipView(peca: exemplo)
+    }
 }

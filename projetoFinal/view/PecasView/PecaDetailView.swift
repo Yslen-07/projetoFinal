@@ -89,7 +89,7 @@ struct PecaDetailView: View {
                         }
                     }
                     
-                    // Gráfico de notas
+                    
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Notas")
                             .font(.headline)
@@ -111,9 +111,10 @@ struct PecaDetailView: View {
                                         .font(.caption)
                                 }
                             }
+                            .offset(x: 100, y : 0)
                         }
                         
-                        // Estrelas para avaliação
+                        
                         HStack(spacing: 4) {
                             ForEach(1...5, id: \.self) { starIndex in
                                 Image(systemName: starIndex <= userRating ? "star.fill" : "star")
@@ -121,9 +122,11 @@ struct PecaDetailView: View {
                                     .font(.caption)
                             }
                         }
+                        .offset(x: 128, y : 0)
                     }
                     
-                    // Botão para avaliar e compartilhar
+                    
+                    
                     Button {
                         isShowingRatingSheet.toggle()
                     } label: {
@@ -154,7 +157,7 @@ struct PecaDetailView: View {
             Text(peca.titulo)
                 .font(.headline)
                 .multilineTextAlignment(.center)
-            Text(peca.periodo.rawValue) // use rawValue direto
+            Text(peca.periodo.rawValue)
                 .font(.subheadline)
                 .multilineTextAlignment(.center)
             
@@ -181,7 +184,7 @@ struct PecaDetailView: View {
             Divider()
             
             Button {
-                // Ação para compartilhar (você pode implementar)
+                
             } label: {
                 Label("Compartilhe nos Stories", systemImage: "instagram")
             }
@@ -212,5 +215,13 @@ struct RatingView: View {
             }
         }
         .padding(.horizontal, 16)
+       
     }
 }
+   
+
+#Preview {
+    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
+    PecaDetailView(peca: pecaExemplo)
+}
+

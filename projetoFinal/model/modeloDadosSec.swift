@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 
+// MARK: - Enums
 
 enum Curso: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue }
@@ -12,20 +13,22 @@ enum Curso: String, CaseIterable, Identifiable, Codable {
     case eletrotecnica = "Eletrotécnica"
     case quimica = "Química"
 }
+
 enum Genero: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue }
+
     case mulher = "Feminino"
     case homem = "Masculino"
 }
+
 enum Ano: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue }
-    
+
     case ano2021 = "2021"
     case ano2022 = "2022"
     case ano2023 = "2023"
     case ano2024 = "2024"
 }
-
 
 enum Periodo: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue }
@@ -37,11 +40,12 @@ enum Periodo: String, CaseIterable, Identifiable, Codable {
     case p5 = "P5"
     case p6 = "P6"
 }
+
 enum CategoriaEsportiva: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue }
 
     case natacao = "Natação"
-    case futebol = "Futsal"
+    case futsal = "Futsal"
     case volei = "Vôlei"
     case basquete = "Basquete"
     case handebol = "Handebol"
@@ -49,6 +53,7 @@ enum CategoriaEsportiva: String, CaseIterable, Identifiable, Codable {
     case xadrez = "Xadrez"
 }
 
+// MARK: - Modelo Jogo
 
 @Model
 class Jogo {
@@ -56,52 +61,99 @@ class Jogo {
     var curso1: Curso
     var curso2: Curso
     var categoria: CategoriaEsportiva
+    var genero: Genero
     var local: String
     var data: Date
+    var placar1: String
+    var placar2: String
 
-    init(curso1: Curso, curso2: Curso, categoria: CategoriaEsportiva, local: String, data: Date) {
+    init(
+        curso1: Curso,
+        curso2: Curso,
+        categoria: CategoriaEsportiva,
+        genero: Genero,
+        local: String,
+        data: Date,
+        placar1: String,
+        placar2: String
+    ) {
         self.id = UUID()
         self.curso1 = curso1
         self.curso2 = curso2
         self.categoria = categoria
+        self.genero = genero
         self.local = local
         self.data = data
+        self.placar1 = placar1
+        self.placar2 = placar2
     }
 }
 
-
-
-
+// MARK: - Modelo Peca
 
 @Model
-    class Peca: Identifiable {
-        var id: UUID
-        var titulo: String
-        var sinopse: String
-        var direcao: String
-        var linkYoutube: String
-        var linkPhotos: String
-        var data: Date
-        var hora: Date
-        var local: String
-        var curso: Curso
-        var periodo: Periodo
-        var imagem: Data?
-        var imagemBack: Data?
-        
-        init(titulo: String, sinopse: String, direcao: String, data: Date, hora: Date, local: String, curso: Curso, periodo: Periodo, imagem: Data? = nil, imagemBack: Data? = nil, linkYoutube: String, linkPhotos: String) {
-            self.id = UUID()
-            self.titulo = titulo
-            self.sinopse = sinopse
-            self.direcao = direcao
-            self.data = data
-            self.hora = hora
-            self.local = local
-            self.curso = curso
-            self.periodo = periodo
-            self.imagem = imagem
-            self.imagemBack = imagemBack
-            self.linkYoutube = linkYoutube
-            self.linkPhotos = linkPhotos
+class Peca: Identifiable {
+    var id: UUID
+    var titulo: String
+    var sinopse: String
+    var direcao: String
+    var linkYoutube: String
+    var linkPhotos: String
+    var data: Date
+    var hora: Date
+    var local: String
+    var curso: Curso
+    var periodo: Periodo
+    var imagem: Data?
+    var imagemBack: Data?
+
+    init(
+        titulo: String,
+        sinopse: String,
+        direcao: String,
+        data: Date,
+        hora: Date,
+        local: String,
+        curso: Curso,
+        periodo: Periodo,
+        imagem: Data? = nil,
+        imagemBack: Data? = nil,
+        linkYoutube: String,
+        linkPhotos: String
+    ) {
+        self.id = UUID()
+        self.titulo = titulo
+        self.sinopse = sinopse
+        self.direcao = direcao
+        self.data = data
+        self.hora = hora
+        self.local = local
+        self.curso = curso
+        self.periodo = periodo
+        self.imagem = imagem
+        self.imagemBack = imagemBack
+        self.linkYoutube = linkYoutube
+        self.linkPhotos = linkPhotos
+    }
+}
+
+// MARK: - Extensão do modelo Jogo (imagem do confronto)
+
+extension Jogo {
+    var imagemConfronto: String {
+        switch (curso1, curso2) {
+        case (.informatica, .edificacoes), (.edificacoes, .informatica):
+            return "infoEdi"
+        case (.informatica, .eletrotecnica), (.eletrotecnica, .informatica):
+            return "infoEletro"
+        case (.informatica, .telecomunicacoes), (.telecomunicacoes, .informatica):
+            return "infoTele"
+        case (.informatica, .quimica), (.quimica, .informatica):
+            return "infoQuim"
+        case (.informatica, .mecanica), (.mecanica, .informatica):
+            return "infoMeca"
+        default:
+            return "padrao"
         }
     }
+}

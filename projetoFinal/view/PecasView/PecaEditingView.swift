@@ -13,7 +13,7 @@ struct PecaEditingView: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var peca: Peca
     @State private var photoItem: PhotosPickerItem?
-    
+    @State private var photoItemBackground: PhotosPickerItem?
     var body: some View {
         NavigationStack {
             Form {
@@ -73,10 +73,10 @@ struct PecaEditingView: View {
                             .scaledToFit()
                             .frame(height: 200)
                     }
-                    PhotosPicker(selection: $photoItem, matching: .images) {
+                    PhotosPicker(selection: $photoItemBackground, matching: .images) {
                         Label("Selecionar novo plano de fundo", systemImage: "photo")
                     }
-                    .onChange(of: photoItem) { newItem in
+                    .onChange(of: photoItemBackground) { newItem in
                         Task {
                             if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                 peca.imagemBack = data

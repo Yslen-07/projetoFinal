@@ -26,8 +26,8 @@ struct PecaFormView: View {
     @State private var imagemBack: Data?
     @State private var linkYoutube: String = ""
     @State private var linkPhotos: String = ""
-    
     @State private var photoItem: PhotosPickerItem?
+    @State private var photoItemBackground: PhotosPickerItem?
 
     var body: some View {
         NavigationStack {
@@ -56,7 +56,7 @@ struct PecaFormView: View {
                             .scaledToFit()
                             .frame(height: 200)
                     }
-                    // Use the optional photoItem
+                    
                     PhotosPicker(selection: $photoItem, matching: .images) {
                         Label("Selecionar pôster", systemImage: "photo")
                     }
@@ -74,11 +74,11 @@ struct PecaFormView: View {
                             .scaledToFit()
                             .frame(height: 200)
                     }
-                    // Use the optional photoItem
-                    PhotosPicker(selection: $photoItem, matching: .images) {
+                    
+                    PhotosPicker(selection: $photoItemBackground, matching: .images) {
                         Label("Selecionar o Plano de fundo", systemImage: "photo")
                     }
-                    .onChange(of: photoItem) { newItem in
+                    .onChange(of: photoItemBackground) { newItem in
                         Task {
                             if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                 imagemBack = data

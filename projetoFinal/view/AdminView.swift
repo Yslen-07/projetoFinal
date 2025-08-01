@@ -30,7 +30,7 @@ struct AdminView: View {
                     Spacer()
 
                    
-                    NavigationLink(destination: SecFormView()) {
+                    NavigationLink(destination: ContentSecView()) {
                         Text("Esportes")
                             .frame(maxWidth: .infinity)
                             .frame(height: 40)
@@ -42,7 +42,7 @@ struct AdminView: View {
                     .shadow(color: .blue, radius: 5)
 
                     
-                    NavigationLink(destination: PecaFormView()) {
+                    NavigationLink(destination: ContentJacView()) {
                         Text("JAC")
                             .frame(maxWidth: .infinity)
                             .frame(height: 40)

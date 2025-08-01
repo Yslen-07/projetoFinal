@@ -9,8 +9,10 @@ struct SecFormView: View {
     @State private var curso2: Curso = .edificacoes
     @State private var local: String = ""
     @State private var data: Date = Date()
-    @State private var categoriaSelecionada: CategoriaEsportiva = .futebol
+    @State private var categoriaSelecionada: CategoriaEsportiva = .futsal
     @State private var genero: Genero = .mulher
+    @State private var placar1: String = ""
+    @State private var placar2: String = ""
     var body: some View {
         NavigationStack {
             Form {
@@ -45,17 +47,25 @@ struct SecFormView: View {
                         ForEach(Genero.allCases) { genero in
                             Text(genero.rawValue).tag(genero)
                         }
+                        
                     }
                 }
-
+                Section("Placar") {
+                    TextField("Digite o placar de \(curso1.rawValue)", text: $placar1 )
+                    TextField("Digite o placar de \(curso2.rawValue)", text: $placar2 )
+                                    
+                                }
                 Section {
                     Button("Salvar Jogo") {
                         let novoJogo = Jogo(
                             curso1: curso1,
                             curso2: curso2,
                             categoria: categoriaSelecionada,
+                            genero: genero,
                             local: local,
-                            data: data
+                            data: data,
+                            placar1: placar1,
+                            placar2: placar2
                         )
                         modelContext.insert(novoJogo)
                         dismiss()

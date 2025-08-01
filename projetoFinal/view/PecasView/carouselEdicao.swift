@@ -1,9 +1,16 @@
+//
+//  carouselEdicao.swift
+//  projetoFinal
+//
+//  Created by Found on 30/07/25.
+//
+
 import SwiftUI
 import SwiftData
 
-struct CoverFlowCarouselWithFlipView: View {
+struct CarouselEdicao: View {
     @Query(sort: \Peca.data) var pecas: [Peca]
-
+    @State private var mostrandoForm: Bool = false
     var body: some View {
         NavigationStack {
             if pecas.isEmpty {
@@ -24,7 +31,7 @@ struct CoverFlowCarouselWithFlipView: View {
                         .padding(.vertical)
                     }
                 }
-                .navigationTitle("Peças")
+                .navigationTitle("Tela edição peças")
             }
         }
     }
@@ -38,7 +45,7 @@ struct CoverFlowCarouselWithFlipView: View {
 
             let scale = max(0.85, 1.1 - distance / 400)
 
-            PecaCardFlipView(peca: peca)
+            PecaCardEdicao(peca: peca)
                 .scaleEffect(scale)
                 .animation(.easeInOut(duration: 0.3), value: scale)
                 .padding(.horizontal, 12)
@@ -49,6 +56,6 @@ struct CoverFlowCarouselWithFlipView: View {
 }
 
 #Preview {
-    CoverFlowCarouselWithFlipView()
+    CarouselEdicao()
         .modelContainer(for: Peca.self, inMemory: true)
 }

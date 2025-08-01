@@ -4,7 +4,6 @@
 //
 //  Created by found on 28/07/25.
 //
-
 import SwiftUI
 
 struct MainTabView: View {
@@ -21,7 +20,7 @@ struct MainTabView: View {
                 .tag(0)
             
             
-            SecAlunoView()
+            SecInicialView()
                 .tabItem {
                     Image(systemName: "volleyball")
                     Text("SEC")
@@ -29,7 +28,7 @@ struct MainTabView: View {
                 .tag(1)
             
            
-            PecaView()
+            CoverFlowCarouselWithFlipView()
                 .tabItem {
                     Image(systemName: "theatermasks")
                     Text("JAC")
