@@ -49,14 +49,16 @@ struct PecaCardEdicao: View {
             VStack {
                 Spacer()
                 Text("\(peca.titulo)")
+                    .frame(width: 250)
                     .font(.headline)
                     .foregroundColor(.white)
-                    .offset(x: -10)
+                    .offset(x: 35)
                 
                 
                 Text("\(peca.periodo) de \(peca.curso)")
                     .font(.subheadline)
                     .foregroundColor(.white)
+                    .offset(x: 50)
                     
                 
             }
@@ -64,7 +66,7 @@ struct PecaCardEdicao: View {
             .padding(.bottom, 10)
             .frame(width: 250, height: 90)
             .background(
-                LinearGradient(colors: [.black.opacity(0.3), .clear], startPoint: .bottom, endPoint: .top)
+                LinearGradient(colors: [.black.opacity(1), .clear], startPoint: .bottom, endPoint: .top)
                         )
             .offset(y:145)
         }

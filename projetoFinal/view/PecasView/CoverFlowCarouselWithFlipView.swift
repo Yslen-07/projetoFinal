@@ -44,7 +44,7 @@ struct CoverFlowCarouselWithFlipView: View {
                 .padding(.horizontal, 12)
         }
         .frame(width: 250, height: 580)
-        .offset(x: 0 , y: 100)
+        .offset(x: 0 , y: 50)
     }
 }
 

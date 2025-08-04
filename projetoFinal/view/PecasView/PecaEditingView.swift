@@ -89,6 +89,11 @@ struct PecaEditingView: View {
                            , role: .cancel) {
                         dismiss()
                     }
+                    Button("Excluir peça", role: .destructive) {
+                        context.delete(peca)
+                        dismiss()
+                    }
+
                 }
             }
             .navigationTitle("Editar Peça")
@@ -99,4 +104,3 @@ struct PecaEditingView: View {
     let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
     PecaEditingView(peca: pecaExemplo)
 }
-

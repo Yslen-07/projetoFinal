@@ -17,12 +17,12 @@ struct PecaDetailView: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 250)
+                        .frame(height: 214)
                         .clipped()
                         .shadow(color: .white, radius: 2, x: -2, y: -2)
                         .background(
                             LinearGradient(
-                                colors: [.gray.opacity(0.5), .clear],
+                                colors: [.gray.opacity(1), .clear],
                                 startPoint: .bottom,
                                 endPoint: .center
                             )
@@ -30,10 +30,10 @@ struct PecaDetailView: View {
                 } else {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
-                        .frame(height: 250)
+                        .frame(height: 214)
                         .background(
                             LinearGradient(
-                                colors: [.gray.opacity(0.5), .clear],
+                                colors: [.gray.opacity(1), .clear],
                                 startPoint: .bottom,
                                 endPoint: .center
                             )
@@ -60,8 +60,8 @@ struct PecaDetailView: View {
                         .bold()
                     
                 
-                    Text("DIRIGIDO POR \(peca.direcao.uppercased())")
-                        .font(.subheadline)
+                    Text("DIRIGIDO POR \n \(peca.direcao)")
+                        .font(.system(size: 10))
                         .foregroundColor(.gray)
                     
              
@@ -81,11 +81,13 @@ struct PecaDetailView: View {
                                 .frame(width: 137, height: 221)
                                 .clipped()
                                 .cornerRadius(8)
+                                .offset(y: -30)
                         } else {
                             Rectangle()
                                 .fill(Color.gray.opacity(0.2))
                                 .frame(width: 137, height: 221)
                                 .overlay(Text("Cartaz").font(.caption))
+                                .offset(y: -30)
                         }
                     }
                     
@@ -93,6 +95,7 @@ struct PecaDetailView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Notas")
                             .font(.headline)
+                            .offset(y: -25)
                         
                         HStack(alignment: .bottom, spacing: 12) {
                             ForEach(0..<5, id: \.self) { index in
@@ -111,7 +114,7 @@ struct PecaDetailView: View {
                                         .font(.caption)
                                 }
                             }
-                            .offset(x: 100, y : 0)
+                            .offset(x: 100, y : -35)
                         }
                         
                         
@@ -122,7 +125,7 @@ struct PecaDetailView: View {
                                     .font(.caption)
                             }
                         }
-                        .offset(x: 128, y : 0)
+                        .offset(x: 128, y : -36)
                     }
                     
                     
@@ -139,7 +142,7 @@ struct PecaDetailView: View {
                         .cornerRadius(8)
                         .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                     }
-                    .padding(.top, 16)
+                    .padding(.top, -30)
                     .sheet(isPresented: $isShowingRatingSheet) {
                         ratingSheet
                     }
@@ -153,7 +156,7 @@ struct PecaDetailView: View {
     
     @ViewBuilder
     var ratingSheet: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 12) {
             Text(peca.titulo)
                 .font(.headline)
                 .multilineTextAlignment(.center)
@@ -221,7 +224,7 @@ struct RatingView: View {
    
 
 #Preview {
-    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
+    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", direcao: "Odílio Carneiro e André Almeida", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
     PecaDetailView(peca: pecaExemplo)
 }
 

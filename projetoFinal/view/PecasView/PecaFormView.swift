@@ -13,6 +13,7 @@ import PhotosUI
 struct PecaFormView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    
 
     @State var titulo_peca: String = ""
     @State var sinopse: String = ""
@@ -91,12 +92,10 @@ struct PecaFormView: View {
                     DatePicker("Data", selection: $data, displayedComponents: .date)
                     DatePicker("Hora", selection: $hora, displayedComponents: .hourAndMinute)
                 }
-
                 Section("Sinopse") {
                     TextField("Sinopse da peça", text: $sinopse, axis: .vertical)
                         .lineLimit(4...8)
                 }
-
                 Section("Curso") {
                     Picker("Curso", selection: $curso) {
                         ForEach(Curso.allCases) { curso in
@@ -104,41 +103,42 @@ struct PecaFormView: View {
                         }
                     }
                 }
-
+                
+//                Section{
+//                    Button("Deletar jogo") {
+//                        if let Peca = Peca {
+//                            modelContext.delete(Peca)
+//                        }
+//                        dismiss()
+//                    }
+//                    .foregroundColor(.red)
+//                }
+                
                 Section {
-                    VStack(spacing: 10) {
-                        Button("Salvar Peça") {
-                            let nova = Peca(
-                                titulo: titulo_peca,
-                                sinopse: sinopse,
-                                direcao: direcao,
-                                data: data,
-                                hora: hora,
-                                local: local,
-                                curso: curso,
-                                periodo: periodo,
-                                imagem: imagem,
-                                linkYoutube: "",
-                                linkPhotos: ""
-                            )
-                            context.insert(nova)
-                            dismiss()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-
-                        Button("Cancelar") {
-                            dismiss()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.gray.opacity(0.3))
-                        .foregroundColor(.black)
-                        .cornerRadius(10)
+                    Button("Salvar Peça") {
+                        let nova = Peca(
+                            titulo: titulo_peca,
+                            sinopse: sinopse,
+                            direcao: direcao,
+                            data: data,
+                            hora: hora,
+                            local: local,
+                            curso: curso,
+                            periodo: periodo,
+                            imagem: imagem,
+                            imagemBack : imagemBack,
+                            linkYoutube: linkYoutube,
+                            linkPhotos: linkPhotos
+                            
+                        )
+                        context.insert(nova)
+                        dismiss()
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
                 }
             }
             .navigationTitle("Cadastrar Peça")
@@ -148,5 +148,6 @@ struct PecaFormView: View {
 
 #Preview {
     PecaFormView()
+
         .modelContainer(for: Peca.self, inMemory: true)
 }
