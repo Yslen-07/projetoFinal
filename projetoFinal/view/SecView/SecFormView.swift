@@ -56,25 +56,36 @@ struct SecFormView: View {
                                     
                                 }
                 Section {
-                    Button("Salvar Jogo") {
-                        let novoJogo = Jogo(
-                            curso1: curso1,
-                            curso2: curso2,
-                            categoria: categoriaSelecionada,
-                            genero: genero,
-                            local: local,
-                            data: data,
-                            placar1: placar1,
-                            placar2: placar2
-                        )
-                        modelContext.insert(novoJogo)
-                        dismiss()
+                    VStack(spacing: 10) {
+                        Button("Salvar Jogo") {
+                            let novoJogo = Jogo(
+                                curso1: curso1,
+                                curso2: curso2,
+                                categoria: categoriaSelecionada,
+                                genero: genero,
+                                local: local,
+                                data: data,
+                                placar1: placar1,
+                                placar2: placar2
+                            )
+                            modelContext.insert(novoJogo)
+                            dismiss()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+
+                        Button("Cancelar") {
+                            dismiss()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
                 }
             }
             .navigationTitle("Novo Jogo")

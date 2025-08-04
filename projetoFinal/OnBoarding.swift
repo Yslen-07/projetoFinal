@@ -102,12 +102,12 @@ struct OnBoardingView: View {
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
+
     }
 
     @ViewBuilder
     private func getPageView(for page: OnboardingPage) -> some View {
         VStack(spacing: 30) {
-            // Imagem animada
             ZStack {
                 switch page {
                 case .APEC:
@@ -118,7 +118,6 @@ struct OnBoardingView: View {
                     playAnimation
                 }
             }
-            // Texto do título e descrição
             VStack(spacing: 20) {
                 Text(page.title)
                     .font(.system(.largeTitle, design: .rounded))
@@ -154,6 +153,7 @@ struct OnBoardingView: View {
                 .animation(.spring(dampingFraction: 0.7).delay(0.2), value: isAnimating)
         }
     }
+
     private var SportAnimation: some View {
         ZStack {
             Circle()
@@ -171,6 +171,7 @@ struct OnBoardingView: View {
                 .animation(.spring(dampingFraction: 0.7).delay(0.2), value: isAnimating)
         }
     }
+
     private var playAnimation: some View {
         ZStack {
             Image("Group 1")

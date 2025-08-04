@@ -13,12 +13,13 @@ struct HomePage: View {
                 }
                 .tag(0)
             
-            SecInicialView()
+            CategoriasView()
                 .tabItem {
                     Image(systemName: "volleyball")
                     Text("SEC")
                 }
                 .tag(1)
+
             
             CoverFlowCarouselWithFlipView()
                 .tabItem {

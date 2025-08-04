@@ -32,6 +32,24 @@ struct SecInicialView: View {
     }
 }
 #Preview {
-    SecInicialView()
-        .modelContainer(for: Jogo.self, inMemory: true)
+    let container = try! ModelContainer(
+        for: Jogo.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+
+    let jogoE = Jogo(
+        curso1: .informatica,
+        curso2: .mecanica,
+        categoria: .natacao,
+        genero: .homem,
+        local: "Quadra 1",
+        data: Date(),
+        placar1: " ",
+        placar2: " "
+    )
+
+    container.mainContext.insert(jogoE)
+    
+    return SecInicialView()
+        .modelContainer(container)
 }

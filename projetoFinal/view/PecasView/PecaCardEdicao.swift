@@ -11,7 +11,8 @@ struct PecaCardEdicao: View {
     let peca: Peca
     @State private var flipped = false
     @State private var mostrandoEdicao = false
-    
+
+
     var body: some View {
         ZStack {
             frontView
@@ -26,7 +27,7 @@ struct PecaCardEdicao: View {
             flipped.toggle()
         }
         .sheet(isPresented: $mostrandoEdicao) {
-            PecaEditingView(peca: peca) // ← sua view de edição
+            PecaEditingView(peca: peca)
         }
     }
     
@@ -44,34 +45,39 @@ struct PecaCardEdicao: View {
                     .fill(Color.white)
                     .frame(width: 250, height: 380)
             }
-            
+
             VStack {
                 Spacer()
-                Text(peca.titulo)
-                    .font(.title2.bold())
-                    .foregroundColor(.black)
-                    .padding(.bottom, 20)
+                Text("\(peca.titulo)")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .offset(x: -10)
+                
+                
+                Text("\(peca.periodo) de \(peca.curso)")
+                    .font(.subheadline)
+                    .foregroundColor(.white)
+                    
+                
             }
-            .padding()
+            .offset(x:-50)
+            .padding(.bottom, 10)
+            .frame(width: 250, height: 90)
+            .background(
+                LinearGradient(colors: [.black.opacity(0.3), .clear], startPoint: .bottom, endPoint: .top)
+                        )
+            .offset(y:145)
         }
+        .frame(width: 250, height: 380)
         .cornerRadius(20)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(radius: 8)
+
     }
     
     var backView: some View {
         ZStack {
             VStack(spacing: 16) {
-                Text("Direção: \(peca.direcao)")
-                    .foregroundColor(.gray)
-                Text("Data: \(peca.data.formatted(date: .abbreviated, time: .omitted))")
-                    .foregroundColor(.gray)
-                Text("Hora: \(peca.hora.formatted(date: .omitted, time: .shortened))")
-                    .foregroundColor(.gray)
-                Text("Local: \(peca.local)")
-                    .foregroundColor(.gray)
-                
-                Spacer()
-                
                 NavigationLink(destination: PecaDetailView(peca: peca)) {
                     Text("Saiba Mais")
                         .padding(.vertical, 8)
@@ -83,8 +89,7 @@ struct PecaCardEdicao: View {
                                 .stroke(Color.black, lineWidth: 2)
                         )
                         .cornerRadius(20)
-                    
-                    
+                }
                     Button {
                         mostrandoEdicao = true
                     } label: {
@@ -96,12 +101,14 @@ struct PecaCardEdicao: View {
                             .background(Color.blue)
                             .cornerRadius(20)
                     }
-                }
                 .padding()
-                .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+                
+                
             }
+            .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+            .frame(width: 250, height: 380)
+            .background(Color.gray.opacity(0.1))
             .cornerRadius(20)
-            .shadow(radius: 8)
         }
     }
 }
