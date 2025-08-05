@@ -154,6 +154,17 @@ extension Jogo {
             return "infoMeca"
         case (.telecomunicacoes, .quimica), (.quimica, .telecomunicacoes):
             return "teleQuim"
+        case (.telecomunicacoes, .edificacoes), (.edificacoes, .telecomunicacoes):
+            return "teleEdi"
+        case(.telecomunicacoes, .eletrotecnica), (.eletrotecnica, .telecomunicacoes):
+            return "teleEletro"
+            case (.edificacoes, .quimica), (.quimica, .edificacoes):
+            return "ediQuim"
+        case (.edificacoes, .mecanica), (.mecanica, .edificacoes):
+            return "ediMeca"
+        case (.edificacoes, .eletrotecnica),(.eletrotecnica, .edificacoes):
+            return "ediEletro"
+            
         default:
             return "padrao"
         }
