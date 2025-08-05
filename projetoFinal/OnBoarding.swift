@@ -89,10 +89,14 @@ struct OnBoardingView: View {
                 .padding(.bottom, 30)
 
                 
-//                NavigationLink(destination: HomePageView(), isActive: $navigateToHome) {
-//                    EmptyView()
-//                }
+                NavigationLink(destination: HomePage()
+                                .navigationBarBackButtonHidden(true),
+                               isActive: $navigateToHome) {
+                    EmptyView()
+                }
+
             }
+            
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                     withAnimation {
@@ -144,7 +148,7 @@ struct OnBoardingView: View {
 
     private var SecImageGroup: some View {
         ZStack {
-            Image("SEC")
+            Image("Icon")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 300)

@@ -152,6 +152,8 @@ extension Jogo {
             return "infoQuim"
         case (.informatica, .mecanica), (.mecanica, .informatica):
             return "infoMeca"
+        case (.telecomunicacoes, .quimica), (.quimica, .telecomunicacoes):
+            return "teleQuim"
         default:
             return "padrao"
         }

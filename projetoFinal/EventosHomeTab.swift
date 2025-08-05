@@ -1,68 +1,79 @@
-//
-//  EventosHomeTab.swift
-//  projetoFinal
-//
-//  Created by Found on 31/07/25.
-//
-
-
 import SwiftUI
+import SwiftData
 
-struct EventosHomeTab: View {
-    @State private var destaqueIndex = 0
-    @State private var eventosIndex = 0
+struct EventosView: View {
+    @Query var jogos: [Jogo]
+    @Query var pecas: [Peca]
     
     var body: some View {
-        NavigationStack {
+        let hoje = Calendar.current.startOfDay(for: Date())
+        let jogosHoje = jogos.filter {
+            Calendar.current.isDate($0.data, inSameDayAs: hoje)
+        }
+        
+        return NavigationStack {
             ScrollView {
-                VStack(alignment: .leading) {
-                    Text("Eventos")
-                        .font(.largeTitle)
-                        .bold()
-                        .padding(.horizontal)
-                        .padding(.top)
+                VStack(alignment: .leading, spacing: 24) {
                     
-                    TabView(selection: $destaqueIndex) {
-                        ForEach(0..<3) { index in
-                            HighlightedEventCard()
+                    if !jogosHoje.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Text("SEC")
+                                    .font(.headline)
+                                    .foregroundColor(.blue)
+                                
+                                Spacer()
+                                
+                                NavigationLink("Ver mais") {
+                                    CategoriasView()
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                            }
+                            .padding(.horizontal)
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 16) {
+                                    ForEach(jogosHoje) { jogo in
+                                        CardInicial(jogo: jogo)
+                                    }
+                                }
                                 .padding(.horizontal)
-                                .tag(index)
+                            }
                         }
                     }
-                    .frame(height: 150)
-                    .tabViewStyle(.page(indexDisplayMode: .always))
-                    .indexViewStyle(.page(backgroundDisplayMode: .always))
-                    .padding(.top)
                     
-                    TabView(selection: $eventosIndex) {
-                        EventCard(titulo: "UNIDOS!",
-                                  subtitulo: "P3 de Informática",
-                                  imageName: "unidos_placeholder")
-                        .tag(0)
-                        
-                        EventCard(titulo: "PIRILAM...",
-                                  subtitulo: "P5 de Informática",
-                                  imageName: "pirilampo_placeholder")
-                        .tag(1)
-                        
-                        EventCard(titulo: "Outro Evento",
-                                  subtitulo: "P1 de Informática",
-                                  imageName: "placeholder2")
-                        .tag(2)
+                    // PEÇAS TEATRAIS (JAC)
+                    if !pecas.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                           HStack{
+                                Text("Peças")
+                                    .font(.subheadline)
+                                    .foregroundColor(.blue)
+                                
+                                Spacer()
+                                
+                                NavigationLink("Ver mais") {
+                                    CoverFlowCarouselWithFlipView()
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                            }
+                            .padding(.horizontal)
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 16) {
+                                    ForEach(pecas) { peca in
+                                        PecaCardFlipView(peca: peca)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                        }
                     }
-                    .frame(height: 400)
-                    .tabViewStyle(.page(indexDisplayMode: .always))
-                    .indexViewStyle(.page(backgroundDisplayMode: .always))
-                    .padding(.top, 12)
-                    
-                    Text("Outros")
-                        .font(.headline)
-                        .padding(.horizontal)
-                        .padding(.bottom)
                 }
+                .navigationTitle("Eventos")
             }
-            .navigationBarHidden(true)
-            .background(Color(.systemBackground))
         }
     }
 }

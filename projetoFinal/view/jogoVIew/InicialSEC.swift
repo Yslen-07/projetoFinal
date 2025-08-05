@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 struct Categoria: Identifiable {
     let id = UUID()
@@ -37,7 +38,7 @@ struct CategoriaCardView: View {
     let alturaTotal: CGFloat = 200
 
     var body: some View {
-        NavigationLink(destination: JogosFiltradosPorCategoriaView(categoriaSelecionada: categoria.nome)) {
+        NavigationLink(destination: EventosFiltradosDoDiaView(categoriaSelecionada: categoria.nome)) {
             VStack(spacing: 0) {
                 Image(categoria.imagemNome)
                     .resizable()
@@ -52,7 +53,7 @@ struct CategoriaCardView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.black)
-                            .padding(.leading, -140)
+                            .padding(.leading, 16)
                             .padding(.top, 8)
                         Spacer()
                     }

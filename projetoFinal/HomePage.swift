@@ -6,7 +6,7 @@ struct HomePage: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            EventosHomeTab()
+            EventosView()
                 .tabItem {
                     Image(systemName: "house")
                     Text("Eventos")

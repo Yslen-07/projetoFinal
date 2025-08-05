@@ -55,7 +55,7 @@ struct PecaCardEdicao: View {
                     .offset(x: 35)
                 
                 
-                Text("\(peca.periodo) de \(peca.curso)")
+                Text("\(peca.data)")
                     .font(.subheadline)
                     .foregroundColor(.white)
                     .offset(x: 50)
