@@ -142,18 +142,74 @@ class Peca: Identifiable {
 extension Jogo {
     var imagemConfronto: String {
         switch (curso1, curso2) {
-        case (.informatica, .edificacoes), (.edificacoes, .informatica):
+        case (.informatica, .edificacoes):
             return "infoEdi"
-        case (.informatica, .eletrotecnica), (.eletrotecnica, .informatica):
+        case (.informatica, .eletrotecnica):
             return "infoEletro"
-        case (.informatica, .telecomunicacoes), (.telecomunicacoes, .informatica):
+        case (.informatica, .telecomunicacoes):
             return "infoTele"
-        case (.informatica, .quimica), (.quimica, .informatica):
+        case (.informatica, .quimica):
             return "infoQuim"
-        case (.informatica, .mecanica), (.mecanica, .informatica):
+        case (.informatica, .mecanica):
             return "infoMeca"
-        case (.telecomunicacoes, .quimica), (.quimica, .telecomunicacoes):
-            return "teleQuim"
+            
+        case (.mecanica, .informatica):
+            return "MecaInfo"
+        case (.mecanica, .telecomunicacoes):
+            return "MecaTele"
+        case (.mecanica, .edificacoes):
+            return "MecaEdi"
+        case (.mecanica, .eletrotecnica):
+            return "MecaEletro"
+        case (.mecanica, .quimica):
+            return "MecaQuim"
+            
+            
+        case (.telecomunicacoes, .informatica):
+            return "TeleInfo"
+        case (.telecomunicacoes, .quimica):
+            return "TeleQuim"
+        case (.telecomunicacoes, .edificacoes):
+            return "TeleEdi"
+        case (.telecomunicacoes, .eletrotecnica):
+            return "teleEletro"
+        case (.telecomunicacoes, .mecanica):
+            return "TeleMeca"
+            
+        case (.edificacoes, .informatica):
+            return "EdiInfo"
+        case (.edificacoes, .telecomunicacoes):
+            return "ediTele"
+        case (.edificacoes, .quimica):
+            return "ediQuim"
+        case (.edificacoes, .mecanica):
+            return "ediMeca"
+        case (.edificacoes, .eletrotecnica):
+            return "ediEletro"
+            
+        case (.eletrotecnica, .informatica):
+            return "EletroInfo"
+        case (.eletrotecnica, .telecomunicacoes):
+            return "EletroTele"
+        case (.eletrotecnica, .mecanica):
+            return "EletroMeca"
+        case (.eletrotecnica, .quimica):
+            return "EletroQuim"
+        case (.eletrotecnica, .edificacoes):
+            return "EletroEdi"
+            
+            
+        case (.quimica, .informatica):
+            return "QuimicaInfo"
+        case (.quimica, .telecomunicacoes):
+            return  "QuimicaTele"
+        case (.quimica, .mecanica):
+            return  "QuimicaMeca"
+        case (.quimica, .eletrotecnica):
+            return  "QuimicaEletro"
+        case (.quimica, .edificacoes):
+            return  "QuimicaEdi"
+            
         default:
             return "padrao"
         }

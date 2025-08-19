@@ -28,7 +28,7 @@ struct AppView: View {
                         Image(systemName: "star.fill")
                         Text("Admin")
                     }
-                // outras abas aqui...
+                
             }
         } else {
             OnBoardingView()
