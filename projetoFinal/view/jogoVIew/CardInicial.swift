@@ -28,8 +28,6 @@ struct CardInicial: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
 
-
-
                 HStack {
                     Text("Data: \(jogo.data.formatted(date: .abbreviated, time: .shortened))")
                         .font(.footnote)

@@ -1,6 +1,24 @@
 import SwiftUI
 
 struct AdminView: View {
+    
+    @State private var isPasswordVisible = false
+ 
+    @State private var isShowingSheetEsportes = false
+    @State private var showingLoginScreenEsportes = false
+    @State private var loginSuccessEsportes = false
+
+
+    @State private var isShowingSheetJAC = false
+    @State private var showingLoginScreenJAC = false
+    @State private var loginSuccessJAC = false
+
+   
+    @State private var username = ""
+    @State private var password = ""
+    @State private var wrongUsername: Float = 0
+    @State private var wrongPassword: Float = 0
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -9,7 +27,6 @@ struct AdminView: View {
                     .frame(width: 344, height: 607)
 
                 VStack(spacing: 16) {
-
                     Image("working draw")
                         .resizable()
                         .scaledToFit()
@@ -29,8 +46,11 @@ struct AdminView: View {
 
                     Spacer()
 
-                   
-                    NavigationLink(destination: ContentSecView()) {
+                    // Botão ESPORTES
+                    Button(action: {
+                        clearLoginFields()
+                        isShowingSheetEsportes = true
+                    }) {
                         Text("Esportes")
                             .frame(maxWidth: .infinity)
                             .frame(height: 40)
@@ -39,10 +59,20 @@ struct AdminView: View {
                             .cornerRadius(100)
                     }
                     .frame(width: 200)
-                    .shadow(color: .blue, radius: 5)
+                    .sheet(isPresented: $isShowingSheetEsportes, onDismiss: handleDismissEsportes) {
+                        loginSheetEsportes
+                    }
 
-                    
-                    NavigationLink(destination: ContentJacView()) {
+                    // Navegação para ContentSecView após login Esportes
+                    NavigationLink(destination: ContentSecView(), isActive: $showingLoginScreenEsportes) {
+                        EmptyView()
+                    }
+
+                    // Botão JAC
+                    Button(action: {
+                        clearLoginFields()
+                        isShowingSheetJAC = true
+                    }) {
                         Text("JAC")
                             .frame(maxWidth: .infinity)
                             .frame(height: 40)
@@ -51,7 +81,14 @@ struct AdminView: View {
                             .cornerRadius(100)
                     }
                     .frame(width: 200)
-                    .shadow(color: .blue, radius: 5)
+                    .sheet(isPresented: $isShowingSheetJAC, onDismiss: handleDismissJAC) {
+                        loginSheetJAC
+                    }
+
+                    // Navegação para ContentJacView após login JAC
+                    NavigationLink(destination: ContentJacView(), isActive: $showingLoginScreenJAC) {
+                        EmptyView()
+                    }
 
                     Spacer().frame(height: 30)
                 }
@@ -60,7 +97,131 @@ struct AdminView: View {
             .padding()
         }
     }
+
+    // Login Sheet Esportes
+    var loginSheetEsportes: some View {
+        loginSheet(title: "Login Esportes", loginAction: authenticateUserEsportes)
+    }
+
+    // Login Sheet JAC
+    var loginSheetJAC: some View {
+        loginSheet(title: "Login JAC", loginAction: authenticateUserJAC)
+    }
+
+    // Login Sheet Reutilizável
+    func loginSheet(title: String, loginAction: @escaping () -> Void) -> some View {
+        ZStack {
+            Color.yellow.ignoresSafeArea()
+            Circle()
+                .scale(1.7)
+                .foregroundColor(.white.opacity(0.60))
+            Circle()
+                .scale(1.35)
+                .foregroundColor(.white)
+
+            VStack {
+                Text(title)
+                    .font(.largeTitle)
+                    .bold()
+                    .padding()
+
+                TextField("Username", text: $username)
+                    .autocapitalization(.none)
+                    .padding()
+                    .frame(width: 300, height: 50)
+                    .background(Color.black.opacity(0.05))
+                    .cornerRadius(10)
+                    .border(.red, width: CGFloat(wrongUsername))
+                
+                HStack{
+                    if isPasswordVisible {
+                        TextField("Password", text: $password)
+                    } else {
+                        SecureField("Password", text: $password)
+                    }
+                    
+                    Button(action: {
+                        isPasswordVisible.toggle()
+                    }, label: {
+                        Image(systemName: isPasswordVisible ? "eye.slash" : "eye")
+                            .foregroundColor(.gray)
+                    })
+                }
+                .padding()
+                .frame(width: 300, height: 50)
+                .background(Color.black.opacity(0.05))
+                .cornerRadius(10)
+                .border(.red, width: CGFloat(wrongPassword))
+
+                    Button("Login") {
+                        loginAction()
+                    }
+                    .foregroundColor(.white)
+                    .frame(width: 300, height: 50)
+                    .background(Color.yellow)
+                    .cornerRadius(10)
+            }
+        }
+        .navigationBarHidden(true)
+    }
+
+    // Autenticação Esportes
+    func authenticateUserEsportes() {
+        if username.lowercased() == "caef_admin" {
+            wrongUsername = 0
+            if password == "APEC#Admin2025" {
+                wrongPassword = 0
+                loginSuccessEsportes = true
+                isShowingSheetEsportes = false
+            } else {
+                wrongPassword = 2
+            }
+        } else {
+            wrongUsername = 2
+        }
+    }
+
+    // Autenticação JAC
+    func authenticateUserJAC() {
+        if username.lowercased() == "jac_admin" {
+            wrongUsername = 0
+            if password == "jac" {
+                wrongPassword = 0
+                loginSuccessJAC = true
+                isShowingSheetJAC = false
+            } else {
+                wrongPassword = 2
+            }
+        } else {
+            wrongUsername = 2
+        }
+    }
+
+    // Handle dismiss login Esportes
+    func handleDismissEsportes() {
+        if loginSuccessEsportes {
+            showingLoginScreenEsportes = true
+            loginSuccessEsportes = false
+        }
+    }
+
+    // Handle dismiss login JAC
+    func handleDismissJAC() {
+        if loginSuccessJAC {
+            showingLoginScreenJAC = true
+            loginSuccessJAC = false
+        }
+    }
+
+    // Limpa os campos ao abrir nova tela
+    func clearLoginFields() {
+        username = ""
+        password = ""
+        wrongUsername = 0
+        wrongPassword = 0
+    }
 }
-#Preview{
+
+#Preview {
     AdminView()
 }
