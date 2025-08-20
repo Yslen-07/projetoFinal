@@ -4,7 +4,7 @@ import SwiftData
 struct SecAdmView: View {
     @Query var jogos: [Jogo]
     @State private var jogoParaEditar: Jogo?
-
+//    @Environment(\.dismiss) private var dismiss
     var body: some View {
         NavigationStack {
             if jogos.isEmpty {
@@ -20,6 +20,7 @@ struct SecAdmView: View {
                                     jogoParaEditar = jogo
                                 }
                                 .tint(.blue)
+                                
                             }
                     }
                 }
