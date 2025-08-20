@@ -9,7 +9,7 @@ struct SecFormView: View {
     @State private var curso2: Curso = .edificacoes
     @State private var local: String = ""
     @State private var data: Date = Date()
-    @State private var categoriaSelecionada: CategoriaEsportiva = .futsal
+    @State private var categoriaSelecionada: CategoriaEsportiva = .volei
     @State private var genero: Genero = .mulher
     @State private var placar1: String = ""
     @State private var placar2: String = ""
@@ -69,7 +69,7 @@ struct SecFormView: View {
                                 placar2: placar2
                             )
                             modelContext.insert(novoJogo)
-                            dismiss()
+                           dismiss()
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -94,4 +94,6 @@ struct SecFormView: View {
 }
 #Preview{
     SecFormView()
+            .modelContainer(for: Jogo.self, inMemory: true)
+    
 }

@@ -3,16 +3,6 @@
 //  projetoFinal
 //
 //  Created by Found on 30/07/25.
-//
-
-//
-//  PecaView 2.swift
-//  projetoFinal
-//
-//  Created by Found on 15/07/25.
-//
-
-
 
 import SwiftUI
 import SwiftData

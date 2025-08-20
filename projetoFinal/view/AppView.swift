@@ -2,8 +2,7 @@
 //  AppView.swift
 //  projetoFinal
 //
-//  Created by Kamylly Ferreira da Paixão on 31/07/25.
-//
+
 
 import SwiftUI
 
@@ -28,7 +27,7 @@ struct AppView: View {
                         Image(systemName: "star.fill")
                         Text("Admin")
                     }
-                // outras abas aqui...
+                
             }
         } else {
             OnBoardingView()

@@ -43,7 +43,7 @@ struct CoverFlowCarouselWithFlipView: View {
                 .animation(.easeInOut(duration: 0.3), value: scale)
                 .padding(.horizontal, 12)
         }
-        .frame(width: 250, height: 580)
+        .frame(width: 300, height: 500)
         .offset(x: 0 , y: 50)
     }
 }
