@@ -122,7 +122,7 @@ struct PecaFormView: View {
                             
                         )
                         context.insert(nova)
-                        //dismiss()
+                        dismiss()
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
