@@ -169,7 +169,7 @@ struct AdminView: View {
     func authenticateUserEsportes() {
         if username.lowercased() == "caef_admin" {
             wrongUsername = 0
-            if password == "APEC#Admin2025" {
+            if password == "caef" {
                 wrongPassword = 0
                 loginSuccessEsportes = true
                 isShowingSheetEsportes = false
