@@ -77,7 +77,8 @@ struct JogoEditingView: View {
                             jogo.categoria = categoria
                             jogo.placar1 = placar1
                             jogo.placar2 = placar2
-                        } else {
+                        }
+                        else {
                             let jogo = Jogo(
                                 curso1: curso1,
                                 curso2: curso2,
@@ -89,8 +90,8 @@ struct JogoEditingView: View {
                                 placar2: placar2
                             )
                             modelContext.insert(jogo)
+                            dismiss()
                         }
-                        dismiss()
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -98,10 +99,14 @@ struct JogoEditingView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     
-                    Button("Deletar jogo") {
-                        if let jogo = jogo {
-                            modelContext.delete(jogo)
-                        }
+//                    Button("Deletar jogo") {
+//                        if let jogo = jogo {
+//                            modelContext.delete(jogo)
+//                        }
+//                        dismiss()
+                    
+                    //}
+                    Button("Cancelar"){
                         dismiss()
                     }
                     .foregroundColor(.red)
@@ -119,6 +124,7 @@ struct JogoEditingView: View {
                     placar1 = jogo.placar1
                     placar2 = jogo.placar2
                 }
+         
             }
         }
     }

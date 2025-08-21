@@ -104,16 +104,6 @@ struct PecaFormView: View {
                     }
                 }
                 
-//                Section{
-//                    Button("Deletar jogo") {
-//                        if let Peca = Peca {
-//                            modelContext.delete(Peca)
-//                        }
-//                        dismiss()
-//                    }
-//                    .foregroundColor(.red)
-//                }
-                
                 Section {
                     Button("Salvar Peça") {
                         let nova = Peca(
@@ -132,7 +122,7 @@ struct PecaFormView: View {
                             
                         )
                         context.insert(nova)
-                        dismiss()
+                        //dismiss()
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -148,6 +138,5 @@ struct PecaFormView: View {
 
 #Preview {
     PecaFormView()
-
         .modelContainer(for: Peca.self, inMemory: true)
 }

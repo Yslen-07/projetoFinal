@@ -4,6 +4,7 @@ import SwiftData
 struct JogoCardEdicao: View {
     @Query(sort: \Jogo.data, order: .reverse) var jogos: [Jogo]
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @State private var mostrarConfirmacaoDeletar = false
     @State private var mostrarEdicao = false
 
@@ -71,12 +72,15 @@ struct JogoCardEdicao: View {
                 Button("Editar") {
                     mostrarEdicao = true
                     onEditar?()
+                    dismiss()
                 }
                 .buttonStyle(.borderedProminent)
 
-                Button("Deletar") {
+                Button("Excluir") {
                     mostrarConfirmacaoDeletar = true
+                    dismiss()
                 }
+             
                 .buttonStyle(.bordered)
                 .tint(.red)
             }

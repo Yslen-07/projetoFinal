@@ -11,15 +11,7 @@ struct SecView: View {
                 Spacer()
             }
             .navigationTitle("Jogos SEC")
-            //.toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    Button {
-//                        mostrandoForm = true
-//                    } label: {
-//                        Image(systemName: "plus")
-//                    }
-//                }
-            //}
+           
             .sheet(isPresented: $mostrandoForm) {
                 NavigationStack {
                     SecFormView()

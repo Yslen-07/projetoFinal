@@ -2,8 +2,7 @@
 //  AppView.swift
 //  projetoFinal
 //
-//  Created by Kamylly Ferreira da Paixão on 31/07/25.
-//
+
 
 import SwiftUI
 

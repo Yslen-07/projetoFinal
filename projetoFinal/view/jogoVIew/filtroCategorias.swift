@@ -1,10 +1,15 @@
+//
+//  filtroCategorias.swift
+//  projetoFinal
+//
+//  Created by Found on 18/08/25.
+//
 import SwiftUI
 import SwiftData
 
-struct EventosFiltradosDoDiaView: View {
+struct FiltroCategoria: View {
     let categoriaSelecionada: String
     @Query var jogos: [Jogo]
-
     var jogosFiltrados: [Jogo] {
         let hoje = Calendar.current.startOfDay(for: Date())
         return jogos.filter {
@@ -22,7 +27,7 @@ struct EventosFiltradosDoDiaView: View {
                     .padding(.horizontal)
 
                 if jogosFiltrados.isEmpty {
-                    Text("  Nenhum jogo de \(categoriaSelecionada).")
+                    Text("Nenhum jogo de \(categoriaSelecionada).")
                         .foregroundColor(.gray)
                         .padding(.horizontal)
                 } else {
@@ -41,3 +46,8 @@ struct EventosFiltradosDoDiaView: View {
         .navigationTitle(categoriaSelecionada)
     }
 }
+#Preview {
+    FiltroCategoria(categoriaSelecionada: "")
+        .modelContainer(for: [Jogo.self, Peca.self])
+}
+

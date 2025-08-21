@@ -11,7 +11,7 @@ struct EventosView: View {
             Calendar.current.isDate($0.data, inSameDayAs: hoje)
         }
         
-        return NavigationStack {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     
@@ -43,37 +43,31 @@ struct EventosView: View {
                         }
                     }
                     
-                    // PEÇAS TEATRAIS (JAC)
-                    if !pecas.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                           HStack{
-                                Text("Peças")
-                                    .font(.subheadline)
-                                    .foregroundColor(.blue)
-                                
-                                Spacer()
-                                
-                                NavigationLink("Ver mais") {
-                                    CoverFlowCarouselWithFlipView()
-                                }
-                                .font(.subheadline)
+             
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            Text("JAC")
+                                .font(.headline)
                                 .foregroundColor(.blue)
-                            }
-                            .padding(.horizontal)
                             
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 16) {
-                                    ForEach(pecas) { peca in
-                                        PecaCardFlipView(peca: peca)
-                                    }
-                                }
+                            Spacer()
+                            
+                            NavigationLink("Ver mais") {
+                                CarouselEventoshj()
                             }
-                            .padding(.horizontal)
+                            .font(.subheadline)
+                            .foregroundColor(.blue)
                         }
+                        .padding(.horizontal)
+                        
+                        CarouselEventoshj()
+                            .frame(height: 380)
                     }
+
+                    
                 }
-                .navigationTitle("Eventos")
             }
+            .navigationTitle("Eventos")
         }
     }
 }

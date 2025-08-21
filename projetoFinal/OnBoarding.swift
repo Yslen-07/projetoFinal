@@ -33,8 +33,7 @@ struct OnBoardingView: View {
     @State private var isAnimating = false
     @State private var deliveryOffset = false
     @State private var trackingProgress: CGFloat = 0.0
-    @State private var navigateToHome = false  // Controle para navegação
-
+    @State private var navigateToHome = false  
     var body: some View {
         NavigationView {
             VStack {
@@ -47,7 +46,7 @@ struct OnBoardingView: View {
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .animation(.spring(), value: currentPage)
 
-                // Page Indicator
+               
                 HStack(spacing: 12) {
                     ForEach(0..<OnboardingPage.allCases.count, id: \.self) { index in
                         Circle()
@@ -58,7 +57,7 @@ struct OnBoardingView: View {
                 }
                 .padding(.bottom, 20)
 
-                // Botão Próximo / Iniciar
+                
                 Button {
                     withAnimation(.spring()) {
                         if currentPage < OnboardingPage.allCases.count - 1 {
@@ -190,7 +189,7 @@ struct OnBoardingView: View {
     }
 }
 
-// Preview (pode ajustar para testar)
+
 #Preview {
     OnBoardingView()
 }

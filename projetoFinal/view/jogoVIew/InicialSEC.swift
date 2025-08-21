@@ -38,7 +38,7 @@ struct CategoriaCardView: View {
     let alturaTotal: CGFloat = 200
 
     var body: some View {
-        NavigationLink(destination: EventosFiltradosDoDiaView(categoriaSelecionada: categoria.nome)) {
+        NavigationLink(destination: FiltroCategoria(categoriaSelecionada: categoria.nome)) {
             VStack(spacing: 0) {
                 Image(categoria.imagemNome)
                     .resizable()
