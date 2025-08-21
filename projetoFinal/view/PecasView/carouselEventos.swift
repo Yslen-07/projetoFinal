@@ -13,8 +13,10 @@ struct CarouselEventoshj: View {
         NavigationStack {
             if pecasHoje.isEmpty {
                 Text("Nenhuma peça para hoje.")
-                    .padding()
-            } else {
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.vertical, 8)            } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
                         ForEach(pecasHoje) { peca in

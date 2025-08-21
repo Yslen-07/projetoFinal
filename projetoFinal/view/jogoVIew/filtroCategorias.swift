@@ -1,15 +1,10 @@
-//
-//  filtroCategorias.swift
-//  projetoFinal
-//
-//  Created by Found on 18/08/25.
-//
 import SwiftUI
 import SwiftData
 
 struct FiltroCategoria: View {
     let categoriaSelecionada: String
     @Query var jogos: [Jogo]
+    
     var jogosFiltrados: [Jogo] {
         let hoje = Calendar.current.startOfDay(for: Date())
         return jogos.filter {
@@ -21,18 +16,19 @@ struct FiltroCategoria: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                Text("  Jogos de \(categoriaSelecionada)")
-                    .font(.title)
-                    .bold()
-                    .padding(.horizontal)
 
                 if jogosFiltrados.isEmpty {
+                    // fallback centralizado
                     Text("Nenhum jogo de \(categoriaSelecionada).")
-                        .foregroundColor(.gray)
-                        .padding(.horizontal)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 8)
+                    
                 } else {
-                    ScrollView(.vertical, showsIndicators: false) {
-                        VStack(spacing: 16) {
+                    // lista de jogos em carrossel lateral
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
                             ForEach(jogosFiltrados) { jogo in
                                 JogoCardView(jogo: jogo)
                             }
@@ -43,11 +39,11 @@ struct FiltroCategoria: View {
             }
             .padding(.vertical)
         }
-        .navigationTitle(categoriaSelecionada)
+        .navigationTitle(Text("Jogos de \(categoriaSelecionada)"))
     }
 }
+
 #Preview {
-    FiltroCategoria(categoriaSelecionada: "")
+    FiltroCategoria(categoriaSelecionada: "Basquete")
         .modelContainer(for: [Jogo.self, Peca.self])
 }
-
