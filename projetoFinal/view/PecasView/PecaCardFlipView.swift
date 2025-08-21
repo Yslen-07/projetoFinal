@@ -1,121 +1,108 @@
-
-
 import SwiftUI
-import SwiftData
 
 struct PecaCardFlipView: View {
     let peca: Peca
-    @State private var mostrarDetalhes = false
     @State private var flipped = false
 
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                if flipped {
-                    back
-                } else {
-                    front
-                }
-            }
-            .frame(width: 190, height: 280)
-            .background(
-                Group {
-                    if let data = peca.imagem, let img = UIImage(data: data) {
-                        Image(uiImage: img)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 184, height: 379)
-                            .clipped()
-                    } else {
-                        Color.gray.opacity(0.2)
-                    }
-                }
-            )
-            .cornerRadius(16)
-            .rotation3DEffect(
-                .degrees(flipped ? 180 : 0),
-                axis: (x: 0, y: 1, z: 0)
-            )
-            .animation(.easeInOut, value: flipped)
-            .onTapGesture {
-                flipped.toggle()
-            }
+    var width: CGFloat = 250
+    var height: CGFloat = 380
 
-            NavigationLink("", isActive: $mostrarDetalhes) {
-                PecaDetailView(peca: peca)
-            }
-            .hidden()
+    var body: some View {
+        ZStack {
+            frontView
+                .opacity(flipped ? 0 : 1)
+            backView
+                .opacity(flipped ? 1 : 0)
         }
+        .frame(width: width, height: height)
+        .rotation3DEffect(.degrees(flipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+        .animation(.easeInOut(duration: 0.4), value: flipped)
+        .onTapGesture { flipped.toggle() }
     }
 
-    var front: some View {
-        VStack {
-            Spacer()
-            VStack(alignment: .leading, spacing: 4) {
+    var frontView: some View {
+        ZStack {
+            if let data = peca.imagem, let uiImage = UIImage(data: data) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: width, height: height)
+                    .clipped()
+            } else {
+                Rectangle()
+                    .fill(Color.white)
+                    .frame(width: width, height: height)
+            }
+
+            VStack {
+                Spacer()
                 Text(peca.titulo)
                     .font(.headline)
-                    .bold()
                     .foregroundColor(.white)
-                Text(peca.data.formatted(date: .abbreviated, time: .shortened))
+                    .frame(width: width)
+                Text(peca.data, style: .date)
                     .font(.subheadline)
                     .foregroundColor(.white)
+                    .frame(width: width)
             }
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.bottom, 10)
             .background(
-                LinearGradient(colors: [.gray.opacity(0.7), .clear], startPoint: .bottom, endPoint: .top)
+                LinearGradient(colors: [.black.opacity(1), .clear], startPoint: .bottom, endPoint: .top)
             )
         }
+        .cornerRadius(20)
+        .shadow(radius: 2)
     }
 
-    var back: some View {
-        VStack(spacing: 12) {
-            Text("Direção: \(peca.direcao)")
-            Text("Local: \(peca.local)")
+    var backView: some View {
+        ZStack {
+            VStack(spacing: 16) {
+                NavigationLink(destination: PecaDetailView(peca: peca)) {
+                    Text("Saiba Mais")
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(20)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.black, lineWidth: 2)
+                        )
+                }
 
-            Button("Saiba mais") {
-                mostrarDetalhes = true
+                if let url = URL(string: peca.linkPhotos) {
+                    Link("Fotos", destination: url)
+                        .padding()
+                        .background(Color.white)
+                        .foregroundColor(.black)
+                        .cornerRadius(20)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.black, lineWidth: 2)
+                        )
+                }
             }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 16)
-            .background(Color.white)
-            .foregroundColor(.black)
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.black, lineWidth: 2)
-            )
-            .cornerRadius(20)
-
-            Link("Fotos", destination: URL(string: "https://sec2025.blogspot.com/2025/02/21-de-fevereiro.html?m=1")!)
-                .padding(.vertical, 8)
-                .padding(.horizontal, 16)
-                .background(Color.white)
-                .foregroundColor(.black)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.black, lineWidth: 2)
-                )
-                .cornerRadius(20)
+            .rotation3DEffect(.degrees(flipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
         }
-        .padding()
-        .frame(width: 184, height: 379)
-        .background(Color.white)
-        .cornerRadius(16)
-        .rotation3DEffect(.degrees(180), axis: (x: 0, y: 1, z: 0))
+        .frame(width: width, height: height)
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(20)
     }
 }
 
 #Preview {
     let exemplo = Peca(
-        titulo: "Romeu e Julieta",
-        sinopse: "Tragédia clássica de Shakespeare.",
-        direcao: "Ana Clara",
-        data: .now,
-        hora: .now,
-        local: "Teatro UFC",
+
+        titulo: "Alguma coisa piriri parara puruuru perere popo",
+        sinopse: "Uma peça sobre algo muito interessante.",
+        direcao: "Eu",
+        data: Date(),
+        hora: Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: Date())!,
+        local: "Teatro Principal",
         curso: .informatica,
-        periodo: .p3,
-        imagem: nil
+        periodo: .p1,
+        linkYoutube: "",
+        linkPhotos: "https://pt.pngtree.com/free-backgrounds-photos/imagens-bonitas-para-fundos-pictures"
     )
+    
     PecaCardFlipView(peca: exemplo)
 }

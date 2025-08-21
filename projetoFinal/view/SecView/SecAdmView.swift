@@ -1,10 +1,10 @@
 import SwiftUI
 import SwiftData
 
-struct SecAlunoView: View {
+struct SecAdmView: View {
     @Query var jogos: [Jogo]
     @State private var jogoParaEditar: Jogo?
-
+//    @Environment(\.dismiss) private var dismiss
     var body: some View {
         NavigationStack {
             if jogos.isEmpty {
@@ -20,6 +20,7 @@ struct SecAlunoView: View {
                                     jogoParaEditar = jogo
                                 }
                                 .tint(.blue)
+                                
                             }
                     }
                 }
@@ -31,6 +32,6 @@ struct SecAlunoView: View {
     }
 }
 #Preview {
-    SecAlunoView()
+    SecAdmView()
         .modelContainer(for: Jogo.self, inMemory: true)
 }

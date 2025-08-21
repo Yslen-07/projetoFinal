@@ -13,6 +13,7 @@ import PhotosUI
 struct PecaFormView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    
 
     @State var titulo_peca: String = ""
     @State var sinopse: String = ""
@@ -21,10 +22,13 @@ struct PecaFormView: View {
     @State var hora: Date = Date()
     @State var local: String = ""
     @State private var curso: Curso = .informatica
-    @State private var periodo: Periodo = .p4
+    @State private var periodo: Periodo = .p1
     @State private var imagem: Data?
-    
+    @State private var imagemBack: Data?
+    @State private var linkYoutube: String = ""
+    @State private var linkPhotos: String = ""
     @State private var photoItem: PhotosPickerItem?
+    @State private var photoItemBackground: PhotosPickerItem?
 
     var body: some View {
         NavigationStack {
@@ -40,6 +44,11 @@ struct PecaFormView: View {
                         }
                     }
                 }
+                
+                Section("Links externos"){
+                    TextField("Link da peça no youtube", text: $linkYoutube)
+                    TextField("Link para o Google Photos", text: $linkPhotos)
+                }
 
                 Section("Imagem") {
                     if let imagem, let uiImage = UIImage(data: imagem) {
@@ -48,7 +57,7 @@ struct PecaFormView: View {
                             .scaledToFit()
                             .frame(height: 200)
                     }
-                
+                    
                     PhotosPicker(selection: $photoItem, matching: .images) {
                         Label("Selecionar pôster", systemImage: "photo")
                     }
@@ -56,6 +65,24 @@ struct PecaFormView: View {
                         Task {
                             if let data = try? await newItem?.loadTransferable(type: Data.self) {
                                 imagem = data
+                            }
+                        }
+                    }
+                    
+                    if let imagemBack, let uiImage = UIImage(data: imagemBack) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200)
+                    }
+                    
+                    PhotosPicker(selection: $photoItemBackground, matching: .images) {
+                        Label("Selecionar o Plano de fundo", systemImage: "photo")
+                    }
+                    .onChange(of: photoItemBackground) { newItem in
+                        Task {
+                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                imagemBack = data
                             }
                         }
                     }
@@ -78,7 +105,9 @@ struct PecaFormView: View {
                         }
                     }
                 }
+                
                 Section {
+<<<<<<< HEAD
                     VStack(spacing: 10) {
                         Button("Salvar Peça") {
                             let nova = Peca(
@@ -110,6 +139,32 @@ struct PecaFormView: View {
                         .foregroundColor(.black)
                         .cornerRadius(10)
                     }
+=======
+                    Button("Salvar Peça") {
+                        let nova = Peca(
+                            titulo: titulo_peca,
+                            sinopse: sinopse,
+                            direcao: direcao,
+                            data: data,
+                            hora: hora,
+                            local: local,
+                            curso: curso,
+                            periodo: periodo,
+                            imagem: imagem,
+                            imagemBack : imagemBack,
+                            linkYoutube: linkYoutube,
+                            linkPhotos: linkPhotos
+                            
+                        )
+                        context.insert(nova)
+                        //dismiss()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+>>>>>>> main
                 }
             }
             .navigationTitle("Cadastrar Peça")

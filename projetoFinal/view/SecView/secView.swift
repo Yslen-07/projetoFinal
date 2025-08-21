@@ -7,20 +7,29 @@ struct SecView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                SecAlunoView()
+                SecAdmView()
                 Spacer()
-                Button("Adicionar Jogo") {
-                    mostrandoForm = true
-                }
-                .buttonStyle(.borderedProminent)
-                .sheet(isPresented: $mostrandoForm) {
+            }
+            .navigationTitle("Jogos SEC")
+           
+            .sheet(isPresented: $mostrandoForm) {
+                NavigationStack {
                     SecFormView()
+                        .navigationTitle("Novo Jogo")
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Cancelar") {
+                                    mostrandoForm = false
+                                }
+                            }
+                        }
                 }
             }
-            .navigationTitle("Jogos")
         }
     }
 }
-#Preview{
+
+#Preview {
     SecView()
+        .modelContainer(for: Jogo.self, inMemory: true)
 }

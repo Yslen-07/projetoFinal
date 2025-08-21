@@ -5,28 +5,29 @@ struct CoverFlowCarouselWithFlipView: View {
     @Query(sort: \Peca.data) var pecas: [Peca]
 
     var body: some View {
-        if pecas.isEmpty {
-            Text("Nenhuma peça encontrada.")
-                .padding()
-        } else {
-            GeometryReader { geo in
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 0) {
-                        ForEach(pecas) { peca in
-                            carouselCard(for: peca, in: geo.size)
+        NavigationStack {
+            if pecas.isEmpty {
+                Text("Nenhuma peça encontrada.")
+                    .padding()
+            } else {
+                GeometryReader { geo in
+                    let cardWidth: CGFloat = 250
+                    let sidePadding = (geo.size.width - cardWidth) / 2
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0) {
+                            ForEach(pecas) { peca in
+                                carouselCard(for: peca, in: geo.size)
+                            }
                         }
+                        .padding(.horizontal, sidePadding)
+                        .padding(.vertical)
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.vertical)
                 }
+                .navigationTitle("Peças")
             }
-            .navigationTitle("Cartaz") 
         }
     }
-    
-    
-
-
 
     @ViewBuilder
     func carouselCard(for peca: Peca, in containerSize: CGSize) -> some View {
@@ -35,18 +36,18 @@ struct CoverFlowCarouselWithFlipView: View {
             let center = containerSize.width / 2
             let distance = abs(center - midX)
 
-            let angle = (center - midX) / 20
             let scale = max(0.85, 1.1 - distance / 400)
 
             PecaCardFlipView(peca: peca)
                 .scaleEffect(scale)
-                .rotation3DEffect(.degrees(angle), axis: (x: 0, y: 1, z: 0))
-                .animation(.easeInOut(duration: 0.3), value: angle)
+                .animation(.easeInOut(duration: 0.3), value: scale)
                 .padding(.horizontal, 12)
         }
-        .frame(width: 250, height: 380)
+        .frame(width: 300, height: 500)
+        .offset(x: 0 , y: 50)
     }
 }
+
 #Preview {
     CoverFlowCarouselWithFlipView()
         .modelContainer(for: Peca.self, inMemory: true)

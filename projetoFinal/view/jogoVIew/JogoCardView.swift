@@ -3,56 +3,59 @@ import SwiftData
 
 struct JogoCardView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var mostrandoEditor = false
-    @State private var mostrarConfirmacao = false
-    
     var jogo: Jogo
 
     var body: some View {
-        VStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.gray.opacity(0.1))
-                    .shadow(color: .black.opacity(0.2), radius: 6, x: 0, y: 4)
-                    .frame(width: 320, height: 180)
+        VStack(alignment: .leading, spacing: 12) {
+            Image(jogo.imagemConfronto)
+                .resizable()
+                .scaledToFill()
+                .frame(height: 110)
+                .clipped()
 
-                VStack(spacing: 10) {
-                    Text("\(jogo.curso1) VS \(jogo.curso2)")
-                        .font(.headline)
-                        .multilineTextAlignment(.center)
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(jogo.curso1.rawValue.uppercased()) x \(jogo.curso2.rawValue.uppercased())")
+                    .font(.headline)
 
-                    Text(jogo.local)
-                        .font(.subheadline)
+                Text("Modalidade: \(jogo.categoria.rawValue)")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
 
-                    Text(jogo.data.formatted(date: .abbreviated, time: .shortened))
+                Text("Gênero: \(jogo.genero.rawValue.capitalized)")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+
+                HStack {
+                    Text("Data: \(jogo.data.formatted(date: .abbreviated, time: .shortened))")
                         .font(.footnote)
                         .foregroundColor(.gray)
 
-                    Label(jogo.categoria.rawValue, systemImage: "sportscourt")
-                        .font(.footnote)
-                        .padding(.top, 4)
-                }
-                .padding()
-            }
+                    Spacer()
 
-           HStack {
-               Button("Deletar") {
-                   mostrarConfirmacao = true
-               }
-               .tint(.red)        }
-        }
-        .sheet(isPresented: $mostrandoEditor) {
-            JogoEditingView(jogo: jogo)
-        }
-        .confirmationDialog("Deseja realmente deletar este jogo?", isPresented: $mostrarConfirmacao, titleVisibility: .visible) {
-            Button("Deletar", role: .destructive) {
-                modelContext.delete(jogo)
+                    Text("\(jogo.placar1) : \(jogo.placar2)")
+                        .font(.footnote.bold())
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 10)
+                        .background(Color.black)
+                        .foregroundColor(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+
+                
+                .padding(.top, 8)
             }
-            Button("Cancelar", role: .cancel) { }
+            .padding(.horizontal)
+            .padding(.bottom, 10)
         }
+        .background(RoundedRectangle(cornerRadius: 20).fill(.ultraThinMaterial))
+        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.1)))
+        .padding(.horizontal)
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
     }
 }
 #Preview {
+<<<<<<< HEAD:projetoFinal/view/jogoVIew/JogoCardView.swift
     let jogoExemplo = Jogo(
         curso1: .informatica,
         curso2: .quimica,
@@ -64,4 +67,27 @@ struct JogoCardView: View {
     return JogoCardView(jogo: jogoExemplo)
         .padding()
         .modelContainer(for: Jogo.self)
+=======
+    let container = try! ModelContainer(
+        for: Jogo.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+    )
+    
+    let jogoE = Jogo(
+        curso1: .informatica,
+        curso2: .mecanica,
+        categoria: .natacao,
+        genero: .homem,
+        local: "Quadra 1",
+        data: Date(),
+        placar1: " ",
+        placar2: " "
+    )
+    
+    container.mainContext.insert(jogoE)
+    
+    return JogoCardView(jogo: jogoE)
+        .padding()
+        .modelContainer(container)
+>>>>>>> main:projetoFinal/view/jogoVIew/jogoCardView.swift
 }

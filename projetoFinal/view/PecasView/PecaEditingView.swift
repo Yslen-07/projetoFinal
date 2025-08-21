@@ -5,33 +5,15 @@
 //  Created by Found on 17/07/25.
 //
 
-////
-////  PecaEditingView.swift
-////  projetoFinal
-////
-////  Created by Found on 17/07/25.
-////
-//
 import SwiftUI
 import SwiftData
 import PhotosUI
 struct PecaEditingView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-
-    @State var titulo_peca: String = ""
-    @State var sinopse: String = ""
-    @State var direcao: String = ""
-    @State var data: Date = Date()
-    @State var hora: Date = Date()
-    @State var local: String = ""
-    @State private var curso: Curso = .informatica
-    @State private var periodo: Periodo = .p1
-    @State private var imagem: Data?
-    
     @Bindable var peca: Peca
     @State private var photoItem: PhotosPickerItem?
-    
+    @State private var photoItemBackground: PhotosPickerItem?
     var body: some View {
         NavigationStack {
             Form {
@@ -47,6 +29,11 @@ struct PecaEditingView: View {
                         ForEach(Periodo.allCases) { Text($0.rawValue).tag($0) }
                     }
                 }
+                
+                Section("Links externos"){
+                    TextField("Link da peça no youtube", text: $peca.linkYoutube)
+                    TextField("Link para o Google Photos", text: $peca.linkPhotos)
+            }
                 Section("Sinopse") {
                     TextField("Sinopse"
                               , text: $peca.sinopse, axis: .vertical)
@@ -79,43 +66,41 @@ struct PecaEditingView: View {
                             }
                         }
                     }
+                    
+                    if let data = peca.imagemBack, let uiImage = UIImage(data: data) {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 200)
+                    }
+                    PhotosPicker(selection: $photoItemBackground, matching: .images) {
+                        Label("Selecionar novo plano de fundo", systemImage: "photo")
+                    }
+                    .onChange(of: photoItemBackground) { newItem in
+                        Task {
+                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                                peca.imagemBack = data
+                            }
+                        }
+                    }
                 }
                 Section {
-                    Button("Deletar peça" ,
-                           role: .destructive) {
-                        context.delete(peca)
-                            try? context.save()
-                            dismiss()
-                    }
                     Button("Cancelar"
                            , role: .cancel) {
                         dismiss()
                     }
-                    
-                    Button("Salvar Peça") {
-                        let nova = Peca(
-                            titulo: titulo_peca,
-                            sinopse: sinopse,
-                            direcao: direcao,
-                            data: data,
-                            hora: hora,
-                            local: local,
-                            curso: curso,
-                            periodo: periodo,
-                            imagem: imagem
-                        )
-                        context.insert(nova)
+                    Button("Excluir peça", role: .destructive) {
+                        context.delete(peca)
                         dismiss()
                     }
+
                 }
-                }
-        }
+            }
             .navigationTitle("Editar Peça")
         }
+    }
 }
-
 #Preview {
-    let pecaExemplo = Peca(titulo: "", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1)
+    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "", direcao: "", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
     PecaEditingView(peca: pecaExemplo)
 }
-
