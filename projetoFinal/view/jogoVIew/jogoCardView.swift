@@ -10,7 +10,7 @@ struct JogoCardView: View {
             Image(jogo.imagemConfronto)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 110)
+                .frame(height: 120)
                 .clipped()
 
             VStack(alignment: .leading, spacing: 4) {
