@@ -91,17 +91,19 @@ struct CountdownTimerView: View {
     private func timeUnitView(value: Int, label: String) -> some View {
         VStack(spacing: 4) {
             Text(String(format: "%02d", value))
-                .font(.system(size: 22, weight: .bold))
+                .font(.system(size: 36, weight: .bold))
                 .foregroundColor(.red)
             Text(label.uppercased())
-                .font(.system(size: 11))
+                .font(.system(size: 15))
+                .offset(y: -4)
         }
     }
 
     private var colon: some View {
         Text(":")
-            .font(.system(size: 22, weight: .bold))
+            .font(.system(size: 29, weight: .bold))
             .foregroundColor(.red)
+            .offset(y: -12)
     }
 }
 

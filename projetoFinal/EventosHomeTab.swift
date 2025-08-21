@@ -94,3 +94,6 @@ struct EventosView: View {
         }
     }
 }
+#Preview{
+    EventosView()
+}
