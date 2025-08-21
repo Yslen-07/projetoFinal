@@ -50,8 +50,17 @@ enum CategoriaEsportiva: String, CaseIterable, Identifiable, Codable {
     case basquete = "Basquete"
     case handebol = "Handebol"
     case carimba = "Carimba"
-    case xadrez = "Xadrez"
 }
+
+enum EstiloDeNado: String, CaseIterable, Identifiable, Codable {
+    var id: String { self.rawValue }
+    
+    case livre = "Livre"
+    case peito = "Peito"
+    case costa = "Costa"
+    case borboleta = "Borboleta"
+}
+
 
 // MARK: - Modelo Jogo
 
@@ -88,6 +97,43 @@ class Jogo {
         self.placar2 = placar2
     }
 }
+
+// MARK: - Extenção Modelo Jogo(Natação)
+
+@Model
+class JogoNatacao {
+    var id: UUID
+    var categoria: CategoriaEsportiva
+    var estiloDeNado: EstiloDeNado
+    var genero: Genero
+    var local: String
+    var data: Date
+    var quantidadePessoas: Int
+    var distancia: Double
+    var tempo: Double
+
+    init(
+        categoria: CategoriaEsportiva,
+        estiloDeNado: EstiloDeNado,
+        genero: Genero,
+        local: String,
+        data: Date,
+        quantidadePessoas: Int,
+        distancia: Double,
+        tempo: Double
+    ) {
+        self.id = UUID()
+        self.categoria = categoria
+        self.estiloDeNado = estiloDeNado
+        self.genero = genero
+        self.local = local
+        self.data = data
+        self.quantidadePessoas = quantidadePessoas
+        self.distancia = distancia
+        self.tempo = tempo
+    }
+}
+
 
 // MARK: - Modelo Peca
 
