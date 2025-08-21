@@ -15,7 +15,32 @@ struct EventosView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     
-                    if !jogosHoje.isEmpty {
+                    // --- SEC ---
+                    if jogosHoje.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack {
+                                Text("SEC")
+                                    .font(.headline)
+                                    .foregroundColor(.blue)
+                                
+                                Spacer()
+                                
+                                NavigationLink("Ver mais") {
+                                    CategoriasView()
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                            }
+                            .padding(.horizontal)
+                            
+                     
+                            Text("Nenhum jogo para hoje")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.vertical, 8)
+                        }
+                    } else {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
                                 Text("SEC")
@@ -43,7 +68,7 @@ struct EventosView: View {
                         }
                     }
                     
-             
+                    // --- JAC ---
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Text("JAC")
@@ -53,7 +78,7 @@ struct EventosView: View {
                             Spacer()
                             
                             NavigationLink("Ver mais") {
-                                CarouselEventoshj()
+                                CoverFlowCarouselWithFlipView()
                             }
                             .font(.subheadline)
                             .foregroundColor(.blue)
@@ -63,8 +88,6 @@ struct EventosView: View {
                         CarouselEventoshj()
                             .frame(height: 380)
                     }
-
-                    
                 }
             }
             .navigationTitle("Eventos")
