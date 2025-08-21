@@ -1,10 +1,9 @@
 //
-//  PecaFormView 2.swift
+//  PecaFormView.swift
 //  projetoFinal
 //
 //  Created by Found on 11/07/25.
 //
-
 
 import SwiftUI
 import SwiftData
@@ -14,7 +13,6 @@ struct PecaFormView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     
-
     @State var titulo_peca: String = ""
     @State var sinopse: String = ""
     @State var direcao: String = ""
@@ -45,8 +43,8 @@ struct PecaFormView: View {
                     }
                 }
                 
-                Section("Links externos"){
-                    TextField("Link da peça no youtube", text: $linkYoutube)
+                Section("Links externos") {
+                    TextField("Link da peça no YouTube", text: $linkYoutube)
                     TextField("Link para o Google Photos", text: $linkPhotos)
                 }
 
@@ -77,7 +75,7 @@ struct PecaFormView: View {
                     }
                     
                     PhotosPicker(selection: $photoItemBackground, matching: .images) {
-                        Label("Selecionar o Plano de fundo", systemImage: "photo")
+                        Label("Selecionar plano de fundo", systemImage: "photo")
                     }
                     .onChange(of: photoItemBackground) { newItem in
                         Task {
@@ -107,39 +105,6 @@ struct PecaFormView: View {
                 }
                 
                 Section {
-<<<<<<< HEAD
-                    VStack(spacing: 10) {
-                        Button("Salvar Peça") {
-                            let nova = Peca(
-                                titulo: titulo_peca,
-                                sinopse: sinopse,
-                                direcao: direcao,
-                                data: data,
-                                hora: hora,
-                                local: local,
-                                curso: curso,
-                                periodo: periodo,
-                                imagem: imagem
-                            )
-                            context.insert(nova)
-                            dismiss()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-
-                        Button("Cancelar") {
-                            dismiss()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.gray.opacity(0.3))
-                        .foregroundColor(.black)
-                        .cornerRadius(10)
-                    }
-=======
                     Button("Salvar Peça") {
                         let nova = Peca(
                             titulo: titulo_peca,
@@ -151,20 +116,18 @@ struct PecaFormView: View {
                             curso: curso,
                             periodo: periodo,
                             imagem: imagem,
-                            imagemBack : imagemBack,
+                            imagemBack: imagemBack,
                             linkYoutube: linkYoutube,
                             linkPhotos: linkPhotos
-                            
                         )
                         context.insert(nova)
-                        //dismiss()
+                        // dismiss()  ← você pode ativar se quiser fechar após salvar
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(10)
->>>>>>> main
                 }
             }
             .navigationTitle("Cadastrar Peça")

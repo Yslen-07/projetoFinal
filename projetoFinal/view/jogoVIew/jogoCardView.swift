@@ -55,19 +55,6 @@ struct JogoCardView: View {
     }
 }
 #Preview {
-<<<<<<< HEAD:projetoFinal/view/jogoVIew/JogoCardView.swift
-    let jogoExemplo = Jogo(
-        curso1: .informatica,
-        curso2: .quimica,
-        categoria: .volei,
-        local: "Quadra Principal",
-        data: Date()
-    )
-
-    return JogoCardView(jogo: jogoExemplo)
-        .padding()
-        .modelContainer(for: Jogo.self)
-=======
     let container = try! ModelContainer(
         for: Jogo.self,
         configurations: ModelConfiguration(isStoredInMemoryOnly: true)
@@ -89,5 +76,4 @@ struct JogoCardView: View {
     return JogoCardView(jogo: jogoE)
         .padding()
         .modelContainer(container)
->>>>>>> main:projetoFinal/view/jogoVIew/jogoCardView.swift
 }
