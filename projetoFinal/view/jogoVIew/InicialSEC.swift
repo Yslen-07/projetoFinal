@@ -53,7 +53,7 @@ struct CategoriaCardView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundColor(.black)
-                            .padding(.leading, 16)
+                            .padding(.leading, -140)
                             .padding(.top, 8)
                         Spacer()
                     }
