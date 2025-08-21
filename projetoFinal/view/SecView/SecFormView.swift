@@ -16,6 +16,20 @@ struct SecFormView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section("Modalidade") {
+                    Picker("Categoria", selection: $categoriaSelecionada) {
+                        ForEach(CategoriaEsportiva.allCases) { cat in
+                            Text(cat.rawValue).tag(cat)
+                        }
+                    }
+                    Picker("Gênero", selection: $genero) {
+                        ForEach(Genero.allCases) { genero in
+                            Text(genero.rawValue).tag(genero)
+                        }
+                        
+                    }
+                }
+                
                 Section("Cursos") {
                     Picker("Curso 1", selection: $curso1) {
                         ForEach(Curso.allCases) { curso in
@@ -37,19 +51,6 @@ struct SecFormView: View {
                     DatePicker("Data e Hora", selection: $data, displayedComponents: [.date, .hourAndMinute])
                 }
 
-                Section("Modalidade") {
-                    Picker("Categoria", selection: $categoriaSelecionada) {
-                        ForEach(CategoriaEsportiva.allCases) { cat in
-                            Text(cat.rawValue).tag(cat)
-                        }
-                    }
-                    Picker("Gênero", selection: $genero) {
-                        ForEach(Genero.allCases) { genero in
-                            Text(genero.rawValue).tag(genero)
-                        }
-                        
-                    }
-                }
                 Section("Placar") {
                     TextField("Digite o placar de \(curso1.rawValue)", text: $placar1 )
                     TextField("Digite o placar de \(curso2.rawValue)", text: $placar2 )
@@ -69,22 +70,23 @@ struct SecFormView: View {
                                 placar2: placar2
                             )
                             modelContext.insert(novoJogo)
-                           dismiss()
+                            dismiss()
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
-
-                        Button("Cancelar") {
-                            dismiss()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.gray.opacity(0.3))
-                        .foregroundColor(.black)
-                        .cornerRadius(10)
+                    }
+                    Section{
+                            Button("Cancelar") {
+                                dismiss()
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.3))
+                            .foregroundColor(.black)
+                            .cornerRadius(10)
                     }
                 }
             }
