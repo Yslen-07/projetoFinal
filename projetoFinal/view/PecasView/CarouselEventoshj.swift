@@ -20,7 +20,7 @@ struct CarouselEventoshj: View {
         NavigationStack {
             if pecasHoje.isEmpty {
                 VStack{
-                    Text("Contagem regressiva até o inicio da JAC")
+                    Text("Contagem regressiva até o inicio da SEC")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .frame(maxWidth: .infinity, alignment: .center)

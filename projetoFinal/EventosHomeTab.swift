@@ -19,7 +19,7 @@ struct EventosView: View {
                     if jogosHoje.isEmpty {
                         VStack(alignment: .leading, spacing: 12) {
                             HStack {
-                                Text("SEC")
+                                Text("Jogos")
                                     .font(.headline)
                                     .foregroundColor(.blue)
                                 
@@ -43,7 +43,7 @@ struct EventosView: View {
                     } else {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("SEC")
+                                Text("Jogos")
                                     .font(.headline)
                                     .foregroundColor(.blue)
                                 
