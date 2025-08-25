@@ -24,7 +24,7 @@ struct PecaDetailView: View {
                             LinearGradient(
                                 colors: [.gray.opacity(1), .clear],
                                 startPoint: .bottom,
-                                endPoint: .center
+                                endPoint: .top
                             )
                         )
                 } else {
@@ -140,7 +140,7 @@ struct PecaDetailView: View {
                         .frame(maxWidth: .infinity, minHeight: 40)
                         .background(Color.gray.opacity(0.75))
                         .cornerRadius(8)
-                        .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+                        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
                     }
                     .padding(.top, -30)
                     .sheet(isPresented: $isShowingRatingSheet) {

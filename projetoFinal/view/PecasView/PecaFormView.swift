@@ -103,8 +103,11 @@ struct PecaFormView: View {
                         }
                     }
                 }
-                
-                Section {
+            }
+            .navigationTitle("Cadastrar Peça")
+            
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Salvar Peça") {
                         let nova = Peca(
                             titulo: titulo_peca,
@@ -124,14 +127,9 @@ struct PecaFormView: View {
                         context.insert(nova)
                         dismiss()
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
                 }
+
             }
-            .navigationTitle("Cadastrar Peça")
         }
     }
 }

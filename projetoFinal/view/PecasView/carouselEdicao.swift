@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 
+
 struct CarouselEdicao: View {
     @Query(sort: \Peca.data) var pecas: [Peca]
     @State private var mostrandoForm: Bool = false
