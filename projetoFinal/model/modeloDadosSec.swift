@@ -101,16 +101,16 @@ class Jogo {
 // MARK: - Extenção Modelo Jogo(Natação)
 
 @Model
-class JogoNatacao {
+class JogoNatacao: Identifiable {
     var id: UUID
     var categoria: CategoriaEsportiva
     var estiloDeNado: EstiloDeNado
     var genero: Genero
     var local: String
     var data: Date
-    var quantidadePessoas: Int
-    var distancia: Double
-    var tempo: Double
+    var quantidadePessoas: String
+    var distancia: String
+    var tempo: String
 
     init(
         categoria: CategoriaEsportiva,
@@ -118,9 +118,9 @@ class JogoNatacao {
         genero: Genero,
         local: String,
         data: Date,
-        quantidadePessoas: Int,
-        distancia: Double,
-        tempo: Double
+        quantidadePessoas: String,
+        distancia: String,
+        tempo: String
     ) {
         self.id = UUID()
         self.categoria = categoria

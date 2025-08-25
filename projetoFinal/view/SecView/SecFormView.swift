@@ -4,15 +4,16 @@ import SwiftData
 struct SecFormView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-
+    
     @State private var curso1: Curso = .informatica
     @State private var curso2: Curso = .edificacoes
     @State private var local: String = ""
     @State private var data: Date = Date()
-    @State private var categoriaSelecionada: CategoriaEsportiva = .volei
+    @State private var categoriaSelecionada: CategoriaEsportiva = .natacao
     @State private var genero: Genero = .mulher
     @State private var placar1: String = ""
     @State private var placar2: String = ""
+    
     var body: some View {
         NavigationStack {
             Form {
@@ -22,11 +23,11 @@ struct SecFormView: View {
                             Text(cat.rawValue).tag(cat)
                         }
                     }
+                    
                     Picker("Gênero", selection: $genero) {
                         ForEach(Genero.allCases) { genero in
                             Text(genero.rawValue).tag(genero)
                         }
-                        
                     }
                 }
                 
@@ -36,26 +37,27 @@ struct SecFormView: View {
                             Text(curso.rawValue).tag(curso)
                         }
                     }
-
+                    
                     Picker("Curso 2", selection: $curso2) {
                         ForEach(Curso.allCases) { curso in
                             Text(curso.rawValue).tag(curso)
                         }
                     }
-                  
-
                 }
-            
+                    
+                    Section("Placar") {
+                        TextField("Digite o placar de \(curso1.rawValue)", text: $placar1 )
+                        TextField("Digite o placar de \(curso2.rawValue)", text: $placar2 )
+                        
+                    }
+                    
+                
+                
                 Section("Local e Data") {
                     TextField("Local", text: $local)
                     DatePicker("Data e Hora", selection: $data, displayedComponents: [.date, .hourAndMinute])
                 }
-
-                Section("Placar") {
-                    TextField("Digite o placar de \(curso1.rawValue)", text: $placar1 )
-                    TextField("Digite o placar de \(curso2.rawValue)", text: $placar2 )
-                                    
-                                }
+                
                 Section {
                     VStack(spacing: 10) {
                         Button("Salvar Jogo") {
@@ -79,14 +81,14 @@ struct SecFormView: View {
                         .cornerRadius(10)
                     }
                     Section{
-                            Button("Cancelar") {
-                                dismiss()
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.gray.opacity(0.3))
-                            .foregroundColor(.black)
-                            .cornerRadius(10)
+                        Button("Cancelar") {
+                            dismiss()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
                     }
                 }
             }
