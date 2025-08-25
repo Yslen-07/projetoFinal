@@ -98,7 +98,7 @@ struct AdminView: View {
     // Login Sheet Esportes → amarelo + vermelho
     var loginSheetEsportes: some View {
         loginSheet(
-            title: "Administrador de Esportes",
+            title: "Administrador - SEC",
             loginAction: authenticateUserEsportes,
             gradientColors: [Color.yellow, Color.red]
         )
@@ -107,7 +107,7 @@ struct AdminView: View {
     // Login Sheet JAC → amarelo + azul
     var loginSheetJAC: some View {
         loginSheet(
-            title: "Administrador da JAC",
+            title: "Administrador - JAC",
             loginAction: authenticateUserJAC,
             gradientColors: [Color.yellow, Color.blue]
         )
