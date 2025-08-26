@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct ContentSecView: View {
+    
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Jogo.data) private var jogos: [Jogo]
     @Environment(\.dismiss) private var dismiss
@@ -12,23 +13,32 @@ struct ContentSecView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                List(jogos, id: \.id) { jogo in
-                    JogoCardView(jogo: jogo)
-                        .onTapGesture {
-                            withAnimation {
-                                jogoSelecionado = jogo
+                    NavigationStack {
+                        VStack {
+                            ScrollView {
+                                LazyVStack(spacing: 10) {   // espaço entre os cards
+                                    ForEach(jogos) { jogo in
+                                        JogoCardView(jogo: jogo)
+                                            .onTapGesture {
+                                                withAnimation {
+                                                    jogoSelecionado = jogo
+                                                }
+                                            }
+                                    }
+                                }
+                                .padding() // margem geral
                             }
                         }
-                }
-                .listStyle(.insetGrouped)
-                .navigationTitle("Admin - Jogos")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            jogoSelecionado = nil
-                            criandoJogo = true
-                        } label: {
-                            Image(systemName: "plus")
+                        .navigationTitle("Admin - Jogos")
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button {
+                                    jogoSelecionado = nil
+                                    criandoJogo = true
+                                } label: {
+                                    Image(systemName: "plus")
+                                }
+                            }
                         }
                     }
                 }
@@ -37,6 +47,7 @@ struct ContentSecView: View {
                 if let jogo = jogoSelecionado {
                     Divider()
                         .padding(.vertical, 8)
+                       
 
                     VStack(spacing: 12) {
                         JogoCardView(jogo: jogo)
@@ -84,4 +95,9 @@ struct ContentSecView: View {
             }
         }
     }
+
+
+#Preview {
+    ContentSecView()
+        .modelContainer(for: Jogo.self, inMemory: true)
 }

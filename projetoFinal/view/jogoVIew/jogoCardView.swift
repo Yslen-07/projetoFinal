@@ -31,14 +31,14 @@ struct JogoCardView: View {
         VStack {
             if jogo.categoria == .natacao {
                 // Card para Natação
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 4) {
                     Image(jogo.imagemConfronto) // ex: "cardNatacao2"
                         .resizable()
                         .scaledToFill()
                         .frame(height: 120)
                         .clipped()
-                        .cornerRadius(15, corners: [.topLeft, .topRight]) 
-                    
+                        .cornerRadius(15, corners: [.topLeft, .topRight])
+                        
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Modalidade: Natação")
                             .font(.headline)
@@ -68,7 +68,7 @@ struct JogoCardView: View {
                         .scaledToFill()
                         .frame(height: 110)
                         .clipped()
-                        .cornerRadius(15, corners: [.topLeft, .topRight]) 
+                        .cornerRadius(15, corners: [.topLeft, .topRight])
                     
                     
                     VStack(alignment: .leading, spacing: 4) {
