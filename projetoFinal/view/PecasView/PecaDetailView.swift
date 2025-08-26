@@ -3,13 +3,19 @@ import SwiftData
 
 struct PecaDetailView: View {
     let peca: Peca
+    @Environment(\.modelContext) private var context
     @Environment(\.openURL) var openURL
     @Environment(\.dismiss) private var dismiss
     
     @State private var userRating: Int = 0
     @State private var isShowingRatingSheet = false
-    @State private var votes = [3, 5, 8, 6, 4]
-    
+    @State private var isShowingShareSheet = false
+
+    private var jaVotou: Bool {
+        let votadas = UserDefaults.standard.stringArray(forKey: "pecasVotadas") ?? []
+        return votadas.contains(peca.id.uuidString)
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .topLeading) {
@@ -19,26 +25,12 @@ struct PecaDetailView: View {
                         .scaledToFill()
                         .frame(height: 214)
                         .clipped()
-                        .shadow(color: .white, radius: 2, x: -2, y: -2)
-                        .background(
-                            LinearGradient(
-                                colors: [.gray.opacity(1), .clear],
-                                startPoint: .bottom,
-                                endPoint: .top
-                            )
-                        )
                 } else {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
                         .frame(height: 214)
-                        .background(
-                            LinearGradient(
-                                colors: [.gray.opacity(1), .clear],
-                                startPoint: .bottom,
-                                endPoint: .center
-                            )
-                        )
                 }
+                
                 Button {
                     dismiss()
                 } label: {
@@ -54,21 +46,18 @@ struct PecaDetailView: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-              
                     Text(peca.titulo)
                         .font(.title)
                         .bold()
                     
-                
-                    Text("DIRIGIDO POR \n \(peca.direcao)")
-                        .font(.system(size: 10))
+                    Text("DIRIGIDO POR \(peca.direcao)")
+                        .font(.system(size: 12))
                         .foregroundColor(.gray)
                     
-             
                     HStack(alignment: .top, spacing: 20) {
                         ScrollView(.vertical) {
                             Text(peca.sinopse)
-                                .font(.system(size: 14, weight: .medium))
+                                .font(.system(size: 14))
                                 .foregroundColor(Color.gray.opacity(0.7))
                                 .frame(maxWidth: 200, alignment: .leading)
                         }
@@ -81,70 +70,61 @@ struct PecaDetailView: View {
                                 .frame(width: 137, height: 221)
                                 .clipped()
                                 .cornerRadius(8)
-                                .offset(y: -30)
                         } else {
                             Rectangle()
                                 .fill(Color.gray.opacity(0.2))
                                 .frame(width: 137, height: 221)
                                 .overlay(Text("Cartaz").font(.caption))
-                                .offset(y: -30)
                         }
                     }
-                    
                     
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Notas")
+                        Text("Média de Notas")
                             .font(.headline)
-                            .offset(y: -25)
                         
-                        HStack(alignment: .bottom, spacing: 12) {
-                            ForEach(0..<5, id: \.self) { index in
-                                let maxHeight: CGFloat = 100
-                                let maxVotes = votes.max() ?? 1
-                                let height = maxVotes > 0 ? CGFloat(votes[index]) / CGFloat(maxVotes) * maxHeight : 0
-                                
-                                VStack {
-                                    Rectangle()
-                                        .fill(index == userRating - 1 ? Color.blue : Color.gray.opacity(0.6))
-                                        .frame(width: 20, height: height)
-                                        .cornerRadius(4)
-                                        .animation(.easeInOut, value: votes)
-                                    
-                                    Text("\(index + 1)")
-                                        .font(.caption)
-                                }
-                            }
-                            .offset(x: 100, y : -35)
+                        HStack {
+                            Text(String(format: "%.1f", peca.nota))
+                                .bold()
+                            StarsRatingView(rating: peca.nota)
+                            Text("(\(peca.numeroAvaliacoes))")
+                                .foregroundColor(.gray)
+                                .font(.caption)
                         }
-                        
-                        
-                        HStack(spacing: 4) {
-                            ForEach(1...5, id: \.self) { starIndex in
-                                Image(systemName: starIndex <= userRating ? "star.fill" : "star")
-                                    .foregroundColor(.yellow)
-                                    .font(.caption)
-                            }
-                        }
-                        .offset(x: 128, y : -36)
                     }
-                    
-                    
-                    
+                    Spacer()
+                    Spacer()
+                    // Botão de avaliar
                     Button {
                         isShowingRatingSheet.toggle()
                     } label: {
                         HStack {
+                            Image(systemName: "star.fill")
+                            Text(jaVotou ? "Você já votou" : "Avaliar peça")
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 40)
+                        .background(jaVotou ? Color.gray.opacity(0.5) : Color.blue.opacity(0.75))
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                    }
+                    .disabled(jaVotou)
+                    .sheet(isPresented: $isShowingRatingSheet) {
+                        ratingSheet
+                    }
+                    
+                    // Botão de compartilhar nos Stories
+                    Button {
+                        isShowingShareSheet.toggle()
+                    } label: {
+                        HStack {
                             Image(systemName: "square.and.arrow.up")
-                            Text("Dê sua nota e compartilhe")
+                            Text("Compartilhe nos Stories")
                         }
                         .frame(maxWidth: .infinity, minHeight: 40)
                         .background(Color.gray.opacity(0.75))
                         .cornerRadius(8)
-                        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
                     }
-                    .padding(.top, -30)
-                    .sheet(isPresented: $isShowingRatingSheet) {
-                        ratingSheet
+                    .sheet(isPresented: $isShowingShareSheet) {
+                        shareSheet
                     }
                 }
                 .padding()
@@ -154,48 +134,56 @@ struct PecaDetailView: View {
         .navigationBarHidden(true)
     }
     
+    // Sheet de avaliação
     @ViewBuilder
     var ratingSheet: some View {
         VStack(spacing: 12) {
-            Text(peca.titulo)
+            Text("Avalie: \(peca.titulo)")
                 .font(.headline)
-                .multilineTextAlignment(.center)
-            Text(peca.periodo.rawValue)
-                .font(.subheadline)
                 .multilineTextAlignment(.center)
             
             RatingView(rating: $userRating)
             
             Button("Enviar Nota") {
-                if userRating > 0 && userRating <= 5 {
-                    votes[userRating - 1] += 1
-                }
+                guard !jaVotou, userRating > 0 && userRating <= 5 else { return }
+                
+                peca.totalEstrelas += userRating
+                peca.numeroAvaliacoes += 1
+                try? context.save()
+                
+                var votadas = UserDefaults.standard.stringArray(forKey: "pecasVotadas") ?? []
+                votadas.append(peca.id.uuidString)
+                UserDefaults.standard.set(votadas, forKey: "pecasVotadas")
+                
                 isShowingRatingSheet = false
             }
             .buttonStyle(.borderedProminent)
-            
-            Divider()
-            
-            Button {
-                if let url = URL(string: peca.linkYoutube), UIApplication.shared.canOpenURL(url) {
-                    openURL(url)
-                }
-            } label: {
-                Label("Assistir", systemImage: "play.fill")
-            }
-            
-            Divider()
-            
-            Button {
-                
-            } label: {
-                Label("Compartilhe nos Stories", systemImage: "instagram")
-            }
             
             Spacer()
         }
         .padding()
         .presentationDetents([.fraction(0.40)])
+        .presentationDragIndicator(.visible)
+    }
+    
+    // Sheet de compartilhamento
+    @ViewBuilder
+    var shareSheet: some View {
+        VStack(spacing: 12) {
+            Text("Compartilhe a peça nos Stories")
+                .font(.headline)
+                .multilineTextAlignment(.center)
+            
+            Button {
+                // lógica para compartilhar nos Stories
+            } label: {
+                Label("Compartilhar", systemImage: "square.and.arrow.up")
+            }
+            
+            Spacer()
+        }
+        .padding()
+        .presentationDetents([.fraction(0.3)])
         .presentationDragIndicator(.visible)
     }
 }
@@ -218,13 +206,5 @@ struct RatingView: View {
             }
         }
         .padding(.horizontal, 16)
-       
     }
 }
-   
-
-#Preview {
-    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", direcao: "Odílio Carneiro e André Almeida", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
-    PecaDetailView(peca: pecaExemplo)
-}
-
