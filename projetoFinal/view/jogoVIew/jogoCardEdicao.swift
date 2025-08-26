@@ -19,6 +19,7 @@ struct JogoCardEdicao: View {
                     .scaledToFit()
                     .frame(width: 60, height: 60)
                     .padding(.leading, 8)
+                    .cornerRadius(15, corners: [.topLeft, .topRight]) 
 
                 Spacer()
 
@@ -27,6 +28,7 @@ struct JogoCardEdicao: View {
                     .scaledToFit()
                     .frame(width: 60, height: 60)
                     .padding(.trailing, 8)
+                    .cornerRadius(15, corners: [.topLeft, .topRight])
             }
             .frame(height: 80)
             .background(
@@ -67,7 +69,7 @@ struct JogoCardEdicao: View {
                 .padding(.bottom, 10)
             }
 
-            // Botões Editar e Deletar
+            
             HStack(spacing: 30) {
                 Button("Editar") {
                     mostrarEdicao = true

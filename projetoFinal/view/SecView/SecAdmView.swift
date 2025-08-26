@@ -15,7 +15,7 @@ struct SecAdmView: View {
                 List {
                     ForEach(jogos) { jogo in
                         JogoCardView(jogo: jogo)
-                            .swipeActions(edge: .trailing) {
+                            .swipeActions(edge: .trailing){
                                 Button("Editar") {
                                     jogoParaEditar = jogo
                                 }

@@ -141,6 +141,15 @@ class Peca: Identifiable {
 
 extension Jogo {
     var imagemConfronto: String {
+        
+        if categoria == .natacao {
+                    switch genero {
+                    case .homem:
+                        return "cardNatacao02"
+                    case .mulher:
+                        return "cardNatacao01"
+                    }
+                }
         switch (curso1, curso2) {
         case (.informatica, .edificacoes):
             return "infoEdi"
