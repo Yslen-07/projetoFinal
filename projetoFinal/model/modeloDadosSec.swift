@@ -44,8 +44,8 @@ enum Periodo: String, CaseIterable, Identifiable, Codable {
 enum CategoriaEsportiva: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue }
 
-    case natacao = "Natação"
     case futsal = "Futsal"
+    case natacao = "Natação"
     case volei = "Vôlei"
     case basquete = "Basquete"
     case handebol = "Handebol"

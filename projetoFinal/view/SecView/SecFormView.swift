@@ -5,7 +5,6 @@ struct SecFormView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     
-    @State private var formNatacao = false
     @State private var curso1: Curso = .informatica
     @State private var curso2: Curso = .edificacoes
     @State private var local: String = ""
@@ -14,6 +13,12 @@ struct SecFormView: View {
     @State private var genero: Genero = .mulher
     @State private var placar1: String = ""
     @State private var placar2: String = ""
+    
+    // Campos específicos para natação
+    @State private var estiloDeNado: EstiloDeNado = .costa
+    @State private var quantidadePessoas: String = ""
+    @State private var distancia: String = ""
+    @State private var tempo: String = ""
     
     var body: some View {
         NavigationStack {
@@ -24,36 +29,55 @@ struct SecFormView: View {
                             Text(cat.rawValue).tag(cat)
                         }
                     }
-                    .onChange(of: categoriaSelecionada) { oldValue, newValue in
-                        if newValue == .natacao {
-                            formNatacao = true
-                        }
-                    }
                     
                     Picker("Gênero", selection: $genero) {
                         ForEach(Genero.allCases) { genero in
                             Text(genero.rawValue).tag(genero)
                         }
                     }
+                    
+                    // Campos específicos para natação
+                    if categoriaSelecionada == .natacao {
+                        Picker("Estilo de nado", selection: $estiloDeNado) {
+                            ForEach(EstiloDeNado.allCases) { nado in
+                                Text(nado.rawValue).tag(nado)
+                            }
+                        }
+                    }
                 }
                 
-                Section("Cursos") {
-                    Picker("Curso 1", selection: $curso1) {
-                        ForEach(Curso.allCases) { curso in
-                            Text(curso.rawValue).tag(curso)
+                // Seção de cursos (apenas para esportes que não são natação)
+                if categoriaSelecionada != .natacao {
+                    Section("Cursos") {
+                        Picker("Curso 1", selection: $curso1) {
+                            ForEach(Curso.allCases) { curso in
+                                Text(curso.rawValue).tag(curso)
+                            }
+                        }
+                        
+                        Picker("Curso 2", selection: $curso2) {
+                            ForEach(Curso.allCases) { curso in
+                                Text(curso.rawValue).tag(curso)
+                            }
                         }
                     }
                     
-                    Picker("Curso 2", selection: $curso2) {
-                        ForEach(Curso.allCases) { curso in
-                            Text(curso.rawValue).tag(curso)
-                        }
+                    Section("Placar") {
+                        TextField("Digite o placar de \(curso1.rawValue)", text: $placar1)
+                        TextField("Digite o placar de \(curso2.rawValue)", text: $placar2)
                     }
-                }
-                
-                Section("Placar") {
-                    TextField("Digite o placar de \(curso1.rawValue)", text: $placar1)
-                    TextField("Digite o placar de \(curso2.rawValue)", text: $placar2)
+                } else {
+                    // Campos específicos para natação
+                    Section("Participantes") {
+                        TextField("Número de participantes", text: $quantidadePessoas)
+                            .keyboardType(.numberPad)
+                    }
+                    
+                    Section("Tempo e Distância") {
+                        TextField("Tempo (00min:00s)", text: $tempo)
+                        TextField("Distância (metros)", text: $distancia)
+                            .keyboardType(.numberPad)
+                    }
                 }
                 
                 Section("Local e Data") {
@@ -63,17 +87,33 @@ struct SecFormView: View {
                 
                 Section {
                     Button("Salvar Jogo") {
-                        let novoJogo = Jogo(
-                            curso1: curso1,
-                            curso2: curso2,
-                            categoria: categoriaSelecionada,
-                            genero: genero,
-                            local: local,
-                            data: data,
-                            placar1: placar1,
-                            placar2: placar2
-                        )
-                        modelContext.insert(novoJogo)
+                        if categoriaSelecionada == .natacao {
+                            // Salvar como natação
+                            let novoJogoNatacao = JogoNatacao(
+                                categoria: categoriaSelecionada,
+                                estiloDeNado: estiloDeNado,
+                                genero: genero,
+                                local: local,
+                                data: data,
+                                quantidadePessoas: quantidadePessoas,
+                                distancia: distancia,
+                                tempo: tempo
+                            )
+                            modelContext.insert(novoJogoNatacao)
+                        } else {
+                            // Salvar como jogo normal
+                            let novoJogo = Jogo(
+                                curso1: curso1,
+                                curso2: curso2,
+                                categoria: categoriaSelecionada,
+                                genero: genero,
+                                local: local,
+                                data: data,
+                                placar1: placar1,
+                                placar2: placar2
+                            )
+                            modelContext.insert(novoJogo)
+                        }
                         dismiss()
                     }
                     .frame(maxWidth: .infinity)
@@ -91,18 +131,13 @@ struct SecFormView: View {
                     .foregroundColor(.black)
                     .cornerRadius(10)
                 }
-                
             }
             .navigationTitle("Novo Jogo")
-            .navigationDestination(isPresented: $formNatacao) {
-                SecNatacaoView()
-            }
         }
     }
 }
 
-#Preview{
+#Preview {
     SecFormView()
-            .modelContainer(for: Jogo.self, inMemory: true)
-    
+        .modelContainer(for: [Jogo.self, JogoNatacao.self], inMemory: true)
 }
