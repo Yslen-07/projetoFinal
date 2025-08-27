@@ -26,19 +26,20 @@ extension View {
 struct JogoCardView: View {
     @Environment(\.modelContext) private var modelContext
     var jogo: Jogo
+    var isAdmin: Bool = false // controla se mostra ou não o lápis
     
     var body: some View {
         VStack {
             if jogo.categoria == .natacao {
                 // Card para Natação
                 VStack(alignment: .leading, spacing: 4) {
-                    Image(jogo.imagemConfronto) // ex: "cardNatacao2"
+                    Image(jogo.imagemConfronto)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 110)
                         .clipped()
                         .cornerRadius(15, corners: [.topLeft, .topRight])
-                        
+                    
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Modalidade: Natação")
                             .font(.headline)
@@ -60,12 +61,30 @@ struct JogoCardView: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 20).fill(.ultraThinMaterial))
                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.1)))
+                .overlay(
+                    Group {
+                        if isAdmin {
+                            Button {
+                                print("Editar jogo \(jogo)")
+                            } label: {
+                                Image(systemName: "pencil")
+                                    .foregroundColor(.blue)
+                                    .padding(8)
+                                    .background(Color.white.opacity(0.9))
+                                    .clipShape(Circle())
+                                    .shadow(radius: 2)
+                            }
+                            .padding(10)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        }
+                    }
+                )
                 .padding(.horizontal)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
                 
             } else {
-                
+                // Card para outros jogos
                 VStack(alignment: .leading, spacing: 12) {
                     Image(jogo.imagemConfronto)
                         .resizable()
@@ -73,7 +92,6 @@ struct JogoCardView: View {
                         .frame(height: 110)
                         .clipped()
                         .cornerRadius(15, corners: [.topLeft, .topRight])
-                    
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text("\(jogo.curso1.rawValue.uppercased()) x \(jogo.curso2.rawValue.uppercased())")
@@ -115,6 +133,24 @@ struct JogoCardView: View {
                 }
                 .background(RoundedRectangle(cornerRadius: 20).fill(.ultraThinMaterial))
                 .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.1)))
+                .overlay(
+                    Group {
+                        if isAdmin {
+                            Button {
+                                print("Editar jogo \(jogo)")
+                            } label: {
+                                Image(systemName: "pencil")
+                                    .foregroundColor(.blue)
+                                    .padding(8)
+                                    .background(Color.white.opacity(0.9))
+                                    .clipShape(Circle())
+                                    .shadow(radius: 2)
+                            }
+                            .padding(10)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        }
+                    }
+                )
                 .padding(.horizontal)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
@@ -123,6 +159,7 @@ struct JogoCardView: View {
     }
 }
 
+// MARK: - Preview
 struct JogoCardView_Previews: PreviewProvider {
     static let jogoE = Jogo(
         curso1: .informatica,
@@ -149,8 +186,9 @@ struct JogoCardView_Previews: PreviewProvider {
     static var previews: some View {
         ScrollView {
             VStack(spacing: 16) {
-                JogoCardView(jogo: jogoE)
-                JogoCardView(jogo: jogoNatacao)
+                JogoCardView(jogo: jogoE, isAdmin: true)   // mostra lápis dentro do card
+                JogoCardView(jogo: jogoNatacao, isAdmin: true) // também dentro do card
+                JogoCardView(jogo: jogoE, isAdmin: false)  // não aparece
             }
             .padding()
         }

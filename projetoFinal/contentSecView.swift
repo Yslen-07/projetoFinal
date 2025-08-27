@@ -6,7 +6,7 @@ struct ContentSecView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Jogo.data) private var jogos: [Jogo]
     @Environment(\.dismiss) private var dismiss
-    
+    var isAdmin : Bool = true
     @State private var jogoSelecionado: Jogo? = nil
     @State private var mostrarEdicao = false
     @State private var mostrarConfirmacaoDeletar = false
@@ -79,7 +79,6 @@ struct ContentSecView: View {
                 JogoEditingView()
                     .environment(\.modelContext, modelContext)
             }
-            // Alerta de excluir jogo
             .alert("Deseja excluir este jogo?", isPresented: $mostrarConfirmacaoDeletar) {
                 Button("Excluir", role: .destructive) {
                     if let jogo = jogoSelecionado {
