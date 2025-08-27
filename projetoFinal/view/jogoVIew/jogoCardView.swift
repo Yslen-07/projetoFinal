@@ -35,7 +35,7 @@ struct JogoCardView: View {
                     Image(jogo.imagemConfronto) // ex: "cardNatacao2"
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 120)
+                        .frame(height: 110)
                         .clipped()
                         .cornerRadius(15, corners: [.topLeft, .topRight])
                         
@@ -48,6 +48,10 @@ struct JogoCardView: View {
                             .foregroundColor(.secondary)
                         
                         Text("Data: \(jogo.data.formatted(date: .abbreviated, time: .shortened))")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                        
+                        Text("Gênero: \(jogo.genero.rawValue.capitalized)")
                             .font(.footnote)
                             .foregroundColor(.gray)
                     }
@@ -93,7 +97,7 @@ struct JogoCardView: View {
                             if jogo.categoria != .natacao {
                                 Text("\(jogo.placar1) : \(jogo.placar2)")
                                     .font(.footnote.bold())
-                                    .padding(.vertical, 4)
+                                    .padding(.vertical, 1)
                                     .padding(.horizontal, 10)
                                     .background(Color.black)
                                     .foregroundColor(.white)
