@@ -12,6 +12,7 @@ import SwiftData
 
 struct PecaView: View {
     @State private var mostrandoForm = false
+    @StateObject var viewModel = PecaViewModel()
 
     var body: some View {
         NavigationStack {
