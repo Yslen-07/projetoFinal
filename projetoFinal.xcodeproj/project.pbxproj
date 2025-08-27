@@ -19,7 +19,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		22EF2D9A2E5E2969004168AB /* Exceptions for "projetoFinal" folder in "projetoFinal" target */ = {
+		224D001F2E5F75560010C661 /* Exceptions for "projetoFinal" folder in "projetoFinal" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -32,7 +32,7 @@
 		22735D1D2E1867380015D430 /* projetoFinal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				22EF2D9A2E5E2969004168AB /* Exceptions for "projetoFinal" folder in "projetoFinal" target */,
+				224D001F2E5F75560010C661 /* Exceptions for "projetoFinal" folder in "projetoFinal" target */,
 			);
 			path = projetoFinal;
 			sourceTree = "<group>";
