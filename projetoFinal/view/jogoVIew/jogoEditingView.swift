@@ -5,7 +5,6 @@ struct JogoEditingView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
     
-    // Para edição, podemos receber tanto Jogo quanto JogoNatacao
     let jogoParaEditar: Jogo?
     let jogoNatacaoParaEditar: JogoNatacao?
     
@@ -131,7 +130,7 @@ struct JogoEditingView: View {
             }
             .navigationTitle(jogoParaEditar != nil || jogoNatacaoParaEditar != nil ? "Editar Jogo" : "Novo Jogo")
             .onAppear {
-                // Preencher os campos se estiver editando
+                
                 if let jogo = jogoParaEditar {
                     curso1 = jogo.curso1
                     curso2 = jogo.curso2
@@ -157,7 +156,6 @@ struct JogoEditingView: View {
     
     private func salvarJogo() {
         if categoria == .natacao {
-            // Tratar natação
             if let jogoExistente = jogoNatacaoParaEditar {
                 // Atualizar jogo existente
                 jogoExistente.local = local
@@ -183,7 +181,6 @@ struct JogoEditingView: View {
                 modelContext.insert(novoJogo)
             }
         } else {
-            // Tratar outros esportes
             if let jogoExistente = jogoParaEditar {
                 // Atualizar jogo existente
                 jogoExistente.curso1 = curso1
