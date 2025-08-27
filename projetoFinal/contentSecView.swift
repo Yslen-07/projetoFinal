@@ -4,32 +4,35 @@ import SwiftData
 struct ContentSecView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Jogo.data) private var jogos: [Jogo]
+    @State private var mostrandoCriacao = false
     
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(jogos) { jogo in
-                    NavigationLink(destination: JogoEditingView(jogo: jogo)
-                        .environment(\.modelContext, modelContext)) {
-                        JogoCardView(jogo: jogo)
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(jogos) { jogo in
+                        NavigationLink(destination: JogoEditingView(jogo: jogo)
+                            .environment(\.modelContext, modelContext)) {
+                            JogoCardView(jogo: jogo)
+                        }
+                        .buttonStyle(PlainButtonStyle()) // remove destaque do NavigationLink
                     }
                 }
-                .onDelete { indexSet in
-                    for index in indexSet {
-                        let jogo = jogos[index]
-                        modelContext.delete(jogo)
-                    }
-                }
+                .padding()
             }
-            .navigationTitle("Jogos")
-            .listStyle(.insetGrouped)
+            .navigationTitle("Admin - Jogos")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: SecFormView()
-                        .environment(\.modelContext, modelContext)) {
+                    Button {
+                        mostrandoCriacao = true
+                    } label: {
                         Image(systemName: "plus")
                     }
                 }
+            }
+            .sheet(isPresented: $mostrandoCriacao) {
+                SecFormView()
+                    .environment(\.modelContext, modelContext)
             }
         }
     }

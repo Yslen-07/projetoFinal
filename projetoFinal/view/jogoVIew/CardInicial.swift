@@ -19,6 +19,8 @@ struct CardInicial: View {
                 .scaledToFill()
                 .frame(height: 110)
                 .clipped()
+                .cornerRadius(15, corners: [.topLeft, .topRight])
+            
 
             VStack(alignment: .leading, spacing: 4) {
                 Text("\(jogo.curso1.rawValue.uppercased()) x \(jogo.curso2.rawValue.uppercased())")
