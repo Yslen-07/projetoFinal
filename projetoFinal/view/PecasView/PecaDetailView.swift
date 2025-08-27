@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 struct PecaDetailView: View {
     let peca: Peca
@@ -13,114 +14,107 @@ struct PecaDetailView: View {
     @State private var shareImage: UIImage? = nil
     @State private var votes = [3, 5, 8, 6, 4]
     
-
+    // Verifica se já votou
     private var jaVotou: Bool {
-        let votadas = UserDefaults.standard.stringArray(forKey: "pecasVotadas") ?? []
-        return votadas.contains(peca.id.uuidString)
+        let votos = UserDefaults.standard.dictionary(forKey: "votosPecas") as? [String: Int] ?? [:]
+        return votos[peca.id.uuidString] != nil
     }
 
     var body: some View {
         VStack(spacing: 0) {
+            // Banner superior
             ZStack(alignment: .topLeading) {
                 if let data = peca.imagemBack, let uiImage = UIImage(data: data) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
-                        .frame(height: 214)
+                        .frame(height: 234)
                         .clipped()
                         .background(
-                            LinearGradient(colors: [.gray.opacity(1), .clear], startPoint: .bottom, endPoint: .top)
+                            LinearGradient(colors: [.gray.opacity(1), .clear],
+                                           startPoint: .bottom,
+                                           endPoint: .top)
                         )
                 } else {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
-                        .frame(height: 214)
+                        .frame(height: 234)
                         .background(
-                            LinearGradient(colors: [.gray.opacity(1), .clear], startPoint: .bottom, endPoint: .center)
+                            LinearGradient(colors: [.gray.opacity(1), .clear],
+                                           startPoint: .bottom,
+                                           endPoint: .center)
                         )
                 }
-
-                Button {
-                    dismiss()
-                } label: {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.white)
-                        .padding(10)
-                        .background(Color.black.opacity(0.6))
-                        .clipShape(Circle())
-                        .padding(.top, 50)
-                        .padding(.leading, 16)
+                HStack{
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color.black.opacity(0.6))
+                            .clipShape(Circle())
+                            .padding(.top, 50)
+                            .padding(.leading, 16)
+                    }
                 }
             }
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
+                    // Título e Direção
                     Text(peca.titulo)
                         .font(.title)
                         .bold()
                     
-                    Text("DIRIGIDO POR \n \(peca.direcao)")
+                    Text("DIRIGIDO POR \n\(peca.direcao)")
                         .font(.system(size: 10))
                         .foregroundColor(.gray)
+                        .offset(y:-10)
+                    
+                    Text(peca.local)
+                        .font(.system(size: 9))
+                        .foregroundColor(.gray)
+                        .offset(y:-20)
 
+
+                    // Sinopse + Cartaz
                     HStack(alignment: .top, spacing: 20) {
                         ScrollView(.vertical) {
                             Text(peca.sinopse)
                                 .font(.system(size: 14))
                                 .foregroundColor(Color.gray.opacity(0.7))
-                                .frame(maxWidth: 200, alignment: .leading)
+                                .frame(width: 150, alignment: .leading)
                         }
                         .frame(height: 200)
 
-                        if let posterData = peca.imagem, let posterImage = UIImage(data: posterData) {
+                        if let posterData = peca.imagem,
+                           let posterImage = UIImage(data: posterData) {
                             Image(uiImage: posterImage)
                                 .resizable()
                                 .scaledToFill()
-                                .frame(width: 137, height: 221)
+                                .frame(width: 187, height: 271)
                                 .clipped()
                                 .cornerRadius(8)
-                                .padding(.top, 10)
+                                .padding(.top, 1)
+                                .offset(y: -50)
+
                         } else {
                             Rectangle()
                                 .fill(Color.gray.opacity(0.2))
-                                .frame(width: 137, height: 221)
+                                .frame(width: 187, height: 271)
                                 .overlay(Text("Cartaz").font(.caption))
-                                .padding(.top, 10)
+                                .padding(.top, 1)
+                                .offset(y: -50)
                         }
                     }
 
+                    // Gráfico de notas + média
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Média de Notas")
                             .font(.headline)
                             .padding(.bottom, -20)
 
-                        HStack(alignment: .bottom, spacing: 12) {
-                            ForEach(0..<5, id: \.self) { index in
-                                let maxHeight: CGFloat = 100
-                                let maxVotes = votes.max() ?? 1
-                                let height = maxVotes > 0 ? CGFloat(votes[index]) / CGFloat(maxVotes) * maxHeight : 0
-
-                                VStack {
-                                    Rectangle()
-                                        .fill(index == userRating - 1 ? Color.blue : Color.gray.opacity(0.6))
-                                        .frame(width: 20, height: height)
-                                        .cornerRadius(4)
-                                        .animation(.easeInOut, value: votes)
-
-                                    Text("\(index + 1)")
-                                        .font(.caption)
-                                }
-                            }
-                        }
-                        .offset(x:100)
-
-                        HStack(spacing: 4) {
-                            ForEach(1...5, id: \.self) { starIndex in
-                                Image(systemName: starIndex <= userRating ? "star.fill" : "star")
-                                    .foregroundColor(.yellow)
-                                    .font(.caption)
-                            }
-                        
                         HStack {
                             Text(String(format: "%.1f", peca.nota))
                                 .bold()
@@ -129,42 +123,26 @@ struct PecaDetailView: View {
                                 .foregroundColor(.gray)
                                 .font(.caption)
                         }
-                        .offset(x:130)
+                        .offset(x: 1, y: 10)
                         .padding(.top, 4)
                     }
-                    Spacer()
-                    Spacer()
-                    // Botão de avaliar
+
+                    Spacer(minLength: 50)
+
+                    // Botão de avaliar (NÃO trava mais a sheet)
                     Button {
                         isShowingRatingSheet.toggle()
                     } label: {
                         HStack {
                             Image(systemName: "star.fill")
-                            Text(jaVotou ? "Você já votou" : "Avaliar peça")
+                            Text(jaVotou ? "Você já votou" : "Avaliar peça e mais")
                         }
-                        .frame(width: 350, height: 40)
+                        .frame(width: 330, height: 40)
                         .background(Color.gray.opacity(0.75))
                         .cornerRadius(8)
                     }
-                    .disabled(jaVotou)
                     .sheet(isPresented: $isShowingRatingSheet) {
                         ratingSheet
-                    }
-                    
-                    // Botão de compartilhar nos Stories
-                    Button {
-                        isShowingShareSheet.toggle()
-                    } label: {
-                        HStack {
-                            Image(systemName: "square.and.arrow.up")
-                            Text("Compartilhe nos Stories")
-                        }
-                        .frame(maxWidth: .infinity, minHeight: 40)
-                        .background(Color.gray.opacity(0.75))
-                        .cornerRadius(8)
-                    }
-                    .sheet(isPresented: $isShowingShareSheet) {
-                        shareSheet
                     }
                 }
                 .padding()
@@ -176,38 +154,49 @@ struct PecaDetailView: View {
             }
         }
         .ignoresSafeArea(edges: .top)
-        .navigationBarHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
     
-    // Sheet de avaliação
+    // MARK: - Sheet de avaliação
     @ViewBuilder
     var ratingSheet: some View {
         VStack(spacing: 12) {
-            Text("Avalie: \(peca.titulo)")
+            Text("\(peca.titulo)")
                 .font(.headline)
                 .multilineTextAlignment(.center)
+                .offset(y:7)
             
-            RatingView(rating: $userRating)
+            Text("\(peca.periodo) de \(peca.curso)")
+                .font(.subheadline)
+                .multilineTextAlignment(.center)
+            if !jaVotou {
+                RatingView(rating: $userRating)
 
-            Button("Enviar Nota") {
-                guard !jaVotou, userRating > 0 && userRating <= 5 else { return }
-                
-                peca.totalEstrelas += userRating
-                peca.numeroAvaliacoes += 1
-                try? context.save()
-                
-                var votadas = UserDefaults.standard.stringArray(forKey: "pecasVotadas") ?? []
-                votadas.append(peca.id.uuidString)
-                UserDefaults.standard.set(votadas, forKey: "pecasVotadas")
-                
-                isShowingRatingSheet = false
+                Button("Enviar Nota") {
+                    guard userRating > 0 && userRating <= 5 else { return }
+                    
+                    var votos = UserDefaults.standard.dictionary(forKey: "votosPecas") as? [String: Int] ?? [:]
+                    votos[peca.id.uuidString] = userRating
+                    UserDefaults.standard.set(votos, forKey: "votosPecas")
+                    
+                    peca.totalEstrelas += userRating
+                    peca.numeroAvaliacoes += 1
+                    try? context.save()
+                    
+                    isShowingRatingSheet = false
+                }
+                .buttonStyle(.borderedProminent)
+            } else {
+                Text("Você já avaliou esta peça")
+                    .foregroundColor(.green)
+                    .font(.subheadline)
             }
-            .buttonStyle(.borderedProminent)
 
             Divider()
 
             Button {
-                if let url = URL(string: peca.linkYoutube), UIApplication.shared.canOpenURL(url) {
+                if let url = URL(string: peca.linkYoutube),
+                   UIApplication.shared.canOpenURL(url) {
                     openURL(url)
                 }
             } label: {
@@ -225,7 +214,6 @@ struct PecaDetailView: View {
             } label: {
                 Label("Compartilhe", systemImage: "square.and.arrow.up")
             }
-
             
             Spacer()
         }
@@ -234,7 +222,7 @@ struct PecaDetailView: View {
         .presentationDragIndicator(.visible)
     }
 }
-
+// MARK: - RatingView
 struct RatingView: View {
     @Binding var rating: Int
 
@@ -251,14 +239,12 @@ struct RatingView: View {
                         rating = index
                     }
             }
-            
         }
         .padding(.horizontal, 16)
-        
     }
 }
 
-// MARK: - Snapshot
+// MARK: - Snapshot Extension
 extension View {
     func snapshot() -> UIImage {
         let controller = UIHostingController(rootView: self)
@@ -282,8 +268,6 @@ extension View {
 }
 
 // MARK: - Share Sheet
-import UIKit
-
 struct ActivityView: UIViewControllerRepresentable {
     let activityItems: [Any]
 
@@ -295,11 +279,8 @@ struct ActivityView: UIViewControllerRepresentable {
 }
 
 
-
-
-
 #Preview {
-    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", direcao: "Odílio Carneiro e André Almeida", data: .now, hora: .now, local: "", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
+    let pecaExemplo = Peca(titulo: "Exemplo", sinopse: "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", direcao: "Odílio Carneiro e André Almeida", data: .now, hora: .now, local: "auditorio nilo pecanha", curso: .informatica, periodo: .p1, linkYoutube: "", linkPhotos: "")
     PecaDetailView(peca: pecaExemplo)
 }
 
