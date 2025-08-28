@@ -192,17 +192,6 @@ extension JogoNatacao{
 
 // MARK: - Extensão do modelo Jogo (imagem do confronto)
 
-extension JogoNatacao {
-    var imagemConfronto: String {
-        switch genero {
-        case .homem:
-            return "cardNatacao02"
-        case .mulher:
-            return "cardNatacao01"
-        }
-    }
-}
-
 extension Jogo {
     var imagemConfronto: String {
         

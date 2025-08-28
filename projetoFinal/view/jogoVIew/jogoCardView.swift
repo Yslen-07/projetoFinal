@@ -49,9 +49,9 @@ struct JogoCardView: View {
                     .foregroundColor(.secondary)
                 
                 HStack {
-                    Text("Data: \(jogo.data.formatted(date: .abbreviated, time: .shortened))")
-                        .font(.footnote)
-                        .foregroundColor(.gray)
+                    Text("Data: \(jogo.data.formatted(.dateTime.day().month(.twoDigits))) at \(jogo.data.formatted(.dateTime.hour().minute()))")
+                                            .font(.footnote)
+                                            .foregroundColor(.gray)
                     
                     Spacer()
                     
@@ -95,20 +95,22 @@ struct NatacaoCardView: View {
                 .cornerRadius(15, corners: [.topLeft, .topRight])
                 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Modalidade: Natação")
-                    .font(.headline)
-                
-                Text("Estilo: \(jogoNatacao.estiloDeNado.rawValue)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                HStack(spacing: 50){
+                    Text("Modalidade: Natação")
+                        .font(.headline)
+                    
+                    Text("Estilo: \(jogoNatacao.estiloDeNado.rawValue)")
+                        .font(.headline)
+                        .foregroundColor(.secondary)}
                 
                 Text("Local: \(jogoNatacao.local)")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
-                Text("Data: \(jogoNatacao.data.formatted(date: .abbreviated, time: .shortened))")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
+                Text("Data: \(jogoNatacao.data.formatted(.dateTime.day().month(.twoDigits))) at \(jogoNatacao.data.formatted(.dateTime.hour().minute()))")
+                                   .font(.footnote)
+                                   .foregroundColor(.gray)
+                               
                 
                 Text("Gênero: \(jogoNatacao.genero.rawValue.capitalized)")
                     .font(.footnote)
