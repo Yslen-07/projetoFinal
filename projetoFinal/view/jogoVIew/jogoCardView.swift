@@ -96,14 +96,14 @@ struct NatacaoCardView: View {
                 
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 50){
-                    Text("Modalidade: Natação")
+                    Text("Natação")
                         .font(.headline)
                     
                     Text("Estilo: \(jogoNatacao.estiloDeNado.rawValue)")
                         .font(.headline)
                         .foregroundColor(.secondary)}
                 
-                Text("Local: \(jogoNatacao.local)")
+                Text("Local: Piscina central")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
@@ -120,7 +120,7 @@ struct NatacaoCardView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                 
-                Text("Distância: \(jogoNatacao.distancia)m")
+                Text("Distância: \(jogoNatacao.distancia)")
                     .font(.footnote)
                     .foregroundColor(.gray)
             }

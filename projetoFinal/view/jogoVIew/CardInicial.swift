@@ -68,7 +68,7 @@ struct CardInicial: View {
     let jogoE = Jogo(
         curso1: .informatica,
         curso2: .mecanica,
-        categoria: .natacao,
+        categoria: .volei,
         genero: .homem,
         local: "Quadra 1",
         data: Date(),

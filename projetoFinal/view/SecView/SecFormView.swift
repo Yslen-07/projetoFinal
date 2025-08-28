@@ -80,7 +80,7 @@ struct SecFormView: View {
                 }
                 
                 Section("Local e Data") {
-                    TextField("Local", text: $local)
+                    Text("Local: Piscina central")
                     DatePicker("Data e Hora", selection: $data, displayedComponents: [.date, .hourAndMinute])
                 }
                 
