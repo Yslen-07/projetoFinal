@@ -95,20 +95,13 @@ struct NatacaoCardView: View {
                 .cornerRadius(15, corners: [.topLeft, .topRight])
                 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Modalidade: Natação")
-                    .font(.headline)
-                
-                Text("Estilo: \(jogoNatacao.estiloDeNado.rawValue)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                
-                Text("Local: \(jogoNatacao.local)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                
-                Text("Data: \(jogoNatacao.data.formatted(date: .abbreviated, time: .shortened))")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
+                HStack(spacing: 50){
+                    Text("Modalidade: Natação")
+                        .font(.headline)
+                    
+                    Text("Estilo: \(jogoNatacao.estiloDeNado.rawValue)")
+                        .font(.headline)
+                        .foregroundColor(.secondary)}
                 
                 Text("Gênero: \(jogoNatacao.genero.rawValue.capitalized)")
                     .font(.footnote)
@@ -118,13 +111,15 @@ struct NatacaoCardView: View {
                     .font(.footnote)
                     .foregroundColor(.gray)
                 
-                Text("Distância: \(jogoNatacao.distancia)m")
+                Text("Distância: \(jogoNatacao.distancia)")
                     .font(.footnote)
                     .foregroundColor(.gray)
                 
-                Text("Tempo: \(jogoNatacao.tempo)")
+                Text("Data: \(jogoNatacao.data.formatted(.dateTime.day(.twoDigits).month(.twoDigits) .hour().minute()))")
                     .font(.footnote)
                     .foregroundColor(.gray)
+
+            
             }
             .padding(.horizontal)
             .padding(.bottom, 10)
