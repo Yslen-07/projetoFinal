@@ -75,8 +75,8 @@ struct CountdownTimerView: View {
                 timeUnitView(value: viewModel.hour, label: "horas")
                 colon
                 timeUnitView(value: viewModel.minute, label: "min")
-                colon
-                timeUnitView(value: viewModel.second, label: "seg")
+//                colon
+//                timeUnitView(value: viewModel.second, label: "seg")
             }
         }
         .onReceive(timer) { _ in
@@ -91,10 +91,10 @@ struct CountdownTimerView: View {
     private func timeUnitView(value: Int, label: String) -> some View {
         VStack(spacing: 4) {
             Text(String(format: "%02d", value))
-                .font(.system(size: 36, weight: .bold))
+                .font(.system(size: 60, weight: .bold))
                 .foregroundColor(.red)
             Text(label.uppercased())
-                .font(.system(size: 15))
+                .font(.system(size: 30))
                 .offset(y: -4)
         }
     }
