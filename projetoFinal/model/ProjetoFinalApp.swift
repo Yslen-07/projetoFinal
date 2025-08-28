@@ -7,6 +7,6 @@ struct ProjetoFinalApp: App {
         WindowGroup {
             OnBoardingView()
         }
-        .modelContainer(for: [Jogo.self, Peca.self])
+        .modelContainer(for: [Jogo.self, Peca.self, JogoNatacao.self])
     }
 }

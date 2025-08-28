@@ -88,7 +88,6 @@ struct SecFormView: View {
                 Section {
                     Button("Salvar Jogo") {
                         if categoriaSelecionada == .natacao {
-                            // Salvar como natação
                             let novoJogoNatacao = JogoNatacao(
                                 categoria: categoriaSelecionada,
                                 estiloDeNado: estiloDeNado,
@@ -101,7 +100,6 @@ struct SecFormView: View {
                             )
                             modelContext.insert(novoJogoNatacao)
                         } else {
-                            // Salvar como jogo normal
                             let novoJogo = Jogo(
                                 curso1: curso1,
                                 curso2: curso2,
