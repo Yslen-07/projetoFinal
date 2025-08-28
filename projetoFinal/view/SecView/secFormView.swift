@@ -121,8 +121,6 @@ struct SecFormView: View {
                         .foregroundColor(.white)
                         .cornerRadius(10)
                     }
-                  
-                    
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button("Cancelar") {
                             dismiss()

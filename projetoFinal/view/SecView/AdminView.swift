@@ -1,9 +1,8 @@
 import SwiftUI
 
 struct AdminView: View {
-    
     @State private var isPasswordVisible = false
- 
+
     @State private var isShowingSheetEsportes = false
     @State private var showingLoginScreenEsportes = false
     @State private var loginSuccessEsportes = false
@@ -96,10 +95,10 @@ struct AdminView: View {
         }
     }
 
-    // Login Sheet Esportes → azul + vermelho
+    // Login Sheet Esportes → amarelo + vermelho
     var loginSheetEsportes: some View {
         loginSheet(
-            title: "Administrador de Esportes",
+            title: "Administrador - SEC",
             loginAction: authenticateUserEsportes,
             gradientColors: [Color.yellow, Color.red]
         )
@@ -108,7 +107,7 @@ struct AdminView: View {
     // Login Sheet JAC → amarelo + azul
     var loginSheetJAC: some View {
         loginSheet(
-            title: "Administrador da JAC",
+            title: "Administrador - JAC",
             loginAction: authenticateUserJAC,
             gradientColors: [Color.yellow, Color.blue]
         )
@@ -131,7 +130,7 @@ struct AdminView: View {
 
             VStack {
                 Text(title)
-                    .font(.title) // um pouco menor que .largeTitle
+                    .font(.title)
                     .fontWeight(.bold)
                     .padding()
 
@@ -176,6 +175,7 @@ struct AdminView: View {
         .navigationBarHidden(true)
     }
 
+    // Autenticação SEC
     func authenticateUserEsportes() {
         if username.lowercased() == "caefadm" {
             wrongUsername = 0

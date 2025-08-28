@@ -11,7 +11,8 @@ import SwiftData
 struct CardInicial: View {
     @Environment(\.modelContext) private var modelContext
     var jogo: Jogo
-
+    var onEdit: (() -> Void)? // Callback para ação de editar
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Image(jogo.imagemConfronto)
@@ -21,42 +22,59 @@ struct CardInicial: View {
                 .clipped()
                 .cornerRadius(15, corners: [.topLeft, .topRight])
             
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text("\(jogo.curso1.rawValue.uppercased()) x \(jogo.curso2.rawValue.uppercased())")
-                    .font(.headline)
-
-                Text("Modalidade: \(jogo.categoria.rawValue)")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-
-                HStack {
-                    Text("Data: \(jogo.data.formatted(date: .abbreviated, time: .shortened))")
-                        .font(.footnote)
-                        .foregroundColor(.gray)
-
-                    Spacer()
-
-                    Text("\(jogo.placar1) : \(jogo.placar2)")
-                        .font(.footnote.bold())
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 10)
-                        .background(Color.black)
-                        .foregroundColor(.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+            ZStack(alignment: .topTrailing) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Image(jogo.imagemConfronto)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 110)
+                        .clipped()
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("\(jogo.curso1.rawValue.uppercased()) x \(jogo.curso2.rawValue.uppercased())")
+                            .font(.headline)
+                        
+                        Text("Modalidade: \(jogo.categoria.rawValue)")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        
+                        HStack {
+                            Text("Data: \(jogo.data.formatted(date: .abbreviated, time: .shortened))")
+                                .font(.footnote)
+                                .foregroundColor(.gray)
+                            
+                            Spacer()
+                            
+                            Text("\(jogo.placar1) : \(jogo.placar2)")
+                                .font(.footnote.bold())
+                                .padding(.vertical, 4)
+                                .padding(.horizontal, 10)
+                                .background(Color.black)
+                                .foregroundColor(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        }
+                        .padding(.top, 8)
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, 10)
                 }
-
+                .background(RoundedRectangle(cornerRadius: 20).fill(.ultraThinMaterial))
+                .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.1)))
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
                 
-                .padding(.top, 8)
+                // Botão de edição
+                Button(action: {
+                    onEdit?()
+                }) {
+                    Image(systemName: "square.and.pencil")
+                        .foregroundColor(.black)
+                        .padding(10)
+                        .background(Circle().fill(Color.white))
+                }
+                .padding(10)
             }
             .padding(.horizontal)
-            .padding(.bottom, 10)
         }
-        .background(RoundedRectangle(cornerRadius: 20).fill(.ultraThinMaterial))
-        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.gray.opacity(0.1)))
-        .padding(.horizontal)
-        .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 4)
     }
 }
 #Preview {
@@ -78,7 +96,7 @@ struct CardInicial: View {
     
     container.mainContext.insert(jogoE)
     
-    return CardInicial(jogo: jogoE)
+    return CardInicial(jogo: jogoE, onEdit: { print("Editar card") })
         .padding()
         .modelContainer(container)
 }

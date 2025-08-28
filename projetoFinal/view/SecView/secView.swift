@@ -3,6 +3,7 @@ import SwiftData
 
 struct SecView: View {
     @State private var mostrandoForm = false
+    @StateObject var viewModel = SecViewModel()
 
     var body: some View {
         NavigationStack {

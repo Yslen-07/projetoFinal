@@ -68,3 +68,6 @@ struct CategoriaCardView: View {
         .buttonStyle(PlainButtonStyle())
     }
 }
+#Preview {
+    CategoriaCardView(categoria: .init(nome: "Móveis", imagemNome: "mobiliario"))
+}

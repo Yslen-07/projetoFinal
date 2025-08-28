@@ -35,7 +35,6 @@ struct PecaFormView: View {
                         }
                     }
                 }
-
                 Section("Links externos") {
                     TextField("Link da peça no Youtube", text: $linkYoutube)
                     TextField("Link para o Google Photos", text: $linkPhotos)
