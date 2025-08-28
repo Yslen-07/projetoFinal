@@ -183,7 +183,6 @@ struct JogoCardView_Previews: PreviewProvider {
                 JogoCardView(jogo: jogoE)
                 NatacaoCardView(jogoNatacao: jogoNatacao)
                 
-                // Exemplo usando a view universal
                 UniversalCardView(item: jogoE)
                 UniversalCardView(item: jogoNatacao)
             }

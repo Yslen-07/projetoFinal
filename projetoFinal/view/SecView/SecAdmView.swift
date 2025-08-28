@@ -49,12 +49,10 @@ struct SecAdmView: View {
                     }
                 }
                 .sheet(isPresented: $showingEditSheet) {
-                    if let item = itemParaEditar {
-                        if let jogo = item as? Jogo {
-                            JogoEditingView(jogo: jogo)
-                        } else if let jogoNatacao = item as? JogoNatacao {
-                            JogoEditingView(jogo: jogoNatacao)
-                        }
+                    if let jogo = itemParaEditar as? Jogo {
+                        JogoEditingView(jogo: jogo)
+                    } else if let jogoNatacao = itemParaEditar as? JogoNatacao {
+                        JogoEditingView(jogoNatacao: jogoNatacao)
                     }
                 }
             }

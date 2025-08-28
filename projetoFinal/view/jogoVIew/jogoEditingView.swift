@@ -23,8 +23,14 @@ struct JogoEditingView: View {
     @State private var distancia: String = ""
     @State private var tempo: String = ""
     
-    init(jogo: Jogo? = nil, jogoNatacao: JogoNatacao? = nil) {
+    // No JogoEditingView, você deve ter:
+    init(jogo: Jogo? = nil) {
         self.jogoParaEditar = jogo
+        self.jogoNatacaoParaEditar = nil
+    }
+
+    init(jogoNatacao: JogoNatacao? = nil) {
+        self.jogoParaEditar = nil
         self.jogoNatacaoParaEditar = jogoNatacao
     }
     
@@ -217,7 +223,36 @@ struct JogoEditingView: View {
     }
 }
 
-#Preview {
-    JogoEditingView()
-        .modelContainer(for: [Jogo.self, JogoNatacao.self], inMemory: true)
+#Preview("Jogo Normal") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Jogo.self, JogoNatacao.self, configurations: config)
+    
+    return JogoEditingView(jogo: Jogo(
+        curso1: .informatica,
+        curso2: .edificacoes,
+        categoria: .volei,
+        genero: .mulher,
+        local: "Ginásio",
+        data: Date(),
+        placar1: "2",
+        placar2: "1"
+    ))
+    .modelContainer(container)
+}
+
+#Preview("Natação") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Jogo.self, JogoNatacao.self, configurations: config)
+    
+    return JogoEditingView(jogoNatacao: JogoNatacao(
+        categoria: .natacao,
+        estiloDeNado: .costa,
+        genero: .homem,
+        local: "Piscina",
+        data: Date(),
+        quantidadePessoas: "4",
+        distancia: "100",
+        tempo: "1min30s"
+    ))
+    .modelContainer(container)
 }
