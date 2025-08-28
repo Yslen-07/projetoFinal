@@ -47,7 +47,7 @@ struct PecaCardFlipView: View {
             }
             .padding(.bottom, 10)
             .background(
-                LinearGradient(colors: [.black.opacity(1), .clear], startPoint: .bottom, endPoint: .top)
+                LinearGradient(colors: [.black.opacity(0.8), .clear], startPoint: .bottom, endPoint: .center)
             )
         }
         .cornerRadius(20)

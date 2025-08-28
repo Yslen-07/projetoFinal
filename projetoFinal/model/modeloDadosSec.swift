@@ -146,6 +146,10 @@ class Peca: Identifiable {
     var periodo: Periodo
     var imagem: Data?
     var imagemBack: Data?
+    
+   
+    var totalEstrelas: Int
+    var numeroAvaliacoes: Int
 
     init(
         titulo: String,
@@ -159,7 +163,9 @@ class Peca: Identifiable {
         imagem: Data? = nil,
         imagemBack: Data? = nil,
         linkYoutube: String,
-        linkPhotos: String
+        linkPhotos: String,
+        totalEstrelas: Int = 0,
+        numeroAvaliacoes: Int = 0
     ) {
         self.id = UUID()
         self.titulo = titulo
@@ -174,6 +180,13 @@ class Peca: Identifiable {
         self.imagemBack = imagemBack
         self.linkYoutube = linkYoutube
         self.linkPhotos = linkPhotos
+        self.totalEstrelas = totalEstrelas
+        self.numeroAvaliacoes = numeroAvaliacoes
+    }
+
+  
+    var nota: Double {
+        numeroAvaliacoes > 0 ? Double(totalEstrelas) / Double(numeroAvaliacoes) : 0.0
     }
 }
 // MARK: - Extensão Jogo Natação
@@ -230,7 +243,7 @@ extension Jogo {
         case (.telecomunicacoes, .informatica):
             return "TeleInfo"
         case (.telecomunicacoes, .quimica):
-            return "TeleQuim"
+            return "TeleQuimica"
         case (.telecomunicacoes, .edificacoes):
             return "TeleEdi"
         case (.telecomunicacoes, .eletrotecnica):

@@ -1,3 +1,10 @@
+//
+//  CarouselEventoshj.swift
+//  projetoFinal
+//
+//  Created by found on 21/08/25.
+//
+
 import SwiftUI
 import SwiftData
 
@@ -12,11 +19,15 @@ struct CarouselEventoshj: View {
     var body: some View {
         NavigationStack {
             if pecasHoje.isEmpty {
-                Text("Nenhuma peça para hoje.")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.vertical, 8)            } else {
+                VStack{
+                    Text("Contagem regressiva até o inicio da SEC")
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 8)
+                    CountdownTimerView(endDate: "2025-12-05T00:00:00Z")
+                }
+            } else {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 16) {
                         ForEach(pecasHoje) { peca in
@@ -38,7 +49,7 @@ struct CarouselEventoshj: View {
                     .padding(.horizontal, 60)
                     .padding(.vertical, 20)
                 }
-                .navigationTitle("Peças de Hoje")
+                .navigationTitle("Eventos de hoje")
             }
         }
     }
