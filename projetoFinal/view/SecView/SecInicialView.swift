@@ -1,55 +1,47 @@
-//
-//  SecInicialView.swift
-//  projetoFinal
-//
-//  Created by Found on 31/07/25.
-//
-
 import SwiftUI
 import SwiftData
 
 struct SecInicialView: View {
     @Query var jogos: [Jogo]
+    @Query var jogosNatacao: [JogoNatacao]
     
-
     var body: some View {
         NavigationStack {
-            if jogos.isEmpty {
+            if jogos.isEmpty && jogosNatacao.isEmpty {
                 Text("Nenhum jogo adicionado ainda.")
                     .foregroundColor(.gray)
                     .padding()
             } else {
                 List {
-                    ForEach(jogos) { jogo in
-                        JogoCardView(jogo: jogo)
-                            .swipeActions(edge: .trailing) {
-        
+                    if !jogos.isEmpty {
+                        Section() {
+                            ForEach(jogos) { jogo in
+                                UniversalCardView(item: jogo)
+                                    .swipeActions(edge: .trailing) {
+                                    }
                             }
+                        }
+                    }
+                    
+                    // Seção para Natação
+                    if !jogosNatacao.isEmpty {
+                        Section() {
+                            ForEach(jogosNatacao) { jogoNatacao in
+                                UniversalCardView(item: jogoNatacao)
+                                    .swipeActions(edge: .trailing) {
+                                    }
+                            }
+                        }
                     }
                 }
+                .listStyle(.grouped)
             }
         }
+        .navigationTitle("Jogos")
     }
 }
+
 #Preview {
-    let container = try! ModelContainer(
-        for: Jogo.self,
-        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-
-    let jogoE = Jogo(
-        curso1: .informatica,
-        curso2: .mecanica,
-        categoria: .natacao,
-        genero: .homem,
-        local: "Quadra 1",
-        data: Date(),
-        placar1: " ",
-        placar2: " "
-    )
-
-    container.mainContext.insert(jogoE)
-    
-    return SecInicialView()
-        .modelContainer(container)
+    SecInicialView()
+        .modelContainer(for: [Jogo.self, JogoNatacao.self], inMemory: true)
 }

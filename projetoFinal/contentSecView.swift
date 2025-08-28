@@ -5,9 +5,10 @@ struct ContentSecView: View {
     
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Jogo.data) private var jogos: [Jogo]
+    @Query(sort: \JogoNatacao.data) private var jogosNatacao: [JogoNatacao]
     @Environment(\.dismiss) private var dismiss
-    var isAdmin : Bool = true
-    @State private var jogoSelecionado: Jogo? = nil
+    
+    @State private var itemSelecionado: Any? = nil
     @State private var mostrarEdicao = false
     @State private var mostrarConfirmacaoDeletar = false
     @State private var criandoJogo: Bool = false
@@ -16,26 +17,44 @@ struct ContentSecView: View {
         NavigationStack {
             VStack {
                 ScrollView {
-                    //espaço entre os cards
                     LazyVStack(spacing: 10) {
-                        ForEach(jogos) { jogo in
-                            JogoCardView(jogo: jogo, isAdmin: isAdmin)
-                                .onTapGesture {
-                                    withAnimation {
-                                        jogoSelecionado = jogo
-                                    }
+                       
+                        if !jogos.isEmpty {
+                            Section {
+                                ForEach(jogos) { jogo in
+                                    UniversalCardView(item: jogo)
+                                        .onTapGesture {
+                                            withAnimation {
+                                                itemSelecionado = jogo
+                                            }
+                                        }
                                 }
+                            }
+                        }
+                        
+                    
+                        if !jogosNatacao.isEmpty {
+                            Section {
+                                ForEach(jogosNatacao) { jogoNatacao in
+                                    UniversalCardView(item: jogoNatacao)
+                                        .onTapGesture {
+                                            withAnimation {
+                                                itemSelecionado = jogoNatacao
+                                            }
+                                        }
+                                }
+                            }
                         }
                     }
                     .padding()
                 }
                 
-                if let jogo = jogoSelecionado {
+                if itemSelecionado != nil {
                     Divider()
                         .padding(.vertical, 8)
                     
                     VStack(spacing: 12) {
-                        JogoCardView(jogo: jogo, isAdmin: isAdmin)
+                        UniversalCardView(item: itemSelecionado!) 
                             .opacity(0.5)
                             .padding(.horizontal)
 
@@ -62,7 +81,7 @@ struct ContentSecView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        jogoSelecionado = nil
+                        itemSelecionado = nil
                         criandoJogo = true
                     } label: {
                         Image(systemName: "plus")
@@ -76,14 +95,23 @@ struct ContentSecView: View {
             }
             // Sheet para edição
             .sheet(isPresented: $mostrarEdicao) {
-                JogoEditingView()
-                    .environment(\.modelContext, modelContext)
+                if let jogo = itemSelecionado as? Jogo {
+                    JogoEditingView(jogo: jogo)
+                        .environment(\.modelContext, modelContext)
+                } else if let natacao = itemSelecionado as? JogoNatacao {
+                    JogoEditingView(jogoNatacao: natacao)
+                        .environment(\.modelContext, modelContext)
+                }
             }
+            // Alerta de excluir jogo
             .alert("Deseja excluir este jogo?", isPresented: $mostrarConfirmacaoDeletar) {
                 Button("Excluir", role: .destructive) {
-                    if let jogo = jogoSelecionado {
+                    if let jogo = itemSelecionado as? Jogo {
                         modelContext.delete(jogo)
-                        jogoSelecionado = nil
+                        itemSelecionado = nil
+                    } else if let natacao = itemSelecionado as? JogoNatacao {
+                        modelContext.delete(natacao)
+                        itemSelecionado = nil
                     }
                 }
                 Button("Cancelar", role: .cancel) { }
@@ -94,5 +122,5 @@ struct ContentSecView: View {
 
 #Preview {
     ContentSecView()
-        .modelContainer(for: Jogo.self, inMemory: true)
+        .modelContainer(for: [Jogo.self, JogoNatacao.self], inMemory: true)
 }

@@ -62,7 +62,7 @@ enum EstiloDeNado: String, CaseIterable, Identifiable, Codable {
 }
 
 
-// MARK: - Modelo Jogo
+// MARK: - Modelos
 
 @Model
 class Jogo {
@@ -98,8 +98,6 @@ class Jogo {
     }
 }
 
-// MARK: - Extenção Modelo Jogo(Natação)
-
 @Model
 class JogoNatacao: Identifiable {
     var id: UUID
@@ -110,7 +108,6 @@ class JogoNatacao: Identifiable {
     var data: Date
     var quantidadePessoas: String
     var distancia: String
-    var tempo: String
 
     init(
         categoria: CategoriaEsportiva,
@@ -120,7 +117,6 @@ class JogoNatacao: Identifiable {
         data: Date,
         quantidadePessoas: String,
         distancia: String,
-        tempo: String
     ) {
         self.id = UUID()
         self.categoria = categoria
@@ -130,10 +126,8 @@ class JogoNatacao: Identifiable {
         self.data = data
         self.quantidadePessoas = quantidadePessoas
         self.distancia = distancia
-        self.tempo = tempo
     }
 }
-
 
 // MARK: - Modelo Peca
 
@@ -197,6 +191,17 @@ extension JogoNatacao{
 }
 
 // MARK: - Extensão do modelo Jogo (imagem do confronto)
+
+extension JogoNatacao {
+    var imagemConfronto: String {
+        switch genero {
+        case .homem:
+            return "cardNatacao02"
+        case .mulher:
+            return "cardNatacao01"
+        }
+    }
+}
 
 extension Jogo {
     var imagemConfronto: String {

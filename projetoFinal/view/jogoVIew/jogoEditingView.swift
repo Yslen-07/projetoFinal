@@ -5,7 +5,6 @@ struct JogoEditingView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
     
-    // Para edição, podemos receber tanto Jogo quanto JogoNatacao
     let jogoParaEditar: Jogo?
     let jogoNatacaoParaEditar: JogoNatacao?
     
@@ -24,8 +23,14 @@ struct JogoEditingView: View {
     @State private var distancia: String = ""
     @State private var tempo: String = ""
     
-    init(jogo: Jogo? = nil, jogoNatacao: JogoNatacao? = nil) {
+    // No JogoEditingView, você deve ter:
+    init(jogo: Jogo? = nil) {
         self.jogoParaEditar = jogo
+        self.jogoNatacaoParaEditar = nil
+    }
+
+    init(jogoNatacao: JogoNatacao? = nil) {
+        self.jogoParaEditar = nil
         self.jogoNatacaoParaEditar = jogoNatacao
     }
     
@@ -84,8 +89,7 @@ struct JogoEditingView: View {
                             .keyboardType(.numberPad)
                     }
                     
-                    Section("Tempo e Distância") {
-                        TextField("Tempo (ex: 2min30s)", text: $tempo)
+                    Section("Distância") {
                         TextField("Distância (metros)", text: $distancia)
                             .keyboardType(.numberPad)
                     }
@@ -131,7 +135,7 @@ struct JogoEditingView: View {
             }
             .navigationTitle(jogoParaEditar != nil || jogoNatacaoParaEditar != nil ? "Editar Jogo" : "Novo Jogo")
             .onAppear {
-                // Preencher os campos se estiver editando
+                
                 if let jogo = jogoParaEditar {
                     curso1 = jogo.curso1
                     curso2 = jogo.curso2
@@ -149,7 +153,6 @@ struct JogoEditingView: View {
                     estiloDeNado = natacao.estiloDeNado
                     quantidadePessoas = natacao.quantidadePessoas
                     distancia = natacao.distancia
-                    tempo = natacao.tempo
                 }
             }
         }
@@ -157,7 +160,6 @@ struct JogoEditingView: View {
     
     private func salvarJogo() {
         if categoria == .natacao {
-            // Tratar natação
             if let jogoExistente = jogoNatacaoParaEditar {
                 // Atualizar jogo existente
                 jogoExistente.local = local
@@ -167,7 +169,6 @@ struct JogoEditingView: View {
                 jogoExistente.estiloDeNado = estiloDeNado
                 jogoExistente.quantidadePessoas = quantidadePessoas
                 jogoExistente.distancia = distancia
-                jogoExistente.tempo = tempo
             } else {
                 // Criar novo jogo
                 let novoJogo = JogoNatacao(
@@ -177,13 +178,11 @@ struct JogoEditingView: View {
                     local: local,
                     data: data,
                     quantidadePessoas: quantidadePessoas,
-                    distancia: distancia,
-                    tempo: tempo
+                    distancia: distancia
                 )
                 modelContext.insert(novoJogo)
             }
         } else {
-            // Tratar outros esportes
             if let jogoExistente = jogoParaEditar {
                 // Atualizar jogo existente
                 jogoExistente.curso1 = curso1
@@ -220,7 +219,35 @@ struct JogoEditingView: View {
     }
 }
 
-#Preview {
-    JogoEditingView()
-        .modelContainer(for: [Jogo.self, JogoNatacao.self], inMemory: true)
+#Preview("Jogo Normal") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Jogo.self, JogoNatacao.self, configurations: config)
+    
+    return JogoEditingView(jogo: Jogo(
+        curso1: .informatica,
+        curso2: .edificacoes,
+        categoria: .volei,
+        genero: .mulher,
+        local: "Ginásio",
+        data: Date(),
+        placar1: "2",
+        placar2: "1"
+    ))
+    .modelContainer(container)
+}
+
+#Preview("Natação") {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: Jogo.self, JogoNatacao.self, configurations: config)
+    
+    return JogoEditingView(jogoNatacao: JogoNatacao(
+        categoria: .natacao,
+        estiloDeNado: .costa,
+        genero: .homem,
+        local: "Piscina",
+        data: Date(),
+        quantidadePessoas: "4",
+        distancia: "100"
+    ))
+    .modelContainer(container)
 }
