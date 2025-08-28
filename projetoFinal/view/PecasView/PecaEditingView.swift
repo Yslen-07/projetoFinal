@@ -89,14 +89,25 @@ struct PecaEditingView: View {
                            , role: .cancel) {
                         dismiss()
                     }
+                }
+            }
+            .navigationTitle("Editar Peça")
+            
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Salvar") {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
                     Button("Excluir peça", role: .destructive) {
                         context.delete(peca)
                         dismiss()
                     }
-
+                    .foregroundStyle(.red)
                 }
             }
-            .navigationTitle("Editar Peça")
+            
         }
     }
 }

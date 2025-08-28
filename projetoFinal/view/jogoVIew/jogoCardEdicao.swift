@@ -10,6 +10,7 @@ struct JogoCardEdicao: View {
 
     var jogo: Jogo
     var onEditar: (() -> Void)? = nil
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             
@@ -19,7 +20,7 @@ struct JogoCardEdicao: View {
                     .scaledToFit()
                     .frame(width: 60, height: 60)
                     .padding(.leading, 8)
-                    .cornerRadius(15, corners: [.topLeft, .topRight]) 
+                    .cornerRadius(15, corners: [.topLeft, .topRight])
 
                 Spacer()
 
@@ -69,7 +70,6 @@ struct JogoCardEdicao: View {
                 .padding(.bottom, 10)
             }
 
-            
             HStack(spacing: 30) {
                 Button("Editar") {
                     mostrarEdicao = true
@@ -82,7 +82,6 @@ struct JogoCardEdicao: View {
                     mostrarConfirmacaoDeletar = true
                     dismiss()
                 }
-             
                 .buttonStyle(.bordered)
                 .tint(.red)
             }

@@ -2,7 +2,6 @@ import SwiftUI
 import SwiftData
 
 struct ContentSecView: View {
-    
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Jogo.data) private var jogos: [Jogo]
     @Query(sort: \JogoNatacao.data) private var jogosNatacao: [JogoNatacao]
@@ -71,10 +70,6 @@ struct ContentSecView: View {
                             .tint(.red)
                         }
                     }
-                    .padding()
-                    .background(.regularMaterial)
-                    .cornerRadius(20)
-                    .padding(.horizontal)
                 }
             }
             .navigationTitle("Admin - Jogos")

@@ -1,11 +1,3 @@
-//
-//  PecaFormView 2.swift
-//  projetoFinal
-//
-//  Created by Found on 11/07/25.
-//
-
-
 import SwiftUI
 import SwiftData
 import PhotosUI
@@ -13,7 +5,6 @@ import PhotosUI
 struct PecaFormView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
-    
 
     @State var titulo_peca: String = ""
     @State var sinopse: String = ""
@@ -44,9 +35,9 @@ struct PecaFormView: View {
                         }
                     }
                 }
-                
-                Section("Links externos"){
-                    TextField("Link da peça no youtube", text: $linkYoutube)
+
+                Section("Links externos") {
+                    TextField("Link da peça no Youtube", text: $linkYoutube)
                     TextField("Link para o Google Photos", text: $linkPhotos)
                 }
 
@@ -57,7 +48,7 @@ struct PecaFormView: View {
                             .scaledToFit()
                             .frame(height: 200)
                     }
-                    
+
                     PhotosPicker(selection: $photoItem, matching: .images) {
                         Label("Selecionar pôster", systemImage: "photo")
                     }
@@ -68,16 +59,16 @@ struct PecaFormView: View {
                             }
                         }
                     }
-                    
+
                     if let imagemBack, let uiImage = UIImage(data: imagemBack) {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFit()
                             .frame(height: 200)
                     }
-                    
+
                     PhotosPicker(selection: $photoItemBackground, matching: .images) {
-                        Label("Selecionar o Plano de fundo", systemImage: "photo")
+                        Label("Selecionar plano de fundo", systemImage: "photo")
                     }
                     .onChange(of: photoItemBackground) { newItem in
                         Task {
@@ -92,10 +83,12 @@ struct PecaFormView: View {
                     DatePicker("Data", selection: $data, displayedComponents: .date)
                     DatePicker("Hora", selection: $hora, displayedComponents: .hourAndMinute)
                 }
+
                 Section("Sinopse") {
                     TextField("Sinopse da peça", text: $sinopse, axis: .vertical)
                         .lineLimit(4...8)
                 }
+
                 Section("Curso") {
                     Picker("Curso", selection: $curso) {
                         ForEach(Curso.allCases) { curso in
@@ -103,8 +96,10 @@ struct PecaFormView: View {
                         }
                     }
                 }
-                
-                Section {
+            }
+            .navigationTitle("Cadastrar Peça")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Salvar Peça") {
                         let nova = Peca(
                             titulo: titulo_peca,
@@ -116,22 +111,16 @@ struct PecaFormView: View {
                             curso: curso,
                             periodo: periodo,
                             imagem: imagem,
-                            imagemBack : imagemBack,
+                            imagemBack: imagemBack,
                             linkYoutube: linkYoutube,
                             linkPhotos: linkPhotos
-                            
                         )
                         context.insert(nova)
-                        //dismiss()
+                        try? context.save()
+                        dismiss()
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
                 }
             }
-            .navigationTitle("Cadastrar Peça")
         }
     }
 }

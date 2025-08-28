@@ -84,50 +84,55 @@ struct SecFormView: View {
                     DatePicker("Data e Hora", selection: $data, displayedComponents: [.date, .hourAndMinute])
                 }
                 
-                Section {
-                    Button("Salvar Jogo") {
-                        if categoriaSelecionada == .natacao {
-                            // Salvar como natação
-                            let novoJogoNatacao = JogoNatacao(
-                                categoria: categoriaSelecionada,
-                                estiloDeNado: estiloDeNado,
-                                genero: genero,
-                                local: local,
-                                data: data,
-                                quantidadePessoas: quantidadePessoas,
-                                distancia: distancia
-                            )
-                            modelContext.insert(novoJogoNatacao)
-                        } else {
-                            // Salvar como jogo normal
-                            let novoJogo = Jogo(
-                                curso1: curso1,
-                                curso2: curso2,
-                                categoria: categoriaSelecionada,
-                                genero: genero,
-                                local: local,
-                                data: data,
-                                placar1: placar1,
-                                placar2: placar2
-                            )
-                            modelContext.insert(novoJogo)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Salvar Jogo") {
+                            if categoriaSelecionada == .natacao {
+                                // Salvar como natação
+                                let novoJogoNatacao = JogoNatacao(
+                                    categoria: categoriaSelecionada,
+                                    estiloDeNado: estiloDeNado,
+                                    genero: genero,
+                                    local: local,
+                                    data: data,
+                                    quantidadePessoas: quantidadePessoas,
+                                    distancia: distancia
+                                )
+                                modelContext.insert(novoJogoNatacao)
+                            } else {
+                                // Salvar como jogo normal
+                                let novoJogo = Jogo(
+                                    curso1: curso1,
+                                    curso2: curso2,
+                                    categoria: categoriaSelecionada,
+                                    genero: genero,
+                                    local: local,
+                                    data: data,
+                                    placar1: placar1,
+                                    placar2: placar2
+                                )
+                                modelContext.insert(novoJogo)
+                            }
+                            dismiss()
                         }
-                        dismiss()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                  
                     
-                    Button("Cancelar") {
-                        dismiss()
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancelar") {
+                            dismiss()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .foregroundColor(.black)
+                        .cornerRadius(10)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.gray.opacity(0.3))
-                    .foregroundColor(.black)
-                    .cornerRadius(10)
                 }
             }
             .navigationTitle("Novo Jogo")
