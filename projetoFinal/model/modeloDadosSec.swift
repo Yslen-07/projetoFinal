@@ -108,7 +108,6 @@ class JogoNatacao: Identifiable {
     var data: Date
     var quantidadePessoas: String
     var distancia: String
-    var tempo: String
 
     init(
         categoria: CategoriaEsportiva,
@@ -118,7 +117,6 @@ class JogoNatacao: Identifiable {
         data: Date,
         quantidadePessoas: String,
         distancia: String,
-        tempo: String
     ) {
         self.id = UUID()
         self.categoria = categoria
@@ -128,7 +126,6 @@ class JogoNatacao: Identifiable {
         self.data = data
         self.quantidadePessoas = quantidadePessoas
         self.distancia = distancia
-        self.tempo = tempo
     }
 }
 

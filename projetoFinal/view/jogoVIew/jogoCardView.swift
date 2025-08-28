@@ -173,8 +173,7 @@ struct JogoCardView_Previews: PreviewProvider {
         local: "Piscina Olímpica",
         data: Date(),
         quantidadePessoas: "8",
-        distancia: "100",
-        tempo: "1:30"
+        distancia: "100"
     )
     
     static var previews: some View {

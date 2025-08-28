@@ -154,7 +154,6 @@ struct JogoEditingView: View {
                     estiloDeNado = natacao.estiloDeNado
                     quantidadePessoas = natacao.quantidadePessoas
                     distancia = natacao.distancia
-                    tempo = natacao.tempo
                 }
             }
         }
@@ -171,7 +170,6 @@ struct JogoEditingView: View {
                 jogoExistente.estiloDeNado = estiloDeNado
                 jogoExistente.quantidadePessoas = quantidadePessoas
                 jogoExistente.distancia = distancia
-                jogoExistente.tempo = tempo
             } else {
                 // Criar novo jogo
                 let novoJogo = JogoNatacao(
@@ -181,8 +179,7 @@ struct JogoEditingView: View {
                     local: local,
                     data: data,
                     quantidadePessoas: quantidadePessoas,
-                    distancia: distancia,
-                    tempo: tempo
+                    distancia: distancia
                 )
                 modelContext.insert(novoJogo)
             }
@@ -251,8 +248,7 @@ struct JogoEditingView: View {
         local: "Piscina",
         data: Date(),
         quantidadePessoas: "4",
-        distancia: "100",
-        tempo: "1min30s"
+        distancia: "100"
     ))
     .modelContainer(container)
 }
