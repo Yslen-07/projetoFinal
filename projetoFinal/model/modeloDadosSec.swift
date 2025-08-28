@@ -182,6 +182,19 @@ class Peca: Identifiable {
         self.linkPhotos = linkPhotos
     }
 }
+// MARK: - Extensão Jogo Natação
+
+extension JogoNatacao{
+    var imagemConfronto: String {
+        
+        switch genero {
+        case .homem:
+            return "cardNatacao02"
+        case .mulher:
+            return "cardNatacao01"
+        }
+    }
+}
 
 // MARK: - Extensão do modelo Jogo (imagem do confronto)
 

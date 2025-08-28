@@ -19,7 +19,7 @@ struct ContentSecView: View {
                     //espaço entre os cards
                     LazyVStack(spacing: 10) {
                         ForEach(jogos) { jogo in
-                            JogoCardView(jogo: jogo)
+                            JogoCardView(jogo: jogo, isAdmin: isAdmin)
                                 .onTapGesture {
                                     withAnimation {
                                         jogoSelecionado = jogo
@@ -35,7 +35,7 @@ struct ContentSecView: View {
                         .padding(.vertical, 8)
                     
                     VStack(spacing: 12) {
-                        JogoCardView(jogo: jogo)
+                        JogoCardView(jogo: jogo, isAdmin: isAdmin)
                             .opacity(0.5)
                             .padding(.horizontal)
 
