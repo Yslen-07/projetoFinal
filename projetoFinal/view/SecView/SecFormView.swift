@@ -73,8 +73,7 @@ struct SecFormView: View {
                             .keyboardType(.numberPad)
                     }
                     
-                    Section("Tempo e Distância") {
-                        TextField("Tempo (00min:00s)", text: $tempo)
+                    Section("Distância") {
                         TextField("Distância (metros)", text: $distancia)
                             .keyboardType(.numberPad)
                     }
@@ -96,8 +95,7 @@ struct SecFormView: View {
                                 local: local,
                                 data: data,
                                 quantidadePessoas: quantidadePessoas,
-                                distancia: distancia,
-                                tempo: tempo
+                                distancia: distancia
                             )
                             modelContext.insert(novoJogoNatacao)
                         } else {

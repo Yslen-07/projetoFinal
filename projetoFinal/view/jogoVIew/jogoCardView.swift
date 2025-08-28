@@ -121,10 +121,6 @@ struct NatacaoCardView: View {
                 Text("Distância: \(jogoNatacao.distancia)m")
                     .font(.footnote)
                     .foregroundColor(.gray)
-                
-                Text("Tempo: \(jogoNatacao.tempo)")
-                    .font(.footnote)
-                    .foregroundColor(.gray)
             }
             .padding(.horizontal)
             .padding(.bottom, 10)

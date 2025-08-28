@@ -89,8 +89,7 @@ struct JogoEditingView: View {
                             .keyboardType(.numberPad)
                     }
                     
-                    Section("Tempo e Distância") {
-                        TextField("Tempo (ex: 2min30s)", text: $tempo)
+                    Section("Distância") {
                         TextField("Distância (metros)", text: $distancia)
                             .keyboardType(.numberPad)
                     }
